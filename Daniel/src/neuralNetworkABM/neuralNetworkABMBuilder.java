@@ -58,6 +58,7 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 		
 		// creating the agents
 		int agentAbmCount = 10;//reader.ReadExcelPoi.getNumAgentRows();
+		System.out.println("Creating " + agentAbmCount + " agents");
 		for (int agentNumber = 1; agentNumber < agentAbmCount; agentNumber++) {
 			AgentABM agent = new AgentABM(
 					space,
