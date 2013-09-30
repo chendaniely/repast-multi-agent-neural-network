@@ -35,13 +35,14 @@ public class AgentABM {
 	private ContinuousSpace<Object> space;
 	private Grid<Object> grid;
 	private int agentNumber = -1;
-	
+	private int timeTick = 0;
+
 	// list of weights from excel files for each agent
 	private ArrayList<Double> agentVariableList = new ArrayList<Double>();
-	
+
 	// list of all agents in the context
 	private ArrayList<Object> agentList = new ArrayList<Object>();
-	
+
 	// list of agents this.agent connects to
 	private ArrayList<Object> agentNetworkList = new ArrayList<Object>();
 
@@ -53,20 +54,32 @@ public class AgentABM {
 		this.space = space;
 		this.grid = grid;
 		this.agentNumber = agentNumber;
-		
+
 		ReadExcelPoi readInVariableWeights = new ReadExcelPoi();
-		
+
 		ArrayList<Double> temp2 = readInVariableWeights.ReadExcelFile(
 				variableWeightFilesName, agentVariableList, agentNumber);
 		for (Double number : temp2) {
-			System.out.println("for loop in constructor for each double in list:" + number);
+			System.out
+					.println("for loop in constructor for each double in list:"
+							+ number);
 		}
 		this.agentVariableList = temp2;
+
+		// create the agent weight CSV file if not already there
+		try {
+			initializeAgentWeightCSV();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
 	// method to agent that will be called at every iteration of the simulation
 	public void step() {
+		timeTick += 1;
+
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
 
@@ -80,7 +93,7 @@ public class AgentABM {
 		List<GridCell<AgentABM>> gridCells = nghCreator.getNeighborhood(true);
 		SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
 
-		influenceVariableWeight();
+		influenceVariableWeight(timeTick);
 
 	}
 
@@ -104,7 +117,7 @@ public class AgentABM {
 	public void linkAgents(Context<Object> context, FileWriter agentNetworkCSV) {
 		// GridPoint pt = grid.getLocation(this);
 		// List<Object> agentList = new ArrayList<Object>();
-		
+
 		// adds all agents in context to agentList
 		// TODO need to fix so agent list is a property of the context, not
 		// every individual agent
@@ -116,7 +129,7 @@ public class AgentABM {
 				this.agentList.add(obj);
 			}
 		}
-		
+
 		if (this.agentList.size() > 0) {
 			System.out.println("going through list and creating links");
 			// picks a random agent in agent list
@@ -137,88 +150,146 @@ public class AgentABM {
 			System.out.println(((AgentABM) obj).getAgentNumber()
 					+ " added to agentNetworkList " + getAgentNumber());
 			net.addEdge(this, obj);
-			
+
 			try {
 				agentNetworkCSV.append(Integer.toString(getAgentNumber()));
 				agentNetworkCSV.append(',');
-				agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
+				agentNetworkCSV.append(Integer.toString(((AgentABM) obj)
+						.getAgentNumber()));
 				agentNetworkCSV.append('\n');
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
+
 		}
-		
+
 	}
+
+	// TODO move these CSV creation files into writer package
 	
-	public void writeAgentWeightsToCSV(double agent1, double agent2, double difference, double change, double newValue) throws IOException{
-		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv", true);
-		
-		// agent (oneWhoInfluences), --> agent (oneWhoGetsInfluenced), difference, change, new value
-		
-	    writer.append(Double.toString(agent1));
-	    writer.append(',');
-	    writer.append(Double.toString(agent2));
-	    writer.append(',');
-	    writer.append(Double.toString(difference));
-	    writer.append(',');
-	    writer.append(Double.toString(change));
-	    writer.append(',');
-	    writer.append(Double.toString(newValue));
-	    writer.append('\n');
-		
+	public void initializeAgentWeightCSV() throws IOException {
+		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv");
+
+		writer.append("time");
+		writer.append(',');
+		writer.append("agent 1");
+		writer.append(',');
+		writer.append("agent 1 value");
+		writer.append(',');
+		writer.append("--> agent 2");
+		writer.append(',');
+		writer.append("agent 2 value");
+		writer.append(',');
+		writer.append("difference");
+		writer.append(',');
+		writer.append("value change");
+		writer.append(',');
+		writer.append("new value");
+		writer.append('\n');
+
 		writer.flush();
 		writer.close();
 	}
 
-	public void influenceListsDownstream(ArrayList<Double> oneWhoInfluences,
+	public void influenceVariableWeight(int timeTick) {
+		for (Object agent : agentNetworkList) {
+			System.out.println("I am agent number: " + this.agentNumber
+					+ ".  This agent is in my network: "
+					+ ((AgentABM) agent).getAgentNumber());
+			influenceListsDownstream(timeTick, this.getAgentNumber(),
+					this.agentVariableList,
+					((AgentABM) agent).getAgentNumber(),
+					((AgentABM) agent).agentVariableList);
+		}
+	}
+	
+	public void influenceListsDownstream(int timeTick, int agentWhoInfluences,
+			ArrayList<Double> oneWhoInfluences, int agentWhoGetsInfluenced,
 			ArrayList<Double> oneWhoGetsInfluenced) {
 		System.out.println("Influenceing variables");
-		System.out.println(oneWhoInfluences.size() + " " + oneWhoGetsInfluenced.size());
+		System.out.println(oneWhoInfluences.size() + " "
+				+ oneWhoGetsInfluenced.size());
 		if (oneWhoInfluences.size() == oneWhoGetsInfluenced.size()) {
 			System.out.println("List size match!");
 			for (int i = 0; i < oneWhoInfluences.size(); i++) {
 				System.out.println("==========");
-				System.out.println("changing: " + oneWhoInfluences.get(i) + " and " + oneWhoGetsInfluenced.get(i));
-				
+				System.out.println("changing: " + oneWhoInfluences.get(i)
+						+ " and " + oneWhoGetsInfluenced.get(i));
+
 				// move .3 of the difference in the direction of the influencer
-				double differenceInWeights = oneWhoInfluences.get(i)-oneWhoGetsInfluenced.get(i);
+				double differenceInWeights = oneWhoInfluences.get(i)
+						- oneWhoGetsInfluenced.get(i);
 				double changeInWeightToApply = .3 * differenceInWeights;
-				double newWeight = oneWhoGetsInfluenced.get(i) + changeInWeightToApply;
-				
-				System.out.println("difference in weights = " + differenceInWeights);
-				System.out.println("changeInWeightToApply = " + changeInWeightToApply);
+				double newWeight = oneWhoGetsInfluenced.get(i)
+						+ changeInWeightToApply;
+
+				System.out.println("Time = " + timeTick);
+				System.out
+						.println("oneWhoInfluences: " + agentWhoInfluences
+								+ ", agentWhoGetsInfluenced: "
+								+ agentWhoGetsInfluenced);
+				System.out.println("difference in weights = "
+						+ differenceInWeights);
+				System.out.println("changeInWeightToApply = "
+						+ changeInWeightToApply);
 				System.out.println("newWeight = " + newWeight);
 				oneWhoGetsInfluenced.set(i, newWeight);
-				
-				System.out.println("new values: " + oneWhoInfluences.get(i) + " and " + oneWhoGetsInfluenced.get(i));
-				
+
+				System.out.println("new values: " + oneWhoInfluences.get(i)
+						+ " and " + oneWhoGetsInfluenced.get(i));
+
 				try {
-					writeAgentWeightsToCSV(oneWhoInfluences.get(i), oneWhoGetsInfluenced.get(i), differenceInWeights, changeInWeightToApply, newWeight);
+					writeAgentWeightsToCSV(timeTick, agentWhoInfluences,
+							oneWhoInfluences.get(i), agentWhoGetsInfluenced,
+							oneWhoGetsInfluenced.get(i), differenceInWeights,
+							changeInWeightToApply, newWeight);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		} else {
 			System.out
 					.println("@@@@@@@@@@ LISTS DO NOT MATCH IN SIZE @@@@@@@@@@");
 		}
 	}
+	
+	public void writeAgentWeightsToCSV(int timeTick, int agent1,
+			double agent1Value, int agent2, double agent2Value,
+			double difference, double change, double newValue)
+			throws IOException {
+		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv",
+				true);
 
-	public void influenceVariableWeight() {
-		for (Object agent : agentNetworkList) {
-			System.out.println("I am agent number: " + this.agentNumber
-					+ ".  This agent is in my network: "
-					+ ((AgentABM) agent).getAgentNumber());
-			influenceListsDownstream(this.agentVariableList, ((AgentABM) agent).agentVariableList);
-		}
+		// timeTick, agentWhoInfluences,
+		// oneWhoInfluences.get(i), agentWhoGetsInfluenced,
+		// oneWhoGetsInfluenced.get(i), differenceInWeights,
+		// changeInWeightToApply, newWeight
+
+		writer.append(Integer.toString(timeTick));
+		writer.append(',');
+		writer.append(Integer.toString(agent1));
+		writer.append(',');
+		writer.append(Double.toString(agent1Value));
+		writer.append(',');
+		writer.append(Integer.toString(agent2));
+		writer.append(',');
+		writer.append(Double.toString(agent2Value));
+		writer.append(',');
+		writer.append(Double.toString(difference));
+		writer.append(',');
+		writer.append(Double.toString(change));
+		writer.append(',');
+		writer.append(Double.toString(newValue));
+		writer.append('\n');
+
+		writer.flush();
+		writer.close();
 	}
 	
+	////////// @@@@@@@@@@ GETTERS AND SETTERS @@@@@@@@@ //////////
 
 	/**
 	 * @return the agentNumber
