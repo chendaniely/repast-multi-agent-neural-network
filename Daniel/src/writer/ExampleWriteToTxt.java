@@ -40,6 +40,7 @@ public class ExampleWriteToTxt {
 		//Close the File Writer
 		fw.close(); 
 		
+		// used to find out where the reference directory is!
 		System.out.println(System.getProperty("user.dir"));
 		}
 }
