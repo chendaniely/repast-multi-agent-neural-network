@@ -3,6 +3,8 @@
  */
 package neuralNetworkABM;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,12 +53,7 @@ public class AgentABM {
 		this.space = space;
 		this.grid = grid;
 		this.agentNumber = agentNumber;
-		// so the constructor for readExcelPoi will run and set the agent
-		// variables]
-		// readinweights();
-		// ReadExcelPoi readInVariableWeights = new
-		// ReadExcelPoi(variableWeightFilesName, agentVariableList,
-		// agentNumber);
+		
 		ReadExcelPoi readInVariableWeights = new ReadExcelPoi();
 		
 		ArrayList<Double> temp2 = readInVariableWeights.ReadExcelFile(
@@ -65,21 +62,6 @@ public class AgentABM {
 			System.out.println("for loop in constructor for each double in list:" + number);
 		}
 		this.agentVariableList = temp2;
-	}
-
-	/**
-	 * @return the agentNumber
-	 */
-	public int getAgentNumber() {
-		return agentNumber;
-	}
-
-	/**
-	 * @param agentNumber
-	 *            the agentNumber to set
-	 */
-	public void setAgentNumber(int agentNumber) {
-		this.agentNumber = agentNumber;
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
@@ -98,30 +80,6 @@ public class AgentABM {
 		List<GridCell<AgentABM>> gridCells = nghCreator.getNeighborhood(true);
 		SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
 
-		// taken from zombie model where it was looking for point with most
-		// humans
-		// do not need this part of the code per conversation with Mark
-		// 2013/07/31
-		// GridPoint pointWithMostAgents = null;
-		// int maxCount = -1;
-		// for (GridCell<AgentABM> cell : gridCells) {
-		// // print the list
-		// System.out.println("Printing AgentABM in gridCell Location: "
-		// + cell + " point: " + cell.getPoint());
-		//
-		// if (cell.size() > maxCount) {
-		// pointWithMostAgents = cell.getPoint();
-		// maxCount = cell.size();
-		// }
-		// }
-		// // adding moveTowards area with most Agents
-		// //moveTowards(pointWithMostAgents);
-		//
-		// //just move the agent around in a random direction
-		// GridPoint randomPoint = null;
-
-		// linkAgents();
-
 		influenceVariableWeight();
 
 	}
@@ -139,34 +97,26 @@ public class AgentABM {
 		}
 	}
 
-	/*
-	 * public void changeVariableWeights(Object agentObject){ for(int i = 0; i <
-	 * AgentABM.agentVariableList.size(); i ++ ) {
-	 * AgentABM.agentVariableList.set(i, .9 *
-	 * AgentABM.agentVariableList.get(i)); } }
-	 */
 	public void buildAgentList(AgentABM agentObject) {
 		this.agentList.add(agentObject);
 	}
 
-	public void linkAgents(Context<Object> context) {
+	public void linkAgents(Context<Object> context, FileWriter agentNetworkCSV) {
 		// GridPoint pt = grid.getLocation(this);
 		// List<Object> agentList = new ArrayList<Object>();
-
+		
 		// adds all agents in context to agentList
 		// TODO need to fix so agent list is a property of the context, not
 		// every individual agent
-		// int i = 0;
 		for (Object obj : grid.getObjects()) {
 			System.out.println("Object in grid: " + obj);
 			if (obj instanceof AgentABM) {
 				System.out.println("Adding to agentList: " + this.agentNumber
-						+ ": " + agentNumber + " " + obj);
-				// i = this.agentNumber;
+						+ ": " + ((AgentABM) obj).getAgentNumber() + " " + obj);
 				this.agentList.add(obj);
-
 			}
 		}
+		
 		if (this.agentList.size() > 0) {
 			System.out.println("going through list and creating links");
 			// picks a random agent in agent list
@@ -185,25 +135,24 @@ public class AgentABM {
 			}
 			this.agentNetworkList.add(obj);
 			System.out.println(((AgentABM) obj).getAgentNumber()
-					+ "added to agentNetworkList");
+					+ " added to agentNetworkList " + getAgentNumber());
 			net.addEdge(this, obj);
+			
+			try {
+				agentNetworkCSV.append(Integer.toString(getAgentNumber()));
+				agentNetworkCSV.append(',');
+				agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
+				agentNetworkCSV.append('\n');
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
 		}
+		
 	}
-
-	/*
-	 * public void readLinkedAgentVariable() {
-	 * 
-	 * }
-	 * 
-	 * public ArrayList<Double> getAgentVariableList() { return
-	 * agentVariableList; }
-	 * 
-	 * public void setAgentVariableList(ArrayList<Double> agentVariableList) {
-	 * AgentABM.agentVariableList = agentVariableList; }
-	 * 
-	 * public void appendDoubleToVariableList(double variableToAppend) {
-	 * agentVariableList.add(variableToAppend); }
-	 */
 
 	public void influenceListsDownstream(ArrayList<Double> oneWhoInfluences,
 			ArrayList<Double> oneWhoGetsInfluenced) {
@@ -241,4 +190,21 @@ public class AgentABM {
 			influenceListsDownstream(this.agentVariableList, ((AgentABM) agent).agentVariableList);
 		}
 	}
+	
+
+	/**
+	 * @return the agentNumber
+	 */
+	public int getAgentNumber() {
+		return agentNumber;
+	}
+
+	/**
+	 * @param agentNumber
+	 *            the agentNumber to set
+	 */
+	public void setAgentNumber(int agentNumber) {
+		this.agentNumber = agentNumber;
+	}
+
 }
