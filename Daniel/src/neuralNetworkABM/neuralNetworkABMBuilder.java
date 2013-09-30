@@ -3,6 +3,9 @@
  */
 package neuralNetworkABM;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import repast.simphony.context.Context;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactory;
 import repast.simphony.context.space.continuous.ContinuousSpaceFactoryFinder;
@@ -68,14 +71,39 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 			context.add(agent);
 		}
 		
+		// creates csv file to document agent linking
+
+			FileWriter agentNetworkCSV = null;
+			try {
+				agentNetworkCSV = new FileWriter("./src/files/agentNetworkCSV.csv");
+				agentNetworkCSV.append("Agent");
+				agentNetworkCSV.append(',');
+				agentNetworkCSV.append("--> Agent");
+				agentNetworkCSV.append('\n');
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+	
 		// move the agents to the Grid location that corresponds to their
 		// ContinuousSpace location
 		for (Object obj : context) {
 			NdPoint pt = space.getLocation(obj);
 			grid.moveTo(obj, (int) pt.getX(), (int) pt.getY());
 			System.out.println("##### Agent " + ((AgentABM) obj).getAgentNumber() + " created.");
-			((AgentABM) obj).linkAgents(context);
+			((AgentABM) obj).linkAgents(context, agentNetworkCSV);
 		}
+		
+		try {
+			agentNetworkCSV.flush();
+			agentNetworkCSV.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 			
 		return context;
 	}
