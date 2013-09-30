@@ -153,6 +153,26 @@ public class AgentABM {
 		}
 		
 	}
+	
+	public void writeAgentWeightsToCSV(double agent1, double agent2, double difference, double change, double newValue) throws IOException{
+		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv", true);
+		
+		// agent (oneWhoInfluences), --> agent (oneWhoGetsInfluenced), difference, change, new value
+		
+	    writer.append(Double.toString(agent1));
+	    writer.append(',');
+	    writer.append(Double.toString(agent2));
+	    writer.append(',');
+	    writer.append(Double.toString(difference));
+	    writer.append(',');
+	    writer.append(Double.toString(change));
+	    writer.append(',');
+	    writer.append(Double.toString(newValue));
+	    writer.append('\n');
+		
+		writer.flush();
+		writer.close();
+	}
 
 	public void influenceListsDownstream(ArrayList<Double> oneWhoInfluences,
 			ArrayList<Double> oneWhoGetsInfluenced) {
@@ -175,6 +195,14 @@ public class AgentABM {
 				oneWhoGetsInfluenced.set(i, newWeight);
 				
 				System.out.println("new values: " + oneWhoInfluences.get(i) + " and " + oneWhoGetsInfluenced.get(i));
+				
+				try {
+					writeAgentWeightsToCSV(oneWhoInfluences.get(i), oneWhoGetsInfluenced.get(i), differenceInWeights, changeInWeightToApply, newWeight);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 		} else {
 			System.out
