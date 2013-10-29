@@ -45,6 +45,9 @@ public class AgentABM {
 
 	// list of agents this.agent connects to
 	private ArrayList<Object> agentNetworkList = new ArrayList<Object>();
+	
+	// list of agents that this.agent gets influenced by (the agents upstream)
+	private ArrayList<Object> agentInfluencedBy = new ArrayList<Object>();
 
 	// constructor which sets the values of the space and grid variables
 	// space and grid variables have Objects as their template parameter
@@ -57,14 +60,14 @@ public class AgentABM {
 
 		ReadExcelPoi readInVariableWeights = new ReadExcelPoi();
 
-		ArrayList<Double> temp2 = readInVariableWeights.ReadExcelFile(
+		ArrayList<Double> agentVariableWeights = readInVariableWeights.ReadExcelFile(
 				variableWeightFilesName, agentVariableList, agentNumber);
-		for (Double number : temp2) {
+		for (Double number : agentVariableWeights) {
 			System.out
 					.println("for loop in constructor for each double in list:"
 							+ number);
 		}
-		this.agentVariableList = temp2;
+		this.agentVariableList = agentVariableWeights;
 
 		// create the agent weight CSV file if not already there
 		try {
@@ -110,9 +113,9 @@ public class AgentABM {
 		}
 	}
 
-	public void buildAgentList(AgentABM agentObject) {
-		this.agentList.add(agentObject);
-	}
+//	public void buildAgentList(AgentABM agentObject) {
+//		this.agentList.add(agentObject);
+//	}
 
 	public void linkAgents(Context<Object> context, FileWriter agentNetworkCSV) {
 		// GridPoint pt = grid.getLocation(this);
@@ -132,17 +135,16 @@ public class AgentABM {
 
 		if (this.agentList.size() > 0) {
 			System.out.println("going through list and creating links");
+			
 			// picks a random agent in agent list
-			int index = RandomHelper
-					.nextIntFromTo(0, this.agentList.size() - 1);
+			int index = RandomHelper.nextIntFromTo(0, this.agentList.size() - 1);
 			System.out.println(index);
 			Object obj = this.agentList.get(index);
 			System.out.println(this.agentList.get(index));
 			// Context<Object> context = ContextUtils.getContext(obj);
 
 			// adds the randomly select agent in context to network
-			Network<Object> net = (Network<Object>) context
-					.getProjection("agent network");
+			Network<Object> net = (Network<Object>) context.getProjection("agent network");
 			if (obj == null) {
 				System.out.println("null object");
 			}
@@ -154,14 +156,28 @@ public class AgentABM {
 			try {
 				agentNetworkCSV.append(Integer.toString(getAgentNumber()));
 				agentNetworkCSV.append(',');
-				agentNetworkCSV.append(Integer.toString(((AgentABM) obj)
-						.getAgentNumber()));
+				agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
 				agentNetworkCSV.append('\n');
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			// iterates through
 
+		}
+		
+		// going to fill out 'agentInfluencedBy' (agents that link to this.agent)
+		// by iterating through agentNetworkList
+		// agentNetworkList = list of agents this.agent connects to
+		// agentInfluencedBy = list of agents that this.agent gets influenced by 
+		int i = 0;
+		for (Object agent : agentNetworkList){
+			System.out.println(this.getAgentNumber() + "agentNetworkList (I connect to) " + ((AgentABM) agent).getAgentNumber());
+			
+			((AgentABM) agent).agentInfluencedBy.add(this.getAgentNumber());
+			System.out.println(((AgentABM) agent).agentInfluencedBy.get(i) + " <-- ");
+			i ++;
 		}
 
 	}
@@ -192,6 +208,12 @@ public class AgentABM {
 		writer.close();
 	}
 
+	/*
+	 * Takes a timeTick
+	 * iterates through all the agents in the agentNetworkList 
+	 * (list of agents this.agent connects to)
+	 * and 'influencesListsDownstream'
+	 * */
 	public void influenceVariableWeight(int timeTick) {
 		for (Object agent : agentNetworkList) {
 			System.out.println("I am agent number: " + this.agentNumber
@@ -204,6 +226,9 @@ public class AgentABM {
 		}
 	}
 	
+	/*
+	 *
+	 * */
 	public void influenceListsDownstream(int timeTick, int agentWhoInfluences,
 			ArrayList<Double> oneWhoInfluences, int agentWhoGetsInfluenced,
 			ArrayList<Double> oneWhoGetsInfluenced) {
@@ -305,5 +330,23 @@ public class AgentABM {
 	public void setAgentNumber(int agentNumber) {
 		this.agentNumber = agentNumber;
 	}
+
+	public ArrayList<Object> getAgentNetworkList() {
+		return agentNetworkList;
+	}
+
+	public void setAgentNetworkList(ArrayList<Object> agentNetworkList) {
+		this.agentNetworkList = agentNetworkList;
+	}
+
+	public ArrayList<Object> getAgentInfluencedBy() {
+		return agentInfluencedBy;
+	}
+
+	public void setAgentInfluencedBy(ArrayList<Object> agentInfluencedBy) {
+		this.agentInfluencedBy = agentInfluencedBy;
+	}
+	
+	
 
 }
