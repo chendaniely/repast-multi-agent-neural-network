@@ -184,29 +184,29 @@ public class AgentABM {
 
 	// TODO move these CSV creation files into writer package
 	
-	public void initializeAgentWeightCSV() throws IOException {
-		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv");
-
-		writer.append("time");
-		writer.append(',');
-		writer.append("agent 1");
-		writer.append(',');
-		writer.append("agent 1 value");
-		writer.append(',');
-		writer.append("--> agent 2");
-		writer.append(',');
-		writer.append("agent 2 value");
-		writer.append(',');
-		writer.append("difference");
-		writer.append(',');
-		writer.append("value change");
-		writer.append(',');
-		writer.append("new value");
-		writer.append('\n');
-
-		writer.flush();
-		writer.close();
-	}
+//	public void initializeAgentWeightCSV() throws IOException {
+//		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv");
+//
+//		writer.append("time");
+//		writer.append(',');
+//		writer.append("agent 1");
+//		writer.append(',');
+//		writer.append("agent 1 value");
+//		writer.append(',');
+//		writer.append("--> agent 2");
+//		writer.append(',');
+//		writer.append("agent 2 value");
+//		writer.append(',');
+//		writer.append("difference");
+//		writer.append(',');
+//		writer.append("value change");
+//		writer.append(',');
+//		writer.append("new value");
+//		writer.append('\n');
+//
+//		writer.flush();
+//		writer.close();
+//	}
 
 	/*
 	 * Takes a timeTick
