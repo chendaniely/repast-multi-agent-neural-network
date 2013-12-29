@@ -28,8 +28,7 @@ import writer.WriteToCSV;
  * 
  */
 public class AgentABM {
-	// field variables to hold the space and grid in which the agent will be
-	// located
+	// field variables to hold the space and grid in which the agent will be located
 	// agent will move about the ContinousSpce and this space will be rounded up
 	// to determine the corresponding Grid location
 	private ContinuousSpace<Object> space;
@@ -68,23 +67,16 @@ public class AgentABM {
 							+ number);
 		}
 		this.agentVariableList = agentVariableWeights;
-
-		// create the agent weight CSV file if not already there
-		// old method
-//		try {
-//			initializeAgentWeightCSV();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		// new method using separate class
-		
-		String[] arrayOfHeaderNames = {"time", "agent 1", "agent 1 value", "--> agent 2", "agent 2 value", "difference", "value change", "new value"};
+	
+		String[] arrayOfHeaderNames = { "time", "agent 1", "agent 1 value",
+				"--> agent 2", "agent 2 value", "difference", "value change",
+				"new value" };
 		try {
-			WriteToCSV writeCSV = new WriteToCSV(neuralNetworkABM.GlobalSpaceConstant.agentWeightValues, arrayOfHeaderNames, false);
+			@SuppressWarnings("unused")
+			WriteToCSV writeCSV = new WriteToCSV(
+					neuralNetworkABM.GlobalSpaceConstant.agentWeightValues,
+					arrayOfHeaderNames, false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -97,8 +89,7 @@ public class AgentABM {
 		// get the grid location of this agent
 		GridPoint pt = grid.getLocation(this);
 
-		// use the GridCellNgh class to create GridCells for the surrounding
-		// neighborhood
+		// use the GridCellNgh class to create GridCells for the surrounding neighborhood
 		// GridCellNgh is used to retrieve a list of GridCells that represent
 		// the contents and location of the 8 neighboring cells around a
 		// GridPoint
@@ -123,10 +114,6 @@ public class AgentABM {
 			grid.moveTo(this, (int) myPoint.getX(), (int) myPoint.getY());
 		}
 	}
-
-//	public void buildAgentList(AgentABM agentObject) {
-//		this.agentList.add(agentObject);
-//	}
 
 	public void linkAgents(Context<Object> context, FileWriter agentNetworkCSV) {
 		// GridPoint pt = grid.getLocation(this);
@@ -170,11 +157,8 @@ public class AgentABM {
 				agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
 				agentNetworkCSV.append('\n');
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			// iterates through
 
 		}
 		
@@ -193,38 +177,10 @@ public class AgentABM {
 
 	}
 
-	// TODO move these CSV creation files into writer package
-	
-//	public void initializeAgentWeightCSV() throws IOException {
-//		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv");
-//
-//		writer.append("time");
-//		writer.append(',');
-//		writer.append("agent 1");
-//		writer.append(',');
-//		writer.append("agent 1 value");
-//		writer.append(',');
-//		writer.append("--> agent 2");
-//		writer.append(',');
-//		writer.append("agent 2 value");
-//		writer.append(',');
-//		writer.append("difference");
-//		writer.append(',');
-//		writer.append("value change");
-//		writer.append(',');
-//		writer.append("new value");
-//		writer.append('\n');
-//
-//		writer.flush();
-//		writer.close();
-//	}
-
-	/*
-	 * Takes a timeTick
-	 * iterates through all the agents in the agentNetworkList 
-	 * (list of agents this.agent connects to)
-	 * and 'influencesListsDownstream'
-	 * */
+	/**
+	 * Takes a timeTick iterates through all the agents in the agentNetworkList
+	 * (list of agents this.agent connects to) and 'influencesListsDownstream'
+	 */
 	public void influenceVariableWeight(int timeTick) {
 		for (Object agent : agentNetworkList) {
 			System.out.println("I am agent number: " + this.agentNumber
@@ -237,9 +193,9 @@ public class AgentABM {
 		}
 	}
 	
-	/*
+	/**
 	 *
-	 * */
+	 */
 	public void influenceListsDownstream(int timeTick, int agentWhoInfluences,
 			ArrayList<Double> oneWhoInfluences, int agentWhoGetsInfluenced,
 			ArrayList<Double> oneWhoGetsInfluenced) {
@@ -274,69 +230,29 @@ public class AgentABM {
 
 				System.out.println("new values: " + oneWhoInfluences.get(i)
 						+ " and " + oneWhoGetsInfluenced.get(i));
-				
-				String[] arrayOfValues = {Integer.toString(timeTick), Integer.toString(agentWhoInfluences),
-						Double.toString(oneWhoInfluences.get(i)), Integer.toString(agentWhoGetsInfluenced),
-						Double.toString(oneWhoGetsInfluenced.get(i)), Double.toString(differenceInWeights),
-						Double.toString(changeInWeightToApply), Double.toString(newWeight)						
-					};
-				
+
+				String[] arrayOfValues = { Integer.toString(timeTick),
+						Integer.toString(agentWhoInfluences),
+						Double.toString(oneWhoInfluences.get(i)),
+						Integer.toString(agentWhoGetsInfluenced),
+						Double.toString(oneWhoGetsInfluenced.get(i)),
+						Double.toString(differenceInWeights),
+						Double.toString(changeInWeightToApply),
+						Double.toString(newWeight) };
+
 				try {
-					WriteToCSV writeCSV = new WriteToCSV(GlobalSpaceConstant.agentWeightValues, arrayOfValues, true);
+					WriteToCSV writeCSV = new WriteToCSV(
+							GlobalSpaceConstant.agentWeightValues,
+							arrayOfValues, true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-//				try {
-//					writeAgentWeightsToCSV(timeTick, agentWhoInfluences,
-//							oneWhoInfluences.get(i), agentWhoGetsInfluenced,
-//							oneWhoGetsInfluenced.get(i), differenceInWeights,
-//							changeInWeightToApply, newWeight);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-
 			}
 		} else {
 			System.out
 					.println("@@@@@@@@@@ LISTS DO NOT MATCH IN SIZE @@@@@@@@@@");
 		}
 	}
-	
-//	public void writeAgentWeightsToCSV(int timeTick, int agent1,
-//			double agent1Value, int agent2, double agent2Value,
-//			double difference, double change, double newValue)
-//			throws IOException {
-//		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv",
-//				true);
-//
-//		// timeTick, agentWhoInfluences,
-//		// oneWhoInfluences.get(i), agentWhoGetsInfluenced,
-//		// oneWhoGetsInfluenced.get(i), differenceInWeights,
-//		// changeInWeightToApply, newWeight
-//
-//		writer.append(Integer.toString(timeTick));
-//		writer.append(',');
-//		writer.append(Integer.toString(agent1));
-//		writer.append(',');
-//		writer.append(Double.toString(agent1Value));
-//		writer.append(',');
-//		writer.append(Integer.toString(agent2));
-//		writer.append(',');
-//		writer.append(Double.toString(agent2Value));
-//		writer.append(',');
-//		writer.append(Double.toString(difference));
-//		writer.append(',');
-//		writer.append(Double.toString(change));
-//		writer.append(',');
-//		writer.append(Double.toString(newValue));
-//		writer.append('\n');
-//
-//		writer.flush();
-//		writer.close();
-//	}
 	
 	////////// @@@@@@@@@@ GETTERS AND SETTERS @@@@@@@@@ //////////
 
