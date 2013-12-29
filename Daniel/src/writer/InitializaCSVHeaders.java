@@ -3,10 +3,11 @@ package writer;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class initializaCSVHeaders {
+public class InitializaCSVHeaders {
 	
-	public initializaCSVHeaders(String filedirectory, String[] arrayOfHeaderNames) throws IOException {
-		FileWriter writer = new FileWriter(filedirectory);
+	public InitializaCSVHeaders(String fileDirectory, String[] arrayOfHeaderNames) throws IOException {
+		System.out.println("Initializing CSV file");
+		FileWriter writer = new FileWriter(fileDirectory);
 		
 		for (int i = 0; i < arrayOfHeaderNames.length - 1; i++) {
 			writer.append(arrayOfHeaderNames[i]);
@@ -14,6 +15,7 @@ public class initializaCSVHeaders {
 		}
 		writer.append(arrayOfHeaderNames[arrayOfHeaderNames.length]);
 		writer.append('\n');
+		
 		writer.flush();
 		writer.close();
 	}
