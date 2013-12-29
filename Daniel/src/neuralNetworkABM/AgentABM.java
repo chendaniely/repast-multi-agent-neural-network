@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reader.ReadExcelPoi;
-import writer.InitializaCSVHeaders;
-import writer.WriteToCSV;
 import repast.simphony.context.Context;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
@@ -22,8 +20,8 @@ import repast.simphony.space.continuous.NdPoint;
 import repast.simphony.space.graph.Network;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
-import repast.simphony.util.ContextUtils;
 import repast.simphony.util.SimUtilities;
+import writer.WriteToCSV;
 
 /**
  * @author Daniel
@@ -83,9 +81,8 @@ public class AgentABM {
 		// new method using separate class
 		
 		String[] arrayOfHeaderNames = {"time", "agent 1", "agent 1 value", "--> agent 2", "agent 2 value", "difference", "value change", "new value"};
-//		String fileDirectory = "./output/agentWeightCSV.csv";
 		try {
-			InitializaCSVHeaders initializeCSVHeaders = new InitializaCSVHeaders(GlobalSpaceConstant.agentWeightValues, arrayOfHeaderNames);
+			WriteToCSV writeCSV = new WriteToCSV(neuralNetworkABM.GlobalSpaceConstant.agentWeightValues, arrayOfHeaderNames, false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -284,7 +281,12 @@ public class AgentABM {
 						Double.toString(changeInWeightToApply), Double.toString(newWeight)						
 					};
 				
-				WriteToCSV writeCSV = new WriteToCSV(GlobalSpaceConstant.agentWeightValues, arrayOfValues);
+				try {
+					WriteToCSV writeCSV = new WriteToCSV(GlobalSpaceConstant.agentWeightValues, arrayOfValues, true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 //				try {
 //					writeAgentWeightsToCSV(timeTick, agentWhoInfluences,
