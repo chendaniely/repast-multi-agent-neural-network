@@ -1,4 +1,5 @@
-/Daniel/bin/.gitignore
-./Daniel/bin/
-./Daniel/debug.log
-./Daniel/Velocity.log*
+Daniel/bin/.gitignore
+Daniel/bin/
+Daniel/debug.log
+Daniel/Velocity.log*
+Daniel/bin/*
