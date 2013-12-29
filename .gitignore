@@ -1,8 +1,8 @@
-./Daniel/bin/.gitignore
-./Daniel/bin
-./Daniel/debug.log
-./Daniel/Velocity.log*
-./Daniel/bin/*
+./bin/.gitignore
+./bin
+./debug.log
+./Velocity.log*
+./bin/*
 
 # Compiled source #
 ###################
