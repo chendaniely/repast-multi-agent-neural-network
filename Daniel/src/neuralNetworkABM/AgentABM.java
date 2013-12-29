@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reader.ReadExcelPoi;
+import writer.InitializaCSVHeaders;
+import writer.WriteToCSV;
 import repast.simphony.context.Context;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
@@ -70,8 +72,20 @@ public class AgentABM {
 		this.agentVariableList = agentVariableWeights;
 
 		// create the agent weight CSV file if not already there
+		// old method
+//		try {
+//			initializeAgentWeightCSV();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		// new method using separate class
+		
+		String[] arrayOfHeaderNames = {"time", "agent 1", "agent 1 value", "--> agent 2", "agent 2 value", "difference", "value change", "new value"};
+//		String fileDirectory = "./output/agentWeightCSV.csv";
 		try {
-			initializeAgentWeightCSV();
+			InitializaCSVHeaders initializeCSVHeaders = new InitializaCSVHeaders(GlobalSpaceConstant.agentWeightValues, arrayOfHeaderNames);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -263,16 +277,24 @@ public class AgentABM {
 
 				System.out.println("new values: " + oneWhoInfluences.get(i)
 						+ " and " + oneWhoGetsInfluenced.get(i));
-
-				try {
-					writeAgentWeightsToCSV(timeTick, agentWhoInfluences,
-							oneWhoInfluences.get(i), agentWhoGetsInfluenced,
-							oneWhoGetsInfluenced.get(i), differenceInWeights,
-							changeInWeightToApply, newWeight);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
+				String[] arrayOfValues = {Integer.toString(timeTick), Integer.toString(agentWhoInfluences),
+						Double.toString(oneWhoInfluences.get(i)), Integer.toString(agentWhoGetsInfluenced),
+						Double.toString(oneWhoGetsInfluenced.get(i)), Double.toString(differenceInWeights),
+						Double.toString(changeInWeightToApply), Double.toString(newWeight)						
+					};
+				
+				WriteToCSV writeCSV = new WriteToCSV(GlobalSpaceConstant.agentWeightValues, arrayOfValues);
+				
+//				try {
+//					writeAgentWeightsToCSV(timeTick, agentWhoInfluences,
+//							oneWhoInfluences.get(i), agentWhoGetsInfluenced,
+//							oneWhoGetsInfluenced.get(i), differenceInWeights,
+//							changeInWeightToApply, newWeight);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 
 			}
 		} else {
@@ -281,38 +303,38 @@ public class AgentABM {
 		}
 	}
 	
-	public void writeAgentWeightsToCSV(int timeTick, int agent1,
-			double agent1Value, int agent2, double agent2Value,
-			double difference, double change, double newValue)
-			throws IOException {
-		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv",
-				true);
-
-		// timeTick, agentWhoInfluences,
-		// oneWhoInfluences.get(i), agentWhoGetsInfluenced,
-		// oneWhoGetsInfluenced.get(i), differenceInWeights,
-		// changeInWeightToApply, newWeight
-
-		writer.append(Integer.toString(timeTick));
-		writer.append(',');
-		writer.append(Integer.toString(agent1));
-		writer.append(',');
-		writer.append(Double.toString(agent1Value));
-		writer.append(',');
-		writer.append(Integer.toString(agent2));
-		writer.append(',');
-		writer.append(Double.toString(agent2Value));
-		writer.append(',');
-		writer.append(Double.toString(difference));
-		writer.append(',');
-		writer.append(Double.toString(change));
-		writer.append(',');
-		writer.append(Double.toString(newValue));
-		writer.append('\n');
-
-		writer.flush();
-		writer.close();
-	}
+//	public void writeAgentWeightsToCSV(int timeTick, int agent1,
+//			double agent1Value, int agent2, double agent2Value,
+//			double difference, double change, double newValue)
+//			throws IOException {
+//		FileWriter writer = new FileWriter("./src/files/agentWeightCSV.csv",
+//				true);
+//
+//		// timeTick, agentWhoInfluences,
+//		// oneWhoInfluences.get(i), agentWhoGetsInfluenced,
+//		// oneWhoGetsInfluenced.get(i), differenceInWeights,
+//		// changeInWeightToApply, newWeight
+//
+//		writer.append(Integer.toString(timeTick));
+//		writer.append(',');
+//		writer.append(Integer.toString(agent1));
+//		writer.append(',');
+//		writer.append(Double.toString(agent1Value));
+//		writer.append(',');
+//		writer.append(Integer.toString(agent2));
+//		writer.append(',');
+//		writer.append(Double.toString(agent2Value));
+//		writer.append(',');
+//		writer.append(Double.toString(difference));
+//		writer.append(',');
+//		writer.append(Double.toString(change));
+//		writer.append(',');
+//		writer.append(Double.toString(newValue));
+//		writer.append('\n');
+//
+//		writer.flush();
+//		writer.close();
+//	}
 	
 	////////// @@@@@@@@@@ GETTERS AND SETTERS @@@@@@@@@ //////////
 
