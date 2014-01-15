@@ -3,6 +3,8 @@
  */
 package neuralNetworkABM;
 
+import initializeAgents.InitializeAgentsCSV;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,34 +53,21 @@ public class AgentABM {
 	// constructor which sets the values of the space and grid variables
 	// space and grid variables have Objects as their template parameter
 	// (allows use to put anything in them)
+	
+	// constructor that will randomly generate agents base on number of agents
 	public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid,
-			int agentNumber, String variableWeightFilesName) {
+			int agentNumber){
+		
+	}
+	
+	// constructor that will initialize all agents and variable weights based on CSV file
+	public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid, int agentNumber, String variableWeightFilesName) {
 		this.space = space;
 		this.grid = grid;
 		this.agentNumber = agentNumber;
-
-		ReadExcelPoi readInVariableWeights = new ReadExcelPoi();
-
-		ArrayList<Double> agentVariableWeights = readInVariableWeights.ReadExcelFile(
-				variableWeightFilesName, agentVariableList, agentNumber);
-		for (Double number : agentVariableWeights) {
-			System.out
-					.println("for loop in constructor for each double in list:"
-							+ number);
-		}
-		this.agentVariableList = agentVariableWeights;
-	
-		String[] arrayOfHeaderNames = { "time", "agent 1", "agent 1 value",
-				"--> agent 2", "agent 2 value", "difference", "value change",
-				"new value" };
-		try {
-			@SuppressWarnings("unused")
-			WriteToCSV writeCSV = new WriteToCSV(
-					neuralNetworkABM.GlobalSpaceConstant.agentWeightValues,
-					arrayOfHeaderNames, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		InitializeAgentsCSV intializeAgentsCSV = new InitializeAgentsCSV(space, grid, agentNumber, variableWeightFilesName);
+		
 	}
 
 	@ScheduledMethod(start = 1, interval = 1)
