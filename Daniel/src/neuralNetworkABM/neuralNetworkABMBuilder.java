@@ -77,6 +77,7 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 
     // FileWriter agentNetworkCSV = null;
     try {
+      if (GlobalSettings.DEBUG) System.out.println("Initializing CSV File with Header names");
       CSVWriter writer = new CSVWriter(new FileWriter("./output/output-agent-connections.csv"));
       // feed in your array (or convert your data to an array)
       String[] csvHeader = {"Agent", "-> Agent"};
@@ -89,7 +90,6 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 //      agentNetworkCSV.append("--> Agent");
 //      agentNetworkCSV.append('\n');
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
