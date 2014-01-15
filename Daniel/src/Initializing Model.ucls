@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.4" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <class id="1" language="java" name="neuralNetworkABM.AgentABM" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/neuralNetworkABM/AgentABM.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="436" width="359" x="136" y="431"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="neuralNetworkABM.neuralNetworkABMBuilder" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/neuralNetworkABM/neuralNetworkABMBuilder.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="94" width="157" x="368" y="225"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="neuralNetworkABM.GlobalSettings" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/neuralNetworkABM/GlobalSettings.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="202" width="350" x="556" y="907"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="reader.ReadExcelPoi" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/reader/ReadExcelPoi.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="148" width="289" x="556" y="431"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="initializeAgents.InitializeAgents" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/initializeAgents/InitializeAgents.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="148" width="204" x="565" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="initializeAgents.InitializeAgentInfluences" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/initializeAgents/InitializeAgentInfluences.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="166" width="266" x="41" y="225"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="initializeAgents.InitializeAgentsCSV" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/initializeAgents/InitializeAgentsCSV.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="76" width="320" x="565" y="225"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="initializeAgents.InitializeAgentVariableWeightsXLS" project="neuralNetworkABM" 
+    file="/neuralNetworkABM/src/initializeAgents/InitializeAgentVariableWeightsXLS.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="94" width="292" x="136" y="907"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <dependency id="9">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="10">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="11">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="12">    
+    <bendpoint x="875" y="431"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="13">    
+    <bendpoint x="525" y="431"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="14">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="15">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <dependency id="16">    
+    <bendpoint x="337" y="225"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="5"/>  
+  </generalization>  
+  <dependency id="18">    
+    <bendpoint x="915" y="225"/>    
+    <bendpoint x="915" y="431"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
