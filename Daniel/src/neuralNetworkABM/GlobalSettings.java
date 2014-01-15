@@ -4,6 +4,7 @@
 package neuralNetworkABM;
 
 /**
+ * Treat this as a configuration file
  * @author dyc2112
  * 
  */
