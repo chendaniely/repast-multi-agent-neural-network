@@ -10,6 +10,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 
 public class InitializeAgentInfluences {
+	String csvFile = "";
 	
 	/*
 	 * 
@@ -23,6 +24,15 @@ public class InitializeAgentInfluences {
 	 * 
 	 * */
 	
+	
+	// Constructors
+	public InitializeAgentInfluences(){
+	}
+	
+	public InitializeAgentInfluences(String csvFile) {
+		this.csvFile = csvFile;
+	}
+
 	public void assignAgentInfluences(Context<Object> context, FileReader agentNetworkCSV) 
 			throws IOException {
 		System.out.println("hello");
@@ -52,4 +62,12 @@ public class InitializeAgentInfluences {
 	    reader.close();
 	}
 
+	public String getCsvFile() {
+		return csvFile;
+	}
+
+	public void setCsvFile(String csvFile) {
+		this.csvFile = csvFile;
+	}
+	
 }
