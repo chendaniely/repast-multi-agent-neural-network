@@ -70,34 +70,20 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 
     // creates csv file to document agent linking
 
-//    FileWriter agentNetworkCSV = null;
+    FileWriter agentNetworkFile = null;
     CSVWriter agentNetworkCSV = null;
 
     try {
-      agentNetworkCSV = new CSVWriter(new FileWriter(GlobalSettings.OUTPUT_AGENT_NETWORK_CSV));
+      agentNetworkFile = new FileWriter(GlobalSettings.OUTPUT_AGENT_NETWORK_CSV, false);
+    } catch (IOException e2) {
+      e2.printStackTrace();
+    } finally {
+      agentNetworkCSV = new CSVWriter(agentNetworkFile);
       String[] agentNetworkCSVHeaders = {"Agent", "-> Agent"};
       agentNetworkCSV.writeNext(agentNetworkCSVHeaders);
-      // TODO check if closing here will affect appending the agent links
-      agentNetworkCSV.close();
-    } catch (IOException e1) {
-      e1.printStackTrace();
     }
 
-
-    // try {
-    // agentNetworkCSV = new FileWriter("./src/files/agentNetworkCSV.csv");
-    // agentNetworkCSV.append("Agentasdf");
-    // agentNetworkCSV.append(',');
-    // agentNetworkCSV.append("--> Agent");
-    // agentNetworkCSV.append('\n');
-    // } catch (IOException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-
-
-    // move the agents to the Grid location that corresponds to their
-    // ContinuousSpace location
+    // move the agents to the Grid location that corresponds to their ContinuousSpace location
     for (Object obj : context) {
       NdPoint pt = space.getLocation(obj);
       grid.moveTo(obj, (int) pt.getX(), (int) pt.getY());
