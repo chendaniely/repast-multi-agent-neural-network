@@ -23,6 +23,7 @@ import repast.simphony.space.grid.GridBuilderParameters;
 import repast.simphony.space.grid.SimpleGridAdder;
 import repast.simphony.space.grid.WrapAroundBorders;
 import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * @author Daniel
@@ -53,36 +54,46 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
         gridFactory.createGrid("grid", context, new GridBuilderParameters<Object>(
             new WrapAroundBorders(), new SimpleGridAdder<Object>(), true, 20, 20));
 
-    // read excel file
-    // ReadExcelPoi excel = new
-    // ReadExcelPoi("C:\\Users\\Daniel\\Dropbox\\code\\code\\Repast NeuralNetwork\\Daniel\\src\\reader\\agent variable weights.xls",
-    // 0);
-
     // creating the agents
-    int agentAbmCount = 10;// reader.ReadExcelPoi.getNumAgentRows();
+    int agentAbmCount = GlobalSettings.NUMBEROFAGENTS;
 
-    System.out.println("Creating " + agentAbmCount + " agents");
+    if (GlobalSettings.DEBUG) System.out.println("Creating " + agentAbmCount + " agents");
     for (int agentNumber = 1; agentNumber < agentAbmCount; agentNumber++) {
       AgentABM agent =
           new AgentABM(space, grid, agentNumber,
-              neuralNetworkABM.GlobalSettings.AGENTVARIABLEXLSLOCATION);
+              neuralNetworkABM.GlobalSettings.INPUT_AGENT_VARIABLE_XLS);
       context.add(agent);
-      System.out.println("##### Agent " + agent.getAgentNumber() + " created.");
+      if (GlobalSettings.DEBUG)
+        System.out.println("##### Agent " + agent.getAgentNumber() + " created.");
+
     }
 
     // creates csv file to document agent linking
 
-    FileWriter agentNetworkCSV = null;
+//    FileWriter agentNetworkCSV = null;
+    CSVWriter agentNetworkCSV = null;
+
     try {
-      agentNetworkCSV = new FileWriter("./src/files/agentNetworkCSV.csv");
-      agentNetworkCSV.append("Agent");
-      agentNetworkCSV.append(',');
-      agentNetworkCSV.append("--> Agent");
-      agentNetworkCSV.append('\n');
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      agentNetworkCSV = new CSVWriter(new FileWriter(GlobalSettings.OUTPUT_AGENT_NETWORK_CSV));
+      String[] agentNetworkCSVHeaders = {"Agent", "-> Agent"};
+      agentNetworkCSV.writeNext(agentNetworkCSVHeaders);
+      // TODO check if closing here will affect appending the agent links
+      agentNetworkCSV.close();
+    } catch (IOException e1) {
+      e1.printStackTrace();
     }
+
+
+    // try {
+    // agentNetworkCSV = new FileWriter("./src/files/agentNetworkCSV.csv");
+    // agentNetworkCSV.append("Agentasdf");
+    // agentNetworkCSV.append(',');
+    // agentNetworkCSV.append("--> Agent");
+    // agentNetworkCSV.append('\n');
+    // } catch (IOException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
 
 
     // move the agents to the Grid location that corresponds to their
@@ -109,7 +120,7 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
     }
 
     // adding the influencing agent to a list in the agent that is getting influenced
-    System.out.println("hello");
+    if (GlobalSettings.DEBUG) System.out.println("hello");
     CSVReader reader = null;
     try {
       reader = new CSVReader(new FileReader("./src/files/agentNetworkCSV.csv"));
@@ -119,29 +130,29 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
     }
     String[] nextLine;
     try {
-      System.out.println("enter while");
+      if (GlobalSettings.DEBUG) System.out.println("enter while");
       while ((nextLine = reader.readNext()) != null) {
         // nextLine[] is an array of values from the line
-        System.out.println(nextLine[0] + "\t" + nextLine[1]);
+        if (GlobalSettings.DEBUG) System.out.println(nextLine[0] + "\t" + nextLine[1]);
       }
-      System.out.println("enter for");
+      if (GlobalSettings.DEBUG) System.out.println("enter for");
       for (Object agent : context) {
         if (agent instanceof AgentABM) {
-          System.out.println(((AgentABM) agent).getAgentNumber());
+          if (GlobalSettings.DEBUG) System.out.println(((AgentABM) agent).getAgentNumber());
 
           // the do should skip the first row of col names
           boolean flag = true;
           while ((nextLine = reader.readNext()) != null);
           {
-            System.out.println("in while again");
+            if (GlobalSettings.DEBUG) System.out.println("in while again");
             if (flag == true) {
               // bool is used to skip the first column, which is the column name
               flag = false;
               continue;
             } else {
               if (((AgentABM) agent).getAgentNumber() == Integer.parseInt(nextLine[1])) {
-                System.out.println("in the else part of while");
-                System.out.println(nextLine[0] + "\t" + nextLine[1]);
+                if (GlobalSettings.DEBUG) System.out.println("in the else part of while");
+                if (GlobalSettings.DEBUG) System.out.println(nextLine[0] + "\t" + nextLine[1]);
               }
             }
           }
