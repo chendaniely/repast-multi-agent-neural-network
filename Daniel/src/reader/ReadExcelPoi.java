@@ -27,7 +27,7 @@ public class ReadExcelPoi {
 	    try {
 		    	
 			InputStream input = ReadExcelPoi.class
-					.getResourceAsStream(neuralNetworkABM.GlobalSpaceConstant.agentVariableWeightLocation);
+					.getResourceAsStream(neuralNetworkABM.GlobalSettings.agentVariableWeightLocation);
 			POIFSFileSystem fs = new POIFSFileSystem(input);
 			HSSFWorkbook wb = new HSSFWorkbook(fs);
 			HSSFSheet sheet = wb.getSheetAt(0);

@@ -74,7 +74,7 @@ public class AgentABM {
 		try {
 			@SuppressWarnings("unused")
 			WriteToCSV writeCSV = new WriteToCSV(
-					neuralNetworkABM.GlobalSpaceConstant.agentWeightValues,
+					neuralNetworkABM.GlobalSettings.agentWeightValues,
 					arrayOfHeaderNames, false);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -242,7 +242,7 @@ public class AgentABM {
 
 				try {
 					WriteToCSV writeCSV = new WriteToCSV(
-							GlobalSpaceConstant.agentWeightValues,
+							GlobalSettings.agentWeightValues,
 							arrayOfValues, true);
 				} catch (IOException e) {
 					e.printStackTrace();

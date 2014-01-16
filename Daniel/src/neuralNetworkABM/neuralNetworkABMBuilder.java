@@ -71,7 +71,7 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
 					space,
 					grid,
 					agentNumber,
-					neuralNetworkABM.GlobalSpaceConstant.agentVariableWeightLocation);
+					neuralNetworkABM.GlobalSettings.agentVariableWeightLocation);
 			context.add(agent);
 			System.out.println("##### Agent " + agent.getAgentNumber() + " created.");
 		}

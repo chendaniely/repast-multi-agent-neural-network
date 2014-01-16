@@ -32,7 +32,7 @@ public class InitializeAgentInfluences {
 		System.out.println(myEntries);
 		
 		System.out.println("hello");
-//		List<String[]> nextLine;
+		List<String[]> nextLine;
 		System.out.println("hello");
 		for (Object agent : context) {
 			if (agent instanceof AgentABM) {
