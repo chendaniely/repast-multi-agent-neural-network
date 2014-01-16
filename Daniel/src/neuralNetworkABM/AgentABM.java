@@ -3,7 +3,6 @@
  */
 package neuralNetworkABM;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.util.SimUtilities;
 import writer.WriteToCSV;
+import au.com.bytecode.opencsv.CSVWriter;
 
 /**
  * @author Daniel
@@ -63,7 +63,7 @@ public class AgentABM {
         readInVariableWeights
             .ReadExcelFile(variableWeightFilesName, agentVariableList, agentNumber);
     for (Double number : agentVariableWeights) {
-      System.out.println("for loop in constructor for each double in list:" + number);
+      System.out.println("cell (column) read:" + number);
     }
     this.agentVariableList = agentVariableWeights;
 
@@ -71,10 +71,9 @@ public class AgentABM {
         {"time", "agent 1", "agent 1 value", "--> agent 2", "agent 2 value", "difference",
             "value change", "new value"};
     try {
-      @SuppressWarnings("unused")
       WriteToCSV writeCSV =
-          new WriteToCSV(neuralNetworkABM.GlobalSettings.agentWeightValues, arrayOfHeaderNames,
-              false);
+          new WriteToCSV(neuralNetworkABM.GlobalSettings.OUTPUT_AGENT_VARIABLE_CSV,
+              arrayOfHeaderNames, false);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -112,7 +111,7 @@ public class AgentABM {
     }
   }
 
-  public void linkAgents(Context<Object> context, FileWriter agentNetworkCSV) {
+  public void linkAgents(Context<Object> context, CSVWriter agentNetworkCSV) {
     // GridPoint pt = grid.getLocation(this);
     // List<Object> agentList = new ArrayList<Object>();
 
@@ -148,14 +147,18 @@ public class AgentABM {
           + getAgentNumber());
       net.addEdge(this, obj);
 
-      try {
-        agentNetworkCSV.append(Integer.toString(getAgentNumber()));
-        agentNetworkCSV.append(',');
-        agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
-        agentNetworkCSV.append('\n');
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+//      try {
+        String[] agentNetwork =
+            {Integer.toString(getAgentNumber()),
+                Integer.toString(((AgentABM) obj).getAgentNumber())};
+        agentNetworkCSV.writeNext(agentNetwork);
+        // agentNetworkCSV.append(Integer.toString(getAgentNumber()) );
+        // agentNetworkCSV.append(',');
+        // agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
+        // agentNetworkCSV.append('\n');
+//      } catch (IOException e) {
+//        e.printStackTrace();
+//      }
 
     }
 
@@ -227,7 +230,7 @@ public class AgentABM {
 
         try {
           WriteToCSV writeCSV =
-              new WriteToCSV(GlobalSettings.agentWeightValues, arrayOfValues, true);
+              new WriteToCSV(GlobalSettings.OUTPUT_AGENT_VARIABLE_CSV, arrayOfValues, true);
         } catch (IOException e) {
           e.printStackTrace();
         }
