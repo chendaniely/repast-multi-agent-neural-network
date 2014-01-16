@@ -41,7 +41,7 @@ public class ReadExcelPoi {
       // xls file location
       InputStream input =
           ReadExcelPoi.class
-              .getResourceAsStream(neuralNetworkABM.GlobalSettings.AGENTVARIABLEXLSLOCATION);
+              .getResourceAsStream(neuralNetworkABM.GlobalSettings.INPUT_AGENT_VARIABLE_XLS);
       POIFSFileSystem fs = new POIFSFileSystem(input);
 
       // TODO check file type to make it work for xlsx or csv
