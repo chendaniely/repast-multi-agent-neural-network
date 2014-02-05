@@ -55,18 +55,22 @@ public class neuralNetworkABMBuilder implements ContextBuilder<Object> {
             new WrapAroundBorders(), new SimpleGridAdder<Object>(), true, 20, 20));
 
     // creating the agents
-    int agentAbmCount = GlobalSettings.NUMBEROFAGENTS;
+    if (GlobalSettings.NUMBER_OF_AGENTS_FROM_FILE) {
+      int agentAbmCount = GlobalSettings.NUMBER_OF_AGENTS;
+      if (GlobalSettings.DEBUG) System.out.println("Creating " + agentAbmCount + " agents");
+    } else {
+      for (int i = 1; i < GlobalSettings.NUMBER_OF_AGENTS; i++) {
+        AgentABM agent =
+            new AgentABM(space, grid, neuralNetworkABM.GlobalSettings.INPUT_AGENT_VARIABLE_XLS);
+        context.add(agent);
+        if (GlobalSettings.DEBUG)
+          System.out.println("##### Agent " + agent.getAgentNumber() + " created.");
 
-    if (GlobalSettings.DEBUG) System.out.println("Creating " + agentAbmCount + " agents");
-    for (int agentNumber = 1; agentNumber < agentAbmCount; agentNumber++) {
-      AgentABM agent =
-          new AgentABM(space, grid, agentNumber,
-              neuralNetworkABM.GlobalSettings.INPUT_AGENT_VARIABLE_XLS);
-      context.add(agent);
-      if (GlobalSettings.DEBUG)
-        System.out.println("##### Agent " + agent.getAgentNumber() + " created.");
+      }
 
     }
+
+
 
     // creates csv file to document agent linking
 

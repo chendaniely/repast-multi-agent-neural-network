@@ -3,12 +3,13 @@
  */
 package neuralNetworkABM;
 
+import initializeAgents.InitializeAgentState;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import reader.ReadExcelPoi;
 import repast.simphony.context.Context;
 import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.query.space.grid.GridCell;
@@ -29,13 +30,14 @@ import au.com.bytecode.opencsv.CSVWriter;
  * 
  */
 public class AgentABM {
-  // field variables to hold the space and grid in which the agent will be located
-  // agent will move about the ContinousSpce and this space will be rounded up
-  // to determine the corresponding Grid location
+  // field variables to hold the space and grid in which the agent will be located agent will move
+  // about the ContinousSpce and this space will be rounded up to determine the corresponding Grid
+  // location
   private ContinuousSpace<Object> space;
   private Grid<Object> grid;
   private int agentNumber = -1;
   private int timeTick = 0;
+  private static int agentCount = 0;
 
   // list of weights from excel files for each agent
   private ArrayList<Double> agentVariableList = new ArrayList<Double>();
@@ -52,20 +54,24 @@ public class AgentABM {
   // constructor which sets the values of the space and grid variables
   // space and grid variables have Objects as their template parameter
   // (allows use to put anything in them)
-  public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid, int agentNumber,
-      String variableWeightFilesName) {
+  public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid, String variableWeightFilesName) {
     this.space = space;
     this.grid = grid;
     this.agentNumber = agentNumber;
 
-    ReadExcelPoi readInVariableWeights = new ReadExcelPoi();
+    InitializeAgentState initializeWeightsXLS = new InitializeAgentState();
 
     ArrayList<Double> agentVariableWeights =
-        readInVariableWeights
-            .ReadExcelFile(variableWeightFilesName, agentVariableList, agentNumber);
-    for (Double number : agentVariableWeights) {
-      if (GlobalSettings.DEBUG) System.out.println("cell (column) read:" + number);
+        initializeWeightsXLS.initializeFromXLS(variableWeightFilesName, agentVariableList,
+            agentNumber);
+
+    // print statements to see what was read in
+    if (GlobalSettings.DEBUG) {
+      for (Double number : agentVariableWeights) {
+        System.out.println("Stored in agentVariableWeights Array:" + number);
+      }
     }
+
     this.agentVariableList = agentVariableWeights;
 
     String[] arrayOfHeaderNames =
@@ -88,10 +94,9 @@ public class AgentABM {
     // get the grid location of this agent
     GridPoint pt = grid.getLocation(this);
 
-    // use the GridCellNgh class to create GridCells for the surrounding neighborhood
-    // GridCellNgh is used to retrieve a list of GridCells that represent
-    // the contents and location of the 8 neighboring cells around a
-    // GridPoint
+    // use the GridCellNgh class to create GridCells for the surrounding neighborhood GridCellNgh is
+    // used to retrieve a list of GridCells that represent the contents and location of the 8
+    // neighboring cells around a GridPoint
     GridCellNgh<AgentABM> nghCreator = new GridCellNgh<AgentABM>(grid, pt, AgentABM.class, 1, 1);
     List<GridCell<AgentABM>> gridCells = nghCreator.getNeighborhood(true);
     SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
@@ -150,17 +155,8 @@ public class AgentABM {
             + getAgentNumber());
       net.addEdge(this, obj);
 
-      // try {
       String[] agentNetwork =
           {Integer.toString(getAgentNumber()), Integer.toString(((AgentABM) obj).getAgentNumber())};
-      agentNetworkCSV.writeNext(agentNetwork);
-      // agentNetworkCSV.append(Integer.toString(getAgentNumber()) );
-      // agentNetworkCSV.append(',');
-      // agentNetworkCSV.append(Integer.toString(((AgentABM) obj).getAgentNumber()));
-      // agentNetworkCSV.append('\n');
-      // } catch (IOException e) {
-      // e.printStackTrace();
-      // }
 
     }
 
@@ -201,12 +197,13 @@ public class AgentABM {
   public void influenceListsDownstream(int timeTick, int agentWhoInfluences,
       ArrayList<Double> oneWhoInfluences, int agentWhoGetsInfluenced,
       ArrayList<Double> oneWhoGetsInfluenced) {
-    if (GlobalSettings.DEBUG)
-      if (GlobalSettings.DEBUG) System.out.println("Influenceing variables");
+
+    if (GlobalSettings.DEBUG) System.out.println("Influenceing variables");
     if (GlobalSettings.DEBUG)
       System.out.println(oneWhoInfluences.size() + " " + oneWhoGetsInfluenced.size());
     if (oneWhoInfluences.size() == oneWhoGetsInfluenced.size()) {
       if (GlobalSettings.DEBUG) System.out.println("List size match!");
+
       for (int i = 0; i < oneWhoInfluences.size(); i++) {
         if (GlobalSettings.DEBUG) System.out.println("==========");
         if (GlobalSettings.DEBUG)

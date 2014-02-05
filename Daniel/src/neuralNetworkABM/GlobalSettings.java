@@ -17,8 +17,8 @@ public final class GlobalSettings {
   public final static int LENGTH_Y = 10;
 
   // number of agents
-  public final static int NUMBEROFAGENTS = 10;
-  public final static boolean NUMBEROFAGENTSFROMFILE = true;
+  public final static int NUMBER_OF_AGENTS = 10;
+  public final static boolean NUMBER_OF_AGENTS_FROM_FILE = false;
 
   // file directories
   public final static String INPUT_AGENT_VARIABLE_XLS = "../files/agent variable weights.xls";
