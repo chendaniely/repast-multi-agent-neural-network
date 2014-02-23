@@ -4,6 +4,7 @@
 ./Daniel/debug.log
 ./Daniel/Velocity.log*
 ./Daniel/bin/*
+/Daniel/bin*
 
 # Compiled source #
 ###################
