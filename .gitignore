@@ -5,6 +5,7 @@
 ./Daniel/Velocity.log*
 ./Daniel/bin/*
 /Daniel/bin*
+/Daniel/bin/files/agentNetworkCSV.csv
 
 # Compiled source #
 ###################
