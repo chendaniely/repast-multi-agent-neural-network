@@ -3,8 +3,7 @@
  */
 package neuralNetworkABM;
 
-import initializeAgents.InitializeAgentState;
-
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,23 +21,32 @@ import repast.simphony.space.graph.Network;
 import repast.simphony.space.grid.Grid;
 import repast.simphony.space.grid.GridPoint;
 import repast.simphony.util.SimUtilities;
-import writer.WriteToCSV;
+import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
+
+import AgentNeuralNetwork;
 
 /**
  * @author Daniel
  * 
  */
 public class AgentABM {
-  // field variables to hold the space and grid in which the agent will be located agent will move
-  // about the ContinousSpce and this space will be rounded up to determine the corresponding Grid
-  // location
+  // class variables
+  // number of agents that have been created
+  private static int agentCount = 0;
+  
+  // field variables to hold the space and grid in which the agent will be located
+  // agent will move about the ContinousSpce and this space will be rounded up to determine the
+  // corresponding Grid location
   private ContinuousSpace<Object> space;
   private Grid<Object> grid;
+  
+  // unique identifier for agents
   private int agentNumber = -1;
-  private int timeTick = 0;
-  private static int agentCount = 0;
-
+  
+  // time tick
+  private int timeTick = 0; // do i need to keep track of this?
+  
   // list of weights from excel files for each agent
   private ArrayList<Double> agentVariableList = new ArrayList<Double>();
 
@@ -51,40 +59,43 @@ public class AgentABM {
   // list of agents that this.agent gets influenced by (the agents upstream)
   private ArrayList<Object> agentInfluencedBy = new ArrayList<Object>();
 
+  private static String initializeAgentWeightsFromFile = "";
+  
+  ////////////////////////////////////////////////////////////////////
+  // arrays to depict the positive and negative valence banks
+  double[] inputArrayPositiveT    // time t
+  double[] inputArrayPositiveT_1  // time t-1 #premature optimization is the root of all evil
+  double[] inputArrayNegativeT
+  double[] inputArrayNegativeT_1 
+  double[] outputArrayPositiveT
+  double[] outputArrayPositiveT_1
+  double[] outputArrayNegativeT
+  double[] outputArrayNegativeT_1
+  double attitudePositive = 0;
+  double attitudeNegative = 0;
+  ////////////////////////////////////////////////////////////////////
+
   // constructor which sets the values of the space and grid variables
   // space and grid variables have Objects as their template parameter
   // (allows use to put anything in them)
-  public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid, String variableWeightFilesName) {
+  public AgentABM(ContinuousSpace<Object> space, Grid<Object> grid) {
     this.space = space;
     this.grid = grid;
-    this.agentNumber = agentNumber;
+    System.out.println("constructing agent");
 
-    InitializeAgentState initializeWeightsXLS = new InitializeAgentState();
-
-    ArrayList<Double> agentVariableWeights =
-        initializeWeightsXLS.initializeFromXLS(variableWeightFilesName, agentVariableList,
-            agentNumber);
-
-    // print statements to see what was read in
-    if (GlobalSettings.DEBUG) {
-      for (Double number : agentVariableWeights) {
-        System.out.println("Stored in agentVariableWeights Array:" + number);
-      }
-    }
-
-    this.agentVariableList = agentVariableWeights;
-
-    String[] arrayOfHeaderNames =
-        {"time", "agent 1", "agent 1 value", "--> agent 2", "agent 2 value", "difference",
-            "value change", "new value"};
-    try {
-      WriteToCSV writeCSV =
-          new WriteToCSV(neuralNetworkABM.GlobalSettings.OUTPUT_AGENT_VARIABLE_CSV,
-              arrayOfHeaderNames, false);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
+
+  public void initializeAgentVariablesWeights() throws IOException {
+    CSVReader reader = new CSVReader(new FileReader(initializeAgentWeightsFromFile));
+    String[] nextLine;
+    while ((nextLine = reader.readNext()) != null) {
+      // nextLine[] is an array of values from the line
+      System.out.println(nextLine[0] + nextLine[1] + "etc...");
+    }
+
+  }
+
+
 
   @ScheduledMethod(start = 1, interval = 1)
   // method to agent that will be called at every iteration of the simulation
@@ -94,9 +105,10 @@ public class AgentABM {
     // get the grid location of this agent
     GridPoint pt = grid.getLocation(this);
 
-    // use the GridCellNgh class to create GridCells for the surrounding neighborhood GridCellNgh is
-    // used to retrieve a list of GridCells that represent the contents and location of the 8
-    // neighboring cells around a GridPoint
+    // use the GridCellNgh class to create GridCells for the surrounding neighborhood 
+    // GridCellNgh is used to retrieve a list 
+    // of GridCells that represent the contents and location of the 8 neighboring cells 
+    // around a GridPoint
     GridCellNgh<AgentABM> nghCreator = new GridCellNgh<AgentABM>(grid, pt, AgentABM.class, 1, 1);
     List<GridCell<AgentABM>> gridCells = nghCreator.getNeighborhood(true);
     SimUtilities.shuffle(gridCells, RandomHelper.getUniform());
@@ -244,13 +256,6 @@ public class AgentABM {
           e.printStackTrace();
         }
 
-
-        // try {
-        // WriteToCSV writeCSV =
-        // new WriteToCSV(GlobalSettings.OUTPUT_AGENT_VARIABLE_CSV, arrayOfValues, true);
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
       }
     } else {
       System.err.println("@@@@@@@@@@ LISTS DO NOT MATCH IN SIZE @@@@@@@@@@");
@@ -287,6 +292,22 @@ public class AgentABM {
 
   public void setAgentInfluencedBy(ArrayList<Object> agentInfluencedBy) {
     this.agentInfluencedBy = agentInfluencedBy;
+  }
+
+  public static String getInitializeAgentWeightsFromFile() {
+    return initializeAgentWeightsFromFile;
+  }
+
+  public static void setInitializeAgentWeightsFromFile(String initializeAgentWeightsFromFile) {
+    AgentABM.initializeAgentWeightsFromFile = initializeAgentWeightsFromFile;
+  }
+
+  public static int getAgentCount() {
+    return agentCount;
+  }
+
+  public static void setAgentCount(int agentCount) {
+    AgentABM.agentCount = agentCount;
   }
 
 
