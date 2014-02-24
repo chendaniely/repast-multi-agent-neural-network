@@ -25,7 +25,7 @@ public class Test {
    * 
    * @throws IOException
    */
-  public static void countNumberOfProcessingUnits() throws IOException {
+  public static int countNumberOfProcessingUnits() throws IOException {
 
     BufferedReader br = null;
 
@@ -45,7 +45,7 @@ public class Test {
 
     // log.write(numberOfProcessingUnits);
 
-    TestAgent.setTotalNumberOfProcessingUnits(numberOfProcessingUnits);
+    return numberOfProcessingUnits;
 
   }
 
@@ -60,9 +60,10 @@ public class Test {
     return null;
 
   }
-  
+
   /**
    * This will see how many lines where
+   * 
    * @throws IOException
    */
 
@@ -85,9 +86,9 @@ public class Test {
 
 
     }
-    
-    
-    
+
+
+
   }
 
 
@@ -128,7 +129,7 @@ public class Test {
 
     // count number of processing units needed, this will later initialize the agent arrays
     try {
-      countNumberOfProcessingUnits();
+      TestAgent.setTotalNumberOfProcessingUnits(countNumberOfProcessingUnits());
       log.write("Number of processing units: " + TestAgent.getTotalNumberOfProcessingUnits());
     } catch (IOException e) {
       // TODO Auto-generated catch block
