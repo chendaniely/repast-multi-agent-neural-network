@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.util.ArithmeticUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -50,6 +51,23 @@ public class Test {
   }
 
   /**
+   * Example: for 5 valence banks, it will calculate the combinations of 5C2 = 4+3+2+1 = 10 10
+   * choose 2 = 45
+   * 
+   * @return
+   */
+  public static int calculateNumberOfWeightsOnEachValenceBank(int totalProcessingUnits) {
+
+    long numberOfWeightsOnEachValenceBank =
+        ArithmeticUtils.binomialCoefficient(totalProcessingUnits, 2);
+
+    // System.out.println(numberOfWeightsOnEachValenceBank);
+
+    return (int) numberOfWeightsOnEachValenceBank;
+
+  }
+
+  /**
    * This will take a line and return a double array of processing unit values
    * 
    * @return
@@ -66,6 +84,19 @@ public class Test {
    * 
    * @throws IOException
    */
+
+  /**
+   * each unit determines its net input based on external input to the unit and activations of all
+   * the units at the end of the preceding tick modulated by the weight coefficients
+   * 
+   * @throws IOException
+   */
+  public double calculateInputs() {
+
+
+    return 0;
+
+  }
 
   public static void initializeAgentsFromCSV() throws IOException {
 
@@ -125,9 +156,10 @@ public class Test {
     }
 
     // TestAgent initializeClassVariables = new TestAgent();
+    // this sets where the csv file for the process unit values are
     TestAgent.setProcessingUnitCSV("./src/sandbox/AgentProcessigUnitValues.csv");
 
-    // count number of processing units needed, this will later initialize the agent arrays
+    // count number of processing units in file, this will later initialize the agent arrays
     try {
       TestAgent.setTotalNumberOfProcessingUnits(countNumberOfProcessingUnits());
       log.write("Number of processing units: " + TestAgent.getTotalNumberOfProcessingUnits());
@@ -136,6 +168,17 @@ public class Test {
       e.printStackTrace();
     }
 
+    // count number of weights on each valence bank == NUMBEROFPROCESSINGUNITS choose 2
+    try {
+      TestAgent
+          .setTotalNumberOfProcessingUnitWeights(calculateNumberOfWeightsOnEachValenceBank(TestAgent
+              .getTotalNumberOfProcessingUnits()));
+      log.write("Number of weights on each valence bank: "
+          + TestAgent.getTotalNumberOfProcessingUnitWeights());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     System.out.println("DONE");
   }
