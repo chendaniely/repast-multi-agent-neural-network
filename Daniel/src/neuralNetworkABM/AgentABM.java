@@ -24,8 +24,6 @@ import repast.simphony.util.SimUtilities;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
-import AgentNeuralNetwork;
-
 /**
  * @author Daniel
  * 
@@ -63,14 +61,14 @@ public class AgentABM {
   
   ////////////////////////////////////////////////////////////////////
   // arrays to depict the positive and negative valence banks
-  double[] inputArrayPositiveT    // time t
-  double[] inputArrayPositiveT_1  // time t-1 #premature optimization is the root of all evil
-  double[] inputArrayNegativeT
-  double[] inputArrayNegativeT_1 
-  double[] outputArrayPositiveT
-  double[] outputArrayPositiveT_1
-  double[] outputArrayNegativeT
-  double[] outputArrayNegativeT_1
+  double[] inputArrayPositiveT    = null; // time t
+  double[] inputArrayPositiveT_1  = null; // time t-1 #premature optimization is the root of all evil
+  double[] inputArrayNegativeT    = null;
+  double[] inputArrayNegativeT_1  = null;
+  double[] outputArrayPositiveT   = null;
+  double[] outputArrayPositiveT_1 = null;
+  double[] outputArrayNegativeT   = null;
+  double[] outputArrayNegativeT_1 = null;
   double attitudePositive = 0;
   double attitudeNegative = 0;
   ////////////////////////////////////////////////////////////////////
