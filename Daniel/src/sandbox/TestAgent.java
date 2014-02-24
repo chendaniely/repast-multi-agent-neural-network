@@ -1,11 +1,14 @@
 package sandbox;
 
 public class TestAgent {
-  
+
   private static String processingUnitCSV = null;
-  private static String initializationLog = null; 
+  private static String initializationLog = null;
   private static int totalNumberOfProcessingUnits = -1;
-  
+  private static int totalNumberOfProcessingUnitWeights = -1;
+
+
+
   // GETTERS AND SETTERS
 
   public static String getProcessingUnitCSV() {
@@ -30,6 +33,14 @@ public class TestAgent {
 
   public static void setTotalNumberOfProcessingUnits(int totalNumberOfProcessingUnits) {
     TestAgent.totalNumberOfProcessingUnits = totalNumberOfProcessingUnits;
+  }
+
+  public static int getTotalNumberOfProcessingUnitWeights() {
+    return totalNumberOfProcessingUnitWeights;
+  }
+
+  public static void setTotalNumberOfProcessingUnitWeights(int totalNumberOfProcessingUnitWeights) {
+    TestAgent.totalNumberOfProcessingUnitWeights = totalNumberOfProcessingUnitWeights;
   }
 
 }
