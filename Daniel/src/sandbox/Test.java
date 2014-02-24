@@ -17,32 +17,7 @@ import au.com.bytecode.opencsv.CSVReader;
  */
 public class Test {
 
-  private String logDir = null;
-
-  void readProcessingUnitsCSV() {
-
-  }
-
-  public static void initializeAgentsFromCSV() throws IOException {
-
-    // read in csv, and skips first line (headers)
-    CSVReader reader =
-        new CSVReader(new FileReader(TestAgent.getProcessingUnitCSV()), ',', '\"', 1);
-
-    String[] nextLine;
-
-    while ((nextLine = reader.readNext()) != null) {
-      // njareextLine[] is an array of values from the line
-
-      for (int i = 0; i < nextLine.length; i++) {
-        System.out.print(nextLine[i] + " ");
-      }
-      // System.out.println(nextLine[0] + " " + nextLine[1] + " etc...");
-      System.out.println(nextLine.length);
-
-
-    }
-  }
+  // private String logDir = null;
 
   /**
    * read in the first line of the file to determine how many processing units each module (agent)
@@ -75,6 +50,49 @@ public class Test {
   }
 
   /**
+   * This will take a line and return a double array of processing unit values
+   * 
+   * @return
+   */
+  public double[] readProcessingUnitsCSV() {
+    double[] processingUnitValues = new double[TestAgent.getTotalNumberOfProcessingUnits()];
+
+    return null;
+
+  }
+  
+  /**
+   * This will see how many lines where
+   * @throws IOException
+   */
+
+  public static void initializeAgentsFromCSV() throws IOException {
+
+    // read in csv, and skips first line (headers)
+    CSVReader reader =
+        new CSVReader(new FileReader(TestAgent.getProcessingUnitCSV()), ',', '\"', 1);
+
+    String[] nextLine;
+
+    while ((nextLine = reader.readNext()) != null) {
+      // njareextLine[] is an array of values from the line
+
+      for (int i = 0; i < nextLine.length; i++) {
+        System.out.print(nextLine[i] + " ");
+      }
+      // System.out.println(nextLine[0] + " " + nextLine[1] + " etc...");
+      System.out.println(nextLine.length);
+
+
+    }
+    
+    
+    
+  }
+
+
+
+  /**
    * @param args
    */
   public static void main(String[] args) {
@@ -85,13 +103,15 @@ public class Test {
     try {
       log = new WriteToFile(TestAgent.getInitializationLog());
     } catch (IOException e1) {
+      // TODO Auto-generated catch block
       e1.printStackTrace();
     }
 
     // write test line to file
     try {
-      log.write("hello");
+      log.write("hello!");
     } catch (IOException e1) {
+      // TODO Auto-generated catch block
       e1.printStackTrace();
     }
 
