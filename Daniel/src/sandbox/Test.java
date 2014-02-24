@@ -3,8 +3,11 @@
  */
 package sandbox;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.apache.commons.lang3.StringUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -20,7 +23,7 @@ public class Test {
 
   }
 
-  static void initializeAgentsFromCSV() throws IOException {
+  public static void initializeAgentsFromCSV() throws IOException {
 
     // read in csv, and skips first line (headers)
     CSVReader reader =
@@ -41,7 +44,33 @@ public class Test {
     }
   }
 
-  void countNumberOfProcessingUnits() {
+  /**
+   * read in the first line of the file to determine how many processing units each module (agent)
+   * will have
+   * 
+   * @throws IOException
+   */
+  public static void countNumberOfProcessingUnits() throws IOException {
+
+    BufferedReader br = null;
+
+    br = new BufferedReader(new FileReader(TestAgent.getProcessingUnitCSV()));
+
+    String fLine = br.readLine();
+
+    br.close();
+
+    // System.out.println("first lines: " + fLine);
+
+    // counts number of commas, this will return the number of columns that is not the first row
+    // in our case, this should represent the number of processing units in our csv file
+    int numberOfProcessingUnits = StringUtils.countMatches(fLine, ",");
+
+    // System.out.println(numberOfProcessingUnits);
+
+    // log.write(numberOfProcessingUnits);
+
+    TestAgent.setTotalNumberOfProcessingUnits(numberOfProcessingUnits);
 
   }
 
@@ -49,15 +78,17 @@ public class Test {
    * @param args
    */
   public static void main(String[] args) {
-    
+
     // setting up the log file
     WriteToFile log = null;
+    TestAgent.setInitializationLog("./src/sandbox/testLog.log");
     try {
-      log = new WriteToFile("./src/sandbox/testLog.log");
+      log = new WriteToFile(TestAgent.getInitializationLog());
     } catch (IOException e1) {
       e1.printStackTrace();
     }
 
+    // write test line to file
     try {
       log.write("hello");
     } catch (IOException e1) {
@@ -65,19 +96,27 @@ public class Test {
     }
 
     // print working directory
-    System.out.println(System.getProperty("user.dir"));
+    try {
+      log.write("current working directory: " + System.getProperty("user.dir"));
+    } catch (IOException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
 
     // TestAgent initializeClassVariables = new TestAgent();
     TestAgent.setProcessingUnitCSV("./src/sandbox/AgentProcessigUnitValues.csv");
 
+    // count number of processing units needed, this will later initialize the agent arrays
     try {
-      initializeAgentsFromCSV();
+      countNumberOfProcessingUnits();
+      log.write("Number of processing units: " + TestAgent.getTotalNumberOfProcessingUnits());
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
 
+    System.out.println("DONE");
   }
 
 
