@@ -80,7 +80,8 @@ public class Test {
   }
 
   /**
-   * This will see how many lines where
+   * This will see how many lines are in the csv initialization file this will determine how many
+   * agents to make
    * 
    * @throws IOException
    */
