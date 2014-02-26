@@ -25,16 +25,19 @@ public class TestAgent {
   // Member variables
 
   /* @formatter:off */
+  // input
   double[] positiveInputProcessingUnitsT0   = null;
   double[] negativeInputProcessingUnitsT0   = null;
   double[] positiveInputProcessingUnitsT_1  = null;
   double[] negativeInputProcessingUnitsT_1  = null;
 
+  // output
   double[] positiveOutputProcessingUnitsT0  = null;
   double[] negativeOutputProcessingUnitsT0  = null;
   double[] positiveOutputProcessingUnitsT_1 = null;
   double[] negativeOutputProcessingUnitsT_1 = null;
 
+  // weights
   double[] positiveWeightProcessingUnit = null;
   double[] negativeWeightProcessingUnit = null;
 
@@ -61,7 +64,7 @@ public class TestAgent {
    * 
    * @param processingUnitsPerBank
    */
-  public void initializeFromCSV() {
+  public void initializeValuesFromCSV() {
     /* @formatter:off */
     this.positiveInputProcessingUnitsT0   = new double[totalNumberOfProcessingUnits / numberOfValenceBanks];
     this.negativeInputProcessingUnitsT0   = new double[totalNumberOfProcessingUnits / numberOfValenceBanks];
@@ -75,6 +78,29 @@ public class TestAgent {
     this.positiveOutputProcessingUnitsT_1 = new double[totalNumberOfProcessingUnits / numberOfValenceBanks];
     this.negativeOutputProcessingUnitsT_1 = new double[totalNumberOfProcessingUnits / numberOfValenceBanks];
     /* @formatter:on */
+  }
+
+  /**
+   * this method is hardcoded
+   */
+  public void initializeWeightsFromCSV() {
+    // int bankConnections = 10;
+    positiveWeightProcessingUnit = new double[] {-1.0, -0.8, -0.6, -0.4,    // 0
+                                                 -0.2, 0.3, 0.5,            // 1
+                                                 0.7, 0.9,                  // 2
+                                                 1.0};                      // 3
+  }
+  
+  public double calculateValenceBankInput() {
+    double input = 0;
+
+    for (int i = 0; i < totalNumberOfProcessingUnits / numberOfValenceBanks; i++) {
+
+    }
+
+
+    return input;
+
   }
 
   // Instance Methods
