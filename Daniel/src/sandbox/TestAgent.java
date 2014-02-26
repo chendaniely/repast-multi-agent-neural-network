@@ -37,9 +37,9 @@ public class TestAgent {
   double[] positiveWeightProcessingUnit = null;
   double[] negativeWeightProcessingUnit = null;
 
-  double weightBetweenValenceBanks = null;
+  double weightBetweenValenceBanks = 0;
 
-  double weightCorespondingModule = null;
+  double weightCorespondingModule = 0;
 
   private int agentID = 0;
   ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
