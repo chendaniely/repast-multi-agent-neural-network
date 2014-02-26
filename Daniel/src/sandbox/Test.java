@@ -69,45 +69,6 @@ public class Test {
 
   }
 
-  /**
-   * This will take a line and return a double array of processing unit values
-   * positive processing units for beliefs are even in the csv and 
-   * 
-   * @return
-   */
-  public double[] readProcessingUnitsCSV(String positiveOrNegativeBank) {
-    //
-    double[] valenceBankValues = new double[(TestAgent.getTotalNumberOfProcessingUnits())/2];
-
-    if (positiveOrNegativeBank == "positive") {
-      for (int i = 1; i < valenceBankValues.length; i = i + 2) {
-        
-      }
-    }
-    return null;
-
-  }
-
-  /**
-   * This will see how many lines are in the csv initialization file this will determine how many
-   * agents to make we can do this by looping through the csv while there is a next entry to create
-   * agents
-   * 
-   * @throws IOException
-   */
-
-  /**
-   * each unit determines its net input based on external input to the unit and activations of all
-   * the units at the end of the preceding tick modulated by the weight coefficients
-   * 
-   * @throws IOException
-   */
-  public double calculateInputs() {
-
-
-    return 0;
-
-  }
 
   /**
    * Method will initialize x number of agents, depending on how many non empty rows are in the csv
@@ -124,14 +85,16 @@ public class Test {
     String[] nextLine;
 
     while ((nextLine = reader.readNext()) != null) {
-      // njareextLine[] is an array of values from the line
+      // nextLine[] is an array of values from the line
 
       TestAgent agent = new TestAgent();
-      agent.initializeFromCSV(TestAgent.getTotalNumberOfProcessingUnits());
+      agent.initializeFromCSV();
 
       for (String string : nextLine) {
         System.out.print(string + ", ");
       }
+
+      agent.initializeValenceBanks(nextLine);
       System.out.print('\n');
 
     }
