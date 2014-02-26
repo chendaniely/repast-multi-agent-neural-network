@@ -90,7 +90,7 @@ public class Test {
       // nextLine[] is an array of values from the line
 
       TestAgent agent = new TestAgent();
-      agent.initializeFromCSV();
+      agent.initializeValuesFromCSV();
       agent.setAgentID(i);
 
       // hard code agents into agent 1
