@@ -178,6 +178,7 @@ public class Test {
     // create and initialize agents from CSV
     try {
       initializeAgentsFromCSV();
+      log.write("Agent loaded from CSV files");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
