@@ -1,7 +1,10 @@
 package sandbox;
 
+import java.util.ArrayList;
+
 public class TestAgent {
 
+  // Static class variables
   // file where the processing unit csv is
   private static String processingUnitCSV = null;
 
@@ -19,6 +22,8 @@ public class TestAgent {
   // number of valence banks in agent
   private static int numberOfValenceBanks = 2;
 
+  // Member variables
+
   double[] positiveInputProcessingUnitsT0 = null;
   double[] negativeInputProcessingUnitsT0 = null;
   double[] positiveInputProcessingUnitsT_1 = null;
@@ -29,11 +34,14 @@ public class TestAgent {
   double[] positiveOutputProcessingUnitsT_1 = null;
   double[] negativeOutputProcessingUnitsT_1 = null;
 
+  private int agentID = 0;
+  ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
+
   // Constructor(s)
   public TestAgent() {
-    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
     /* @formatter:off */
-    System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits / numberOfValenceBanks);
+    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);                      // Print
+    System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits / numberOfValenceBanks); // 
     /* @formatter:on */
   }
 
@@ -68,16 +76,17 @@ public class TestAgent {
    * @return
    */
   public void initializeValenceBanks(String[] nextLine) {
-    // /////////////////
-    System.out.print('\n');
-    for (String string : nextLine) {
-      System.out.print(string + ", ");
-    }
-    System.out.print('\n');
-    // //////////////////////
 
-    // skip the first index
+    /* @formatter:off */
+    System.out.print("\nFrom TestAgent Class: ");   //
+    for (String string : nextLine) {                // Print statements
+      System.out.print(string + ", ");              //
+    }                                               //
+    System.out.print('\n');                         //
+    /* @formatter:on */
+
     int j = 0;
+    // skip the first index
     for (int i = 1; i < nextLine.length; i++) {
       Double doubleOfStringValue = Double.valueOf(nextLine[i]);
 
@@ -93,12 +102,22 @@ public class TestAgent {
       }
 
     }
-    for (int i = 0; i < (totalNumberOfProcessingUnits / numberOfValenceBanks); i++) {
-      System.out.println("+ " + positiveInputProcessingUnitsT_1[i] + " | - "
-          + negativeInputProcessingUnitsT_1[i]);
-    }
+    /* @formatter:off */
+    for (int i = 0; i < (totalNumberOfProcessingUnits / numberOfValenceBanks); i++) {   // Print
+      System.out.println("+ " + positiveInputProcessingUnitsT_1[i] + " | - "            //
+          + negativeInputProcessingUnitsT_1[i]);                                        //
+    }                                                                                   //
+    /* @formatter:on */
   }
 
+  /**
+   * this will take doubles from each of the different forms of input, and calculate/return output
+   * 
+   * @param sameBank
+   * @param oppositeProcessingUnit
+   * @param correspondingAgent
+   * @return
+   */
   public double calculateOutputFromInputs(double sameBank, double oppositeProcessingUnit,
       double correspondingAgent) {
     double output = 0;
@@ -109,6 +128,14 @@ public class TestAgent {
 
 
   // GETTERS AND SETTERS
+
+  public int getAgentID() {
+    return agentID;
+  }
+
+  public void setAgentID(int agentID) {
+    this.agentID = agentID;
+  }
 
   public static String getProcessingUnitCSV() {
     return processingUnitCSV;
