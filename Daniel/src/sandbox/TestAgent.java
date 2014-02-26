@@ -15,12 +15,12 @@ public class TestAgent {
   // this represents the combination of processing units in each valence bank CHOOSE 2 (since each
   // processing unit will be connected to the other processing units in each valence bank)
   private static int totalNumberOfProcessingUnitWeights = -1;
-  
+
   double[] positiveInputProcessingUnitsT0 = null;
   double[] negativeInputProcessingUnitsT0 = null;
   double[] positiveInputProcessingUnitsT_1 = null;
   double[] negativeInputProcessingUnitsT_1 = null;
-  
+
   double[] positiveOutputProcessingUnitsT0 = null;
   double[] negativeOutputProcessingUnitsT0 = null;
   double[] positiveOutputProcessingUnitsT_1 = null;
@@ -33,9 +33,18 @@ public class TestAgent {
    * @param processingUnitsPerBank
    */
   public void initializeFromCSV(int processingUnitsPerBank) {
+    
+    this.positiveInputProcessingUnitsT0   = new double[processingUnitsPerBank]; 
+    this.negativeInputProcessingUnitsT0   = new double[processingUnitsPerBank]; 
+    this.positiveInputProcessingUnitsT_1  = new double[processingUnitsPerBank];
+    this.negativeInputProcessingUnitsT_1  = new double[processingUnitsPerBank];
+
+    this.positiveOutputProcessingUnitsT0  = new double[processingUnitsPerBank];
+    this.negativeOutputProcessingUnitsT0  = new double[processingUnitsPerBank];
+    this.positiveOutputProcessingUnitsT_1 = new double[processingUnitsPerBank];
+    this.negativeOutputProcessingUnitsT_1 = new double[processingUnitsPerBank];
 
   }
-
 
 
   // GETTERS AND SETTERS
