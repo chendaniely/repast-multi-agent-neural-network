@@ -13,6 +13,8 @@ import org.apache.commons.math3.util.ArithmeticUtils;
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
+ * Think of this as the context builder in REPAST
+ * 
  * @author dchen
  * 
  */
@@ -22,11 +24,11 @@ public class Test {
 
   /**
    * read in the first line of the file to determine how many processing units each module (agent)
-   * will have
+   * will have, this includes both the positive and negative processing units for each belief
    * 
    * @throws IOException
    */
-  public static int countNumberOfProcessingUnits() throws IOException {
+  public static int countTotalNumberOfProcessingUnits() throws IOException {
 
     BufferedReader br = null;
 
@@ -40,13 +42,13 @@ public class Test {
 
     // counts number of commas, this will return the number of columns that is not the first row
     // in our case, this should represent the number of processing units in our csv file
-    int numberOfProcessingUnits = StringUtils.countMatches(fLine, ",");
+    int totalNumberOfProcessingUnits = StringUtils.countMatches(fLine, ",");
 
     // System.out.println(numberOfProcessingUnits);
 
     // log.write(numberOfProcessingUnits);
 
-    return numberOfProcessingUnits;
+    return totalNumberOfProcessingUnits;
 
   }
 
@@ -69,19 +71,27 @@ public class Test {
 
   /**
    * This will take a line and return a double array of processing unit values
+   * positive processing units for beliefs are even in the csv and 
    * 
    * @return
    */
-  public double[] readProcessingUnitsCSV() {
-    double[] processingUnitValues = new double[TestAgent.getTotalNumberOfProcessingUnits()];
+  public double[] readProcessingUnitsCSV(String positiveOrNegativeBank) {
+    //
+    double[] valenceBankValues = new double[(TestAgent.getTotalNumberOfProcessingUnits())/2];
 
+    if (positiveOrNegativeBank == "positive") {
+      for (int i = 1; i < valenceBankValues.length; i = i + 2) {
+        
+      }
+    }
     return null;
 
   }
 
   /**
    * This will see how many lines are in the csv initialization file this will determine how many
-   * agents to make
+   * agents to make we can do this by looping through the csv while there is a next entry to create
+   * agents
    * 
    * @throws IOException
    */
@@ -99,9 +109,15 @@ public class Test {
 
   }
 
+  /**
+   * Method will initialize x number of agents, depending on how many non empty rows are in the csv
+   * file
+   * 
+   * @throws IOException
+   */
   public static void initializeAgentsFromCSV() throws IOException {
 
-    // read in csv, and skips first line (headers)
+    // read in csv, skips first line (headers), commas as delimiters between double-quoted strings
     CSVReader reader =
         new CSVReader(new FileReader(TestAgent.getProcessingUnitCSV()), ',', '\"', 1);
 
@@ -110,17 +126,16 @@ public class Test {
     while ((nextLine = reader.readNext()) != null) {
       // njareextLine[] is an array of values from the line
 
-      for (int i = 0; i < nextLine.length; i++) {
-        System.out.print(nextLine[i] + " ");
-      }
-      // System.out.println(nextLine[0] + " " + nextLine[1] + " etc...");
-      System.out.println(nextLine.length);
+      TestAgent agent = new TestAgent();
+      agent.initializeFromCSV(TestAgent.getTotalNumberOfProcessingUnits());
 
+      for (String string : nextLine) {
+        System.out.print(string + ", ");
+      }
+      System.out.print('\n');
 
     }
-
-
-
+    reader.close();
   }
 
 
@@ -162,20 +177,28 @@ public class Test {
 
     // count number of processing units in file, this will later initialize the agent arrays
     try {
-      TestAgent.setTotalNumberOfProcessingUnits(countNumberOfProcessingUnits());
+      TestAgent.setTotalNumberOfProcessingUnits(countTotalNumberOfProcessingUnits());
       log.write("Number of processing units: " + TestAgent.getTotalNumberOfProcessingUnits());
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
-    // count number of weights on each valence bank == NUMBEROFPROCESSINGUNITS choose 2
+    // count number of weights on each valence bank: NUMBEROFPROCESSINGUNITS choose 2
     try {
       TestAgent
           .setTotalNumberOfProcessingUnitWeights(calculateNumberOfWeightsOnEachValenceBank(TestAgent
               .getTotalNumberOfProcessingUnits()));
       log.write("Number of weights on each valence bank: "
           + TestAgent.getTotalNumberOfProcessingUnitWeights());
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    // create and initialize agents from CSV
+    try {
+      initializeAgentsFromCSV();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
