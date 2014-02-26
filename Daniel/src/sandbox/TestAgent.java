@@ -24,13 +24,14 @@ public class TestAgent {
 
   // Member variables
 
-  double[] positiveInputProcessingUnitsT0 = null;
-  double[] negativeInputProcessingUnitsT0 = null;
-  double[] positiveInputProcessingUnitsT_1 = null;
-  double[] negativeInputProcessingUnitsT_1 = null;
+  /* @formatter:off */
+  double[] positiveInputProcessingUnitsT0   = null;
+  double[] negativeInputProcessingUnitsT0   = null;
+  double[] positiveInputProcessingUnitsT_1  = null;
+  double[] negativeInputProcessingUnitsT_1  = null;
 
-  double[] positiveOutputProcessingUnitsT0 = null;
-  double[] negativeOutputProcessingUnitsT0 = null;
+  double[] positiveOutputProcessingUnitsT0  = null;
+  double[] negativeOutputProcessingUnitsT0  = null;
   double[] positiveOutputProcessingUnitsT_1 = null;
   double[] negativeOutputProcessingUnitsT_1 = null;
 
@@ -43,11 +44,13 @@ public class TestAgent {
 
   private int agentID = 0;
   ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
+  /* @formatter:on */
+
 
   // Constructor(s)
   public TestAgent() {
     /* @formatter:off */
-    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);                      // Print
+    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);                             // Print
     System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits / numberOfValenceBanks); // 
     /* @formatter:on */
   }
