@@ -84,19 +84,35 @@ public class Test {
 
     String[] nextLine;
 
+    int i = 0;
     while ((nextLine = reader.readNext()) != null) {
+      i++;
       // nextLine[] is an array of values from the line
 
       TestAgent agent = new TestAgent();
       agent.initializeFromCSV();
+      agent.setAgentID(i);
 
-      for (String string : nextLine) {
-        System.out.print(string + ", ");
+      // hard code agents into agent 1
+      if (agent.getAgentID() == 1) {
+        agent.agentsWhoInfluenceMe.add(2);
       }
 
-      agent.initializeValenceBanks(nextLine);
-      System.out.print('\n');
 
+      /* @formatter:off */
+      System.out.print("From Test class:      ");                       //
+      for (String string : nextLine) {                                  // Print Statements
+        System.out.print(string + ", ");                                //
+      }                                                                 //
+      /* @formatter:on */
+
+      agent.initializeValenceBanks(nextLine);
+
+      System.out.print("Agents who influence me: ");
+      for (Integer agentWhoInfluencesMe : agent.agentsWhoInfluenceMe) {
+        System.out.print(agentWhoInfluencesMe + ", ");
+      }
+      System.out.println("\n");
     }
     reader.close();
   }
