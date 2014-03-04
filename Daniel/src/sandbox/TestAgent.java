@@ -48,6 +48,11 @@ public class TestAgent {
   private int agentID = 0;
   ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
   /* @formatter:on */
+  
+  // test cases
+  double testPosProssUnit1 = .1;
+  double[] testPosValBank = new double[] {.3, .5, .7, .9};
+  double[] testPosValBankWeights = new double[] {-1.0, -.8, -.6, -.4};
 
 
   // Constructor(s)
@@ -90,17 +95,62 @@ public class TestAgent {
                                                  0.7, 0.9,                  // 2
                                                  1.0};                      // 3
   }
+  // TODO generate method that will dynamically create what the value and weight arrays will be
+  /**
+   * takes in an int (that corresponds to the array index)
+   * takes the list of weights, and generates a new list with the corresponding weights
+   */
   
-  public double calculateValenceBankInput() {
-    double input = 0;
+  /**
+   * takes 2 lists, first are the values of the same valence bank
+   * second is a list of weights between each valence bank
+   * this method is also hard coded (for the time being)
+   * @return
+   */
+  public double calculateValenceBankInput(double[] values, double[] weights) {
+    double input = .1;
 
-    for (int i = 0; i < totalNumberOfProcessingUnits / numberOfValenceBanks; i++) {
-
+    for (int i = 0; i < totalNumberOfProcessingUnits / numberOfValenceBanks - 1; i++) {
+      // minus one is becuase we do not need to count the processing unit's weight to itself
+      System.out.println("index: " + i);
+      System.out.println("input: " + input);
+      System.out.println("value: " + values[i] + " weight: " + weights[i]);
+      input += (values[i] * weights[i]);
+      System.out.println(input);
+      
     }
-
-
     return input;
-
+  }
+  
+  public double calculateOppositeProcessingUnit(double input){
+    System.out.println("opposite processing unit: " + input);
+    input = input*-.2;
+    
+    System.out.println("final input from Opposite Processing unit: " + input);
+    return input;
+  }
+  
+  /**
+   * takes in an array of all the corresponding inputs,
+   * sums them, mult by 5
+   * @param input
+   * @return
+   */
+  public double calculateCorrespondingProcessingUnit(double[] input){
+    double output = 0;
+    double total = 0;
+    for (int i = 0; i < input.length; i++){
+      total += input[i];
+    }
+    output = total * .5;
+    return output;
+  }
+  
+  public double convertToLogit(double input){
+    input =  (1.0 / (1 + Math.exp(input)));
+    
+    return input;
+    
   }
 
   // Instance Methods
