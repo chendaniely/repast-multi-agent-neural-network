@@ -183,7 +183,17 @@ public class Test {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
+    
+    TestAgent testAgent = new TestAgent();
+    double valenceInput = testAgent.calculateValenceBankInput(testAgent.testPosValBank, testAgent.testPosValBankWeights);
+    double oppositeInput = testAgent.calculateOppositeProcessingUnit(.2);
+    double[] allCorresponding = new double[] {.2};
+    double correspondingInput = testAgent.calculateCorrespondingProcessingUnit(allCorresponding);
+    // System.out.println(correspondingInput);
+    double totalInput = valenceInput + oppositeInput + correspondingInput;
+    
+    System.out.println(testAgent.convertToLogit(totalInput));
+    
     System.out.println("DONE");
   }
 
