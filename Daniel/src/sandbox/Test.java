@@ -194,6 +194,13 @@ public class Test {
     
     System.out.println(testAgent.convertToLogit(totalInput));
     
+    try {
+      testAgent.initializeWeightsFromCSV("AgentProcessigUnitWeights.csv");
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
     System.out.println("DONE");
   }
 
