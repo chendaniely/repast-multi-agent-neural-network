@@ -1,6 +1,10 @@
 package sandbox;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 public class TestAgent {
 
@@ -87,13 +91,22 @@ public class TestAgent {
 
   /**
    * this method is hardcoded
+   * @throws IOException 
    */
-  public void initializeWeightsFromCSV() {
+  public void initializeWeightsFromCSV(String csvWeightFile) throws IOException {
     // int bankConnections = 10;
-    positiveWeightProcessingUnit = new double[] {-1.0, -0.8, -0.6, -0.4,    // 0
-                                                 -0.2, 0.3, 0.5,            // 1
-                                                 0.7, 0.9,                  // 2
-                                                 1.0};                      // 3
+//    positiveWeightProcessingUnit = new double[] {-1.0, -0.8, -0.6, -0.4,    // 0
+//                                                 -0.2, 0.3, 0.5,            // 1
+//                                                 0.7, 0.9,                  // 2
+//                                                 1.0};                      // 3
+    CSVReader reader = new CSVReader(new FileReader(csvWeightFile));
+    String [] nextLine;
+    int i = 0;
+    // find the line of interest that represents the current agent's weight values
+    while ((nextLine = reader.readNext()) != null) {
+      System.out.println(nextLine[0] + nextLine[1] + "etc...");
+    }
+    
   }
   // TODO generate method that will dynamically create what the value and weight arrays will be
   /**
