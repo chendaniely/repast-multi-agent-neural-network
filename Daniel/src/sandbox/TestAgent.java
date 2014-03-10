@@ -1,6 +1,10 @@
 package sandbox;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 public class TestAgent {
 
@@ -22,18 +26,18 @@ public class TestAgent {
   // number of valence banks in agent
   private static int numberOfValenceBanks = 2;
 
-  // Member variables
+  private Initialization initialization = new Initialization();
 
-  /* @formatter:off */
+  // Instance variables
   // input
-  double[] positiveInputProcessingUnitsT0   = null;
-  double[] negativeInputProcessingUnitsT0   = null;
-  double[] positiveInputProcessingUnitsT_1  = null;
-  double[] negativeInputProcessingUnitsT_1  = null;
+  double[] positiveInputProcessingUnitsT0 = null;
+  double[] negativeInputProcessingUnitsT0 = null;
+  double[] positiveInputProcessingUnitsT_1 = null;
+  double[] negativeInputProcessingUnitsT_1 = null;
 
   // output
-  double[] positiveOutputProcessingUnitsT0  = null;
-  double[] negativeOutputProcessingUnitsT0  = null;
+  double[] positiveOutputProcessingUnitsT0 = null;
+  double[] negativeOutputProcessingUnitsT0 = null;
   double[] positiveOutputProcessingUnitsT_1 = null;
   double[] negativeOutputProcessingUnitsT_1 = null;
 
@@ -45,10 +49,10 @@ public class TestAgent {
 
   double weightCorespondingModule = 0;
 
+  // Variables unique to each agent
   private int agentID = 0;
   ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
-  /* @formatter:on */
-  
+
   // test cases
   double testPosProssUnit1 = .1;
   double[] testPosValBank = new double[] {.3, .5, .7, .9};
@@ -57,10 +61,55 @@ public class TestAgent {
 
   // Constructor(s)
   public TestAgent() {
-    /* @formatter:off */
-    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);                             // Print
-    System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits / numberOfValenceBanks); // 
-    /* @formatter:on */
+    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
+    System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits
+        / getNumberOfValenceBanks());
+  }
+
+  /**
+   * Method will initialize x number of agents, depending on how many non empty rows are in the csv
+   * file
+   * 
+   * @throws IOException
+   */
+  public static void createAgentsFromCSV() throws IOException {
+
+    // read in csv, skips first line (headers), commas as delimiters between double-quoted strings
+    CSVReader reader =
+        new CSVReader(new FileReader(TestAgent.getProcessingUnitCSV()), ',', '\"', 1);
+
+    String[] nextLine;
+
+    int i = 0;
+    while ((nextLine = reader.readNext()) != null) {
+      Initialization initialization = new Initialization();
+      
+      i++;
+      // nextLine[] is an array of values from the line
+
+      TestAgent testAgent = new TestAgent();
+      initialization.initializeProcessingUnitsFromCSV();
+      testAgent.setAgentID(i);
+
+      // hard code agents into agent 1
+      if (testAgent.getAgentID() == 1) {
+        testAgent.agentsWhoInfluenceMe.add(2);
+      }
+
+      System.out.print("From Test class:      ");
+      for (String string : nextLine) {
+        System.out.print(string + ", ");
+      }
+
+      initialization.initializeValenceBanks(nextLine);
+
+      System.out.print("Agents who influence me: ");
+      for (Integer agentWhoInfluencesMe : testAgent.agentsWhoInfluenceMe) {
+        System.out.print(agentWhoInfluencesMe + ", ");
+      }
+      System.out.println("\n");
+    }
+    reader.close();
   }
 
   // GETTERS AND SETTERS
@@ -95,6 +144,14 @@ public class TestAgent {
 
   public static void setTotalNumberOfProcessingUnits(int totalNumberOfProcessingUnits) {
     TestAgent.totalNumberOfProcessingUnits = totalNumberOfProcessingUnits;
+  }
+
+  public static int getNumberOfValenceBanks() {
+    return numberOfValenceBanks;
+  }
+
+  public static void setNumberOfValenceBanks(int numberOfValenceBanks) {
+    TestAgent.numberOfValenceBanks = numberOfValenceBanks;
   }
 
   public static int getTotalNumberOfProcessingUnitWeights() {
