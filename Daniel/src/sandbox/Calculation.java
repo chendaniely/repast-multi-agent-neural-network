@@ -6,30 +6,32 @@ public class Calculation {
 
   TestAgent testAgent = null;
 
+  public Calculation() {
+
+  }
+
   public Calculation(TestAgent testAgent) {
     this.testAgent = testAgent;
   }
 
 
   /**
-   * Example: for 5 valence banks, it will calculate the combinations of 5C2 = 4+3+2+1 = 10 10
-   * choose 2 = 45
+   * takes in an int value for total # of processing units in each bank this will be calculated via
+   * nCr Example: for 5 PU's in each valence banks, it will calculate the combinations of 5C2 =
+   * 4+3+2+1 = 10 10 choose 2 = 45
    * 
-   * @return
+   * @return int that represents the number of weights
    */
-  public static int calculateNumberOfWeightsOnEachValenceBank(int totalProcessingUnits) {
-
+  public int calculateNumberOfWeightsOnEachValenceBank(int numberProcessingUnitsEachBank) {
     long numberOfWeightsOnEachValenceBank =
-        ArithmeticUtils.binomialCoefficient(totalProcessingUnits, 2);
-
-    // System.out.println(numberOfWeightsOnEachValenceBank);
-
+        ArithmeticUtils.binomialCoefficient(numberProcessingUnitsEachBank, 2);
     return (int) numberOfWeightsOnEachValenceBank;
 
   }
 
   /**
    * this will take doubles from each of the different forms of input, and calculate/return output
+   * it will sum up the inputs and do a logit transform
    * 
    * @param sameBank
    * @param oppositeProcessingUnit
@@ -38,9 +40,8 @@ public class Calculation {
    */
   public double calculateOutputFromInputs(double sameBank, double oppositeProcessingUnit,
       double correspondingAgent) {
-    double output = 0;
-
-    return output;
+    double output = sameBank + oppositeProcessingUnit + correspondingAgent;
+    return convertToLogit(output);
 
   }
 
@@ -55,7 +56,7 @@ public class Calculation {
 
     for (int i = 0; i < testAgent.getTotalNumberOfProcessingUnits()
         / testAgent.getNumberOfValenceBanks() - 1; i++) {
-      
+
       // minus one is because we do not need to count the processing unit's weight to itself
       System.out.println("index: " + i);
       System.out.println("input: " + input);
@@ -93,9 +94,7 @@ public class Calculation {
 
   public double convertToLogit(double input) {
     input = (1.0 / (1 + Math.exp(input)));
-
     return input;
-
   }
 
 }
