@@ -29,21 +29,18 @@ public class Test {
     // read in csv, commas as delimiters between double-quoted strings, skips first line (headers),
     CSVReader reader = new CSVReader(new FileReader(CFG.PROCESSING_UNIT_VALUES_CSV), ',', '\"', 1);
 
+    // nextLine[] is an array of values from the line
     String[] nextLine;
 
-    int i = 0;
+    int agendID = 0;
     while ((nextLine = reader.readNext()) != null) {
-      // Initialization initialization = new Initialization();
-
-      i++;
-      // nextLine[] is an array of values from the line
+      agendID++;
 
       TestAgent testAgent = new TestAgent();
-      // initialization.initializeProcessingUnitsFromCSV();
 
       // there is no agent 0, i has already been incremented so agents start with 1,
       // this will match the agent numbering in the CSV file
-      testAgent.setAgentID(i);
+      testAgent.setAgentID(agendID);
 
       // hard code agents into agent 1
       if (testAgent.getAgentID() == 1) {
@@ -59,19 +56,26 @@ public class Test {
       // why is this assert statement not doing its job?!?!?
       assert (testAgent.getAgentID() == agentNumber);
 
-      // assign the value array into each agent
-      System.out.print("From Test class: ");
-      for (String string : nextLine) {
-        System.out.print(string + ", ");
-      }
-      System.out.println("");
-      String[] values = Arrays.copyOfRange(nextLine, 1, nextLine.length); 
-      for (String string : values){
-        double value = Double.parseDouble(string);
-        System.out.println(value);
-      }
 
-      // initialization.initializeValenceBanks(nextLine);
+//      // assign the value array into each agent
+//      System.out.print("From Test class: ");
+//      for (String string : nextLine) {
+//        System.out.print(string + ", ");
+//      }
+//      System.out.println("");
+      String[] values = Arrays.copyOfRange(nextLine, 1, nextLine.length);
+      double[] valuesD = new double[values.length];
+      for (int i = 0; i < valuesD.length; i++) {
+        valuesD[i] = Double.parseDouble(values[i]);
+      }
+//      for (String string : values) {
+//        double value = Double.parseDouble(string);
+//        System.out.print(value + "\t");
+//      }
+//      System.out.println("");
+//      for (Double doublev : valuesD) {
+//        System.out.print(doublev + "\t");
+//      }
 
       System.out.print("Agents who influence me: ");
       for (Integer agentWhoInfluencesMe : testAgent.agentsWhoInfluenceMe) {
