@@ -6,9 +6,6 @@ public class TestAgent {
 
   // Static class variables
   private static int numAgentsCreated = 0;
-  
-  // file where the processing unit csv is
-  private static String processingUnitCSV = null;
 
   // file where the agent log is
   private static String initializationLog = null;
@@ -73,14 +70,6 @@ public class TestAgent {
 
   public void setAgentID(int agentID) {
     this.agentID = agentID;
-  }
-
-  public static String getProcessingUnitCSV() {
-    return processingUnitCSV;
-  }
-
-  public static void setProcessingUnitCSV(String processingUnitCSV) {
-    TestAgent.processingUnitCSV = processingUnitCSV;
   }
 
   public static String getInitializationLog() {
