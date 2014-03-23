@@ -6,8 +6,13 @@ public class Generation {
 
   }
 
+  public double[] generatePosNegValuesFromAllValues(double[] listOfAllValues) {
+
+    return null;
+  }
+
   public double[] generateValenceBankWeights(int puIndex, int numberOfPUInEachVB, double[] VBWeights) {
-    
+
     return VBWeights;
 
   }
