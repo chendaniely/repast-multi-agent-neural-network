@@ -1,10 +1,7 @@
 package sandbox;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import org.apache.commons.lang3.StringUtils;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -18,70 +15,6 @@ public class Initialization {
 
   public Initialization(TestAgent testAgent) {
     this.testAgent = testAgent;
-  }
-
-  // TODO might move this to calculate
-  /**
-   * read in the first line of the file to determine how many processing units each module (agent)
-   * will have, this includes both the positive and negative processing units for each belief the
-   * method determines the total number of processing units by counting the number of commas in the
-   * first line (aka the line of variables)
-   * 
-   * @throws IOException
-   */
-  public int countTotalNumberOfProcessingUnits(String csv) throws IOException {
-
-    BufferedReader br = null;
-
-    br = new BufferedReader(new FileReader(csv));
-
-    String fLine = br.readLine();
-
-    br.close();
-
-    // System.out.println("first lines: " + fLine);
-
-    // counts number of commas, this will return the number of columns - 1, this should represent
-    // the number of processing units in our csv file
-    int totalNumberOfProcessingUnits = StringUtils.countMatches(fLine, ",");
-
-    // System.out.println(totalNumberOfProcessingUnits);
-
-    // log.write(numberOfProcessingUnits);
-
-    return totalNumberOfProcessingUnits;
-
-  }
-
-  // TODO might move this to calculate
-  /**
-   * This method will take in the totalNumberOfProcessingUnits and number of valenceOfValenceBanks
-   * and return an int that will represent the number of elements for the 8 arrays used in the
-   * agents
-   * 
-   * @return numberOfProcessingUnitsForEachArray
-   * @param totalNumberOfProcessingUnits
-   * @param numberOfValenceBanks
-   */
-  public int initializeProcessingUnitsFromCSV(int totalNumberOfProcessingUnits,
-      int numberOfValenceBanks) {
-    int numberOfProcessingUnitsForEachArray = totalNumberOfProcessingUnits / numberOfValenceBanks;
-    // System.out.println(calculation);
-    return numberOfProcessingUnitsForEachArray;
-
-    // testAgent.positiveInputProcessingUnitsT0 = new double[calculation];
-    // testAgent.negativeInputProcessingUnitsT0 = new double[calculation];
-    //
-    // testAgent.positiveInputProcessingUnitsT_1 = new double[calculation];
-    // testAgent.negativeInputProcessingUnitsT_1 = new double[calculation];
-    //
-    // testAgent.positiveOutputProcessingUnitsT0 = new double[calculation];
-    // testAgent.negativeOutputProcessingUnitsT0 = new double[calculation];
-    //
-    // testAgent.positiveOutputProcessingUnitsT_1 = new double[calculation];
-    // testAgent.negativeOutputProcessingUnitsT_1 = new double[calculation];
-
-    // System.out.println("hello");
   }
 
   /**
