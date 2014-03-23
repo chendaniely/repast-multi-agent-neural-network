@@ -1,14 +1,12 @@
 package sandbox;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 public class TestAgent {
 
   // Static class variables
+  private static int numAgentsCreated = 0;
+  
   // file where the processing unit csv is
   private static String processingUnitCSV = null;
 
@@ -61,55 +59,10 @@ public class TestAgent {
 
   // Constructor(s)
   public TestAgent() {
-    System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
-    System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits
-        / getNumberOfValenceBanks());
-  }
-
-  /**
-   * Method will initialize x number of agents, depending on how many non empty rows are in the csv
-   * file
-   * 
-   * @throws IOException
-   */
-  public static void createAgentsFromCSV() throws IOException {
-
-    // read in csv, skips first line (headers), commas as delimiters between double-quoted strings
-    CSVReader reader =
-        new CSVReader(new FileReader(TestAgent.getProcessingUnitCSV()), ',', '\"', 1);
-
-    String[] nextLine;
-
-    int i = 0;
-    while ((nextLine = reader.readNext()) != null) {
-      Initialization initialization = new Initialization();
-      
-      i++;
-      // nextLine[] is an array of values from the line
-
-      TestAgent testAgent = new TestAgent();
-      initialization.initializeProcessingUnitsFromCSV();
-      testAgent.setAgentID(i);
-
-      // hard code agents into agent 1
-      if (testAgent.getAgentID() == 1) {
-        testAgent.agentsWhoInfluenceMe.add(2);
-      }
-
-      System.out.print("From Test class:      ");
-      for (String string : nextLine) {
-        System.out.print(string + ", ");
-      }
-
-      initialization.initializeValenceBanks(nextLine);
-
-      System.out.print("Agents who influence me: ");
-      for (Integer agentWhoInfluencesMe : testAgent.agentsWhoInfluenceMe) {
-        System.out.print(agentWhoInfluencesMe + ", ");
-      }
-      System.out.println("\n");
-    }
-    reader.close();
+    numAgentsCreated ++;
+    // System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
+    // System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits
+    // / getNumberOfValenceBanks());
   }
 
   // GETTERS AND SETTERS
