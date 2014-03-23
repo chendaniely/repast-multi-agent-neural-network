@@ -2,6 +2,7 @@ package sandbox;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -17,6 +18,8 @@ public class Initialization {
     this.testAgent = testAgent;
   }
 
+  // TODO maybe do not need this, probably used with the agent creation since i'm looping through
+  // the csv for values already
   /**
    * take in the csv for weights and then return the weights this method is hardcoded
    * 
@@ -55,6 +58,7 @@ public class Initialization {
 
     /* @formatter:off */
     System.out.print("\nFrom TestAgent Class: ");   //
+    System.out.print(Arrays.toString(nextLine));
     for (String string : nextLine) {                // Print statements
       System.out.print(string + ", ");              //
     }                                               //
