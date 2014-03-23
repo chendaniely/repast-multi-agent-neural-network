@@ -21,7 +21,7 @@ public class TestAgent {
   // number of valence banks in agent
   private static int numberOfValenceBanks = 2;
 
-  private Initialization initialization = new Initialization();
+  // private Initialization initialization = new Initialization();
 
   // Instance variables
   // input
@@ -43,6 +43,10 @@ public class TestAgent {
   double weightBetweenValenceBanks = 0;
 
   double weightCorespondingModule = 0;
+  
+  // new(er) arrays for values
+  double[] PUValueP = null;
+  double[] PUValueN = null;
 
   // Variables unique to each agent
   private int agentID = 0;
@@ -53,13 +57,23 @@ public class TestAgent {
   double[] testPosValBank = new double[] {.3, .5, .7, .9};
   double[] testPosValBankWeights = new double[] {-1.0, -.8, -.6, -.4};
 
-
   // Constructor(s)
   public TestAgent() {
     numAgentsCreated ++;
     // System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
     // System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits
     // / getNumberOfValenceBanks());
+  }
+  
+  // Class methods
+  
+  /**
+   * Takes 2 arrays, the first array is the array you want to be set equal to the second array
+   * @param arrayToBeFilled
+   * @param arrayValuesToFill
+   */
+  public void setAgentValues(double[] arrayToBeFilled, double[] arrayValuesToFill){
+    arrayToBeFilled = arrayValuesToFill;
   }
 
   // GETTERS AND SETTERS
