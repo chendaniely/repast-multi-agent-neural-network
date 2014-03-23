@@ -4,9 +4,7 @@ import java.io.IOException;
 
 public class UnitTest {
 
-  public static void main(String[] args) {
-    System.out.println("current working directory: " + System.getProperty("user.dir"));
-
+  public static void testCalculationClass() {
     /*
      * Unit test the Calculation class
      */
@@ -39,23 +37,30 @@ public class UnitTest {
     assert ((calculationUnitTest.convertToLogit(1)) - 0.26894142137) < CFG.EPSILON;
     assert ((calculationUnitTest.convertToLogit(.5)) - 0.37754066879) < CFG.EPSILON;
 
+    // testing calculateTotalNumberOfProcessingUnits()
+    try {
+      assert calculationUnitTest
+          .calculateTotalNumberOfProcessingUnits(CFG.PROCESSING_UNIT_VALUES_CSV) == 10;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    // testing initializeProcessingUnitsFromCSV()
+    assert calculationUnitTest.calculateNumberOfProcessingUnitsForEachArray(10, 2) == 5;
+
+  }
+
+  public static void testInitializationClass() {
     /*
      * Unit test the Initialization class
      */
     Initialization initializatoinUnitTest = new Initialization();
+  }
 
-    // testing countTotalNumberOfProcessingUnits()
-    try {
-      assert initializatoinUnitTest
-          .countTotalNumberOfProcessingUnits(CFG.PROCESSING_UNIT_VALUES_CSV) == 10;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    
-    // testing initializeProcessingUnitsFromCSV()
-    assert initializatoinUnitTest.initializeProcessingUnitsFromCSV(10, 2) == 5;
-
-
+  public static void main(String[] args) {
+    System.out.println("current working directory: " + System.getProperty("user.dir"));
+    testCalculationClass();
+    testInitializationClass();
     System.out.println("done");
   }
 }
