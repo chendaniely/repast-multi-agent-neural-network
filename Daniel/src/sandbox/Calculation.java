@@ -6,14 +6,11 @@ public class Calculation {
 
   TestAgent testAgent = null;
 
-  public Calculation() {
-
-  }
+  public Calculation() {}
 
   public Calculation(TestAgent testAgent) {
     this.testAgent = testAgent;
   }
-
 
   /**
    * takes in an int value for total # of processing units in each bank this will be calculated via
@@ -52,32 +49,36 @@ public class Calculation {
    * @return
    */
   public double calculateValenceBankInput(double[] values, double[] weights) {
-    double input = .1;
-
-    for (int i = 0; i < testAgent.getTotalNumberOfProcessingUnits()
-        / testAgent.getNumberOfValenceBanks() - 1; i++) {
-
-      // minus one is because we do not need to count the processing unit's weight to itself
-      System.out.println("index: " + i);
-      System.out.println("input: " + input);
-      System.out.println("value: " + values[i] + " weight: " + weights[i]);
-      input += (values[i] * weights[i]);
-      System.out.println(input);
-
-    }
-    return input;
-  }
-
-  public double calculateOppositeProcessingUnit(double input) {
-    System.out.println("opposite processing unit: " + input);
-    input = input * -.2;
-
-    System.out.println("final input from Opposite Processing unit: " + input);
+    double input = 0;
+    /*
+     * for (int i = 0; i < TestAgent.getTotalNumberOfProcessingUnits() /
+     * TestAgent.getNumberOfValenceBanks() - 1; i++) {
+     * 
+     * // minus one is because we do not need to count the processing unit's weight to itself
+     * System.out.println("index: " + i); System.out.println("input: " + input);
+     * System.out.println("value: " + values[i] + " weight: " + weights[i]); input += (values[i] *
+     * weights[i]); System.out.println(input);
+     * 
+     * }
+     */
     return input;
   }
 
   /**
-   * takes in an array of all the corresponding inputs, sums them, mult by 5
+   * takes a double that represents the processing unit of the opposite valence bank multiplies the
+   * input by the weight returns weight * oppositePUValue
+   * 
+   * @param input
+   * @return
+   */
+  public double calculateOppositeProcessingUnit(double input) {
+    input = input * CFG.OPPOSITE_PROCESSING_UNIT_WEIGHT;
+    return input;
+  }
+
+  /**
+   * takes in an array of all the corresponding inputs (PU from other agents that are influencing
+   * current agent downstream --> me) , sums them, then multiply by corresponding PU weight
    * 
    * @param input
    * @return
@@ -88,7 +89,7 @@ public class Calculation {
     for (int i = 0; i < input.length; i++) {
       total += input[i];
     }
-    output = total * .5;
+    output = total * CFG.CORRESPONDING_PROCESSING_UNIT_WEIGHT;
     return output;
   }
 
