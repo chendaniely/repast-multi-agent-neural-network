@@ -59,10 +59,10 @@ public class Initialization {
     /* @formatter:off */
     System.out.print("\nFrom TestAgent Class: ");   //
     System.out.print(Arrays.toString(nextLine));
-    for (String string : nextLine) {                // Print statements
-      System.out.print(string + ", ");              //
-    }                                               //
-    System.out.print('\n');                         //
+//    for (String string : nextLine) {                // Print statements
+//      System.out.print(string + ", ");              //
+//    }                                               //
+//    System.out.print('\n');                         //
     /* @formatter:on */
 
     int j = 0;
