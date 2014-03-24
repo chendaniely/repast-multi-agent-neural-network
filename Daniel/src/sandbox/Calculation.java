@@ -16,8 +16,7 @@ public class Calculation {
   public Calculation(TestAgent testAgent) {
     this.testAgent = testAgent;
   }
-  
-  // TODO might move this to calculate
+
   /**
    * read in the first line of the file to determine how many processing units each module (agent)
    * will have, this includes both the positive and negative processing units for each belief the
@@ -49,9 +48,7 @@ public class Calculation {
     return totalNumberOfProcessingUnits;
 
   }
-  
 
-  // TODO might move this to calculate
   /**
    * This method will take in the totalNumberOfProcessingUnits and number of valenceOfValenceBanks
    * and return an int that will represent the number of elements for the 8 arrays used in the
@@ -109,28 +106,25 @@ public class Calculation {
       double correspondingAgent) {
     double output = sameBank + oppositeProcessingUnit + correspondingAgent;
     return convertToLogit(output);
-
   }
 
   /**
    * takes 2 lists, first are the values of the same valence bank second is a list of weights
-   * between each valence bank this method is also hard coded (for the time being)
+   * between each valence bank this method is also hard coded (for the time being). the current
+   * processing unit that is calculated will have a weight of 0 this should be taken care of in the
+   * generation method
    * 
    * @return
    */
   public double calculateValenceBankInput(double[] values, double[] weights) {
+    // values:
+    // 0.1,0.2,0.3,0.4,0.5
+    // weights:
+    // 0, -1,-0.8,-0.6,-0.4
     double input = 0;
-    /*
-     * for (int i = 0; i < TestAgent.getTotalNumberOfProcessingUnits() /
-     * TestAgent.getNumberOfValenceBanks() - 1; i++) {
-     * 
-     * // minus one is because we do not need to count the processing unit's weight to itself
-     * System.out.println("index: " + i); System.out.println("input: " + input);
-     * System.out.println("value: " + values[i] + " weight: " + weights[i]); input += (values[i] *
-     * weights[i]); System.out.println(input);
-     * 
-     * }
-     */
+    for (int i = 0; i < values.length; i++) {
+      input = input + ((double) values[i] * (double) weights[i]);
+    }
     return input;
   }
 
@@ -163,6 +157,12 @@ public class Calculation {
     return output;
   }
 
+  /**
+   * takes an double input, and transforms it into it's corresponding logit
+   * 
+   * @param input
+   * @return logit transform of input
+   */
   public double convertToLogit(double input) {
     input = (1.0 / (1 + Math.exp(input)));
     return input;
