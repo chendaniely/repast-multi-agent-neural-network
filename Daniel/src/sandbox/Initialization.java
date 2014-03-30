@@ -55,15 +55,8 @@ public class Initialization {
    * @return
    */
   public void initializeValenceBanks(String[] nextLine) {
-
-    /* @formatter:off */
-    System.out.print("\nFrom TestAgent Class: ");   //
+    System.out.print("\nFrom TestAgent Class: ");
     System.out.print(Arrays.toString(nextLine));
-//    for (String string : nextLine) {                // Print statements
-//      System.out.print(string + ", ");              //
-//    }                                               //
-//    System.out.print('\n');                         //
-    /* @formatter:on */
 
     int j = 0;
     // skip the first index
@@ -80,13 +73,13 @@ public class Initialization {
         testAgent.negativeInputProcessingUnitsT_1[j] = doubleOfStringValue;
         j++;
       }
-
     }
+
     for (int i = 0; i < (TestAgent.getTotalNumberOfProcessingUnits() / TestAgent
         .getNumberOfValenceBanks()); i++) {
       System.out.println("+ " + testAgent.positiveInputProcessingUnitsT_1[i] + " | - "
           + testAgent.negativeInputProcessingUnitsT_1[i]);
-    } //
+    }
   }
 
 
