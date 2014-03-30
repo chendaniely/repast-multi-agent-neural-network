@@ -117,10 +117,6 @@ public class Calculation {
    * @return
    */
   public double calculateValenceBankInput(double[] values, double[] weights) {
-    // values:
-    // 0.1,0.2,0.3,0.4,0.5
-    // weights:
-    // 0, -1,-0.8,-0.6,-0.4
     double input = 0;
     for (int i = 0; i < values.length; i++) {
       input = input + ((double) values[i] * (double) weights[i]);
@@ -164,7 +160,7 @@ public class Calculation {
    * @return logit transform of input
    */
   public double convertToLogit(double input) {
-    input = (1.0 / (1 + Math.exp(input)));
+    input = (1.0 / (1 + Math.exp(input * -1)));
     return input;
   }
 
