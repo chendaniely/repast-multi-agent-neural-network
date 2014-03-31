@@ -18,27 +18,40 @@ public class Initialization {
     this.testAgent = testAgent;
   }
 
-  // TODO maybe do not need this, probably used with the agent creation since i'm looping through
-  // the csv for values already
   /**
-   * take in the csv for weights and then return the weights this method is hardcoded
+   * take in the csv for weights and then return the weights
    * 
    * @throws IOException
    */
-  public void initializeWeightsFromCSV(String csvWeightFile) throws IOException {
-    // int bankConnections = 10;
-    // positiveWeightProcessingUnit = new double[] {-1.0, -0.8, -0.6, -0.4, // 0
-    // -0.2, 0.3, 0.5, // 1
-    // 0.7, 0.9, // 2
-    // 1.0}; // 3
+  public double[][] initializeWeightsFromCSV(int agentNumber, String csvWeightFile)
+      throws IOException {
     CSVReader reader = new CSVReader(new FileReader(csvWeightFile));
     String[] nextLine;
-    int i = 0;
-    // find the line of interest that represents the current agent's weight values
+    double[] arrayOfWeightsDouble = null;
+    int lineInCSV = 0;
     while ((nextLine = reader.readNext()) != null) {
-      System.out.println(nextLine[0] + nextLine[1] + "etc...");
+      if (lineInCSV == 0) {
+        lineInCSV++;
+        continue;
+      } else {
+        // System.out.println(nextLine[0] + nextLine[1] + "etc...");
+        // System.out.println(nextLine[0]);
+        if (Integer.parseInt(nextLine[0]) == agentNumber) {
+          String[] arrayOfWeights = Arrays.copyOfRange(nextLine, 1, nextLine.length);
+          arrayOfWeightsDouble = new double[arrayOfWeights.length];
+          for (int i = 0; i < arrayOfWeights.length; i++) {
+            Double doubleVal = Double.parseDouble(arrayOfWeights[i]);
+            arrayOfWeightsDouble[i] = doubleVal;
+          }
+          break;
+        }
+        lineInCSV++;
+      }
     }
-
+    Generation generate2dArray = new Generation();
+    double[][] generated2dArray =
+        generate2dArray.generateValenceBankWeightArrays(arrayOfWeightsDouble);
+    return generated2dArray;
   }
 
   // TODO generate method that will dynamically create what the value and weight arrays will be
@@ -49,8 +62,8 @@ public class Initialization {
 
   /**
    * This will take a line and return a double array of processing unit values positive processing
-   * units for beliefs are odd indicies in the csv and begin with 1 even processing units for
-   * beliefs are even indicies in the csv and begin with 2, 0 is the agent number row and is skipped
+   * units for beliefs are odd indices in the csv and begin with 1 even processing units for beliefs
+   * are even indices in the csv and begin with 2, 0 is the agent number row and is skipped
    * 
    * @return
    */
