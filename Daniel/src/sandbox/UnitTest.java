@@ -1,6 +1,7 @@
 package sandbox;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class UnitTest {
 
@@ -70,6 +71,13 @@ public class UnitTest {
   public static void testInitializationClass() {
     // Unit test the Initialization class
     Initialization initializatoinUnitTest = new Initialization();
+
+    try {
+      initializatoinUnitTest.initializeWeightsFromCSV(1, CFG.PROCESSING_UNIT_WEIGHTS_CSV);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   public static void testGenerationClass() {
@@ -77,7 +85,11 @@ public class UnitTest {
     Generation generationUnitTest = new Generation();
 
     double[] vbWeights = {-1, -0.8, -0.6, -0.4, -0.2, 0.3, 0.5, 0.7, 0.9, 1};
-    generationUnitTest.generateValenceBankWeightArrays(0, 5, vbWeights);
+    double[][] test1 =
+        { {0.0, -1.0, -0.8, -0.6, -0.4}, {-1.0, 0.0, -0.2, 0.3, 0.5}, {-0.8, -0.2, 0.0, 0.7, 0.9},
+            {-0.6, 0.3, 0.7, 0.0, 1.0}, {-0.4, 0.5, 0.9, 1.0, 0.0}};
+    double[][] generate1 = generationUnitTest.generateValenceBankWeightArrays(vbWeights);
+    assert Arrays.deepEquals(test1, generate1);
   }
 
   public static void main(String[] args) {
