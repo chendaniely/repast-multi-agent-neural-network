@@ -8,7 +8,7 @@ public class CFG {
   final static int LENGTH_Y = 10;
 
   static final String PROCESSING_UNIT_VALUES_CSV = "./src/sandbox/AgentProcessigUnitValues.csv";
-  static final String PROCESSING_UNIT_WEIGHTS_CSV = null;
+  static final String PROCESSING_UNIT_WEIGHTS_CSV = "./src/sandbox/AgentProcessigUnitWeights.csv";
 
   static final double OPPOSITE_PROCESSING_UNIT_WEIGHT = -.2;
   static final double CORRESPONDING_PROCESSING_UNIT_WEIGHT = .5;
