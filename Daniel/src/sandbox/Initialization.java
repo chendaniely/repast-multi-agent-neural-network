@@ -54,47 +54,34 @@ public class Initialization {
     return generated2dArray;
   }
 
-  // TODO generate method that will dynamically create what the value and weight arrays will be
-  /**
-   * takes in an int (that corresponds to the array index) takes the list of weights, and generates
-   * a new list with the corresponding weights
-   */
-
   /**
    * This will take a line and return a double array of processing unit values positive processing
    * units for beliefs are odd indices in the csv and begin with 1 even processing units for beliefs
    * are even indices in the csv and begin with 2, 0 is the agent number row and is skipped
    * 
-   * @return
+   * @return valencebanksArr where the 0 index are the positive VB values, and the 1 index are the
+   *         negative VB values
    */
-  public void initializeValenceBanks(String[] nextLine) {
-    System.out.print("\nFrom TestAgent Class: ");
-    System.out.print(Arrays.toString(nextLine));
+  public double[][] initializeValenceBanks(double[] values) {
+    double[][] valencebanksArr = new double[2][values.length / 2];
+
+    System.out.println("From TestAgent Class: ");
+    System.out.println(Arrays.toString(values));
 
     int j = 0;
-    // skip the first index
-    for (int i = 1; i < nextLine.length; i++) {
-      Double doubleOfStringValue = Double.valueOf(nextLine[i]);
-
-      // the index is odd (positive valence bank)
-      if ((i % 2) == 1) {
-        testAgent.positiveInputProcessingUnitsT_1[j] = doubleOfStringValue;
+    for (int i = 0; i < values.length; i++) {
+      // the index is even (positive valence bank)
+      if ((i % 2) == 0) {
+        valencebanksArr[0][j] = values[i];
       }
 
-      // the index is even (negative valence bank)
-      if ((i % 2) == 0) {
-        testAgent.negativeInputProcessingUnitsT_1[j] = doubleOfStringValue;
+      // the index is odd (negative valence bank)
+      if ((i % 2) == 1) {
+        valencebanksArr[1][j] = values[i];
         j++;
       }
     }
-
-    for (int i = 0; i < (TestAgent.getTotalNumberOfProcessingUnits() / TestAgent
-        .getNumberOfValenceBanks()); i++) {
-      System.out.println("+ " + testAgent.positiveInputProcessingUnitsT_1[i] + " | - "
-          + testAgent.negativeInputProcessingUnitsT_1[i]);
-    }
+    System.out.println(Arrays.deepToString(valencebanksArr));
+    return valencebanksArr;
   }
-
-
-
 }
