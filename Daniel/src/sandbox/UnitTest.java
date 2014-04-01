@@ -73,7 +73,7 @@ public class UnitTest {
     Initialization initializatoinUnitTest = new Initialization();
 
     try {
-      initializatoinUnitTest.initializeWeightsFromCSV(1, CFG.PROCESSING_UNIT_WEIGHTS_CSV);
+      initializatoinUnitTest.initializeVBWeightsFromCSV(1, CFG.PROCESSING_UNIT_WEIGHTS_CSV);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
