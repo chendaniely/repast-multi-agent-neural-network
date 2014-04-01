@@ -45,6 +45,18 @@ public class TestAgent {
 
   // Class methods
   /**
+   * method that takes in 2 2d arrays, uses the second array to fill the first
+   * 
+   * @param fillMe array to be filled
+   * @param fillUsing array used to fill
+   */
+  private void set2dArray(double[][] fillMe, double[][] fillUsing) {
+    for (int i = 0; i < 2; i++) {
+      System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
+    }
+  }
+
+  /**
    * Takes a 2d array, the 0 index containing the activation level of the positive valence bank
    * processing units, the 1 index containing the activation level of the negative valence bank
    * processing units
@@ -54,11 +66,8 @@ public class TestAgent {
   public void setProcessingUnitActivationValues(double[][] posnegValues) {
     System.out.println("setAgentValues");
     processingUnitActivationValues = new double[2][posnegValues[0].length];
-    for (int i = 0; i < 2; i++) {
-      System.arraycopy(posnegValues[i], 0, this.processingUnitActivationValues[i], 0,
-          posnegValues[0].length);
-    }
-    System.out.println(Arrays.deepToString(processingUnitActivationValues));
+    set2dArray(this.processingUnitActivationValues, posnegValues);
+    System.out.println(Arrays.deepToString(this.processingUnitActivationValues));
   }
 
   // GETTERS AND SETTERS
