@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class TestAgent {
 
   // Static class variables
+  @SuppressWarnings("unused")
   private static int    numAgentsCreated                   = 0;
 
   // file where the agent log is
@@ -23,7 +24,7 @@ public class TestAgent {
   private static int    numberOfValenceBanks               = 2;
 
   // Processing Unit activation values
-  public double[][]     processingUnitActivationValues     = null;
+  double[][]            processingUnitActivationValues     = null;
 
   // weights between processing units
   // [0][]positiveWeightProcessingUnit
@@ -50,14 +51,14 @@ public class TestAgent {
    * 
    * @param posnegValues is a 2d array of the positive and negative activation levels
    */
-  public void setAgentValues(double[][] posnegValues) {
+  public void setProcessingUnitActivationValues(double[][] posnegValues) {
     System.out.println("setAgentValues");
     processingUnitActivationValues = new double[2][posnegValues[0].length];
     for (int i = 0; i < 2; i++) {
       System.arraycopy(posnegValues[i], 0, this.processingUnitActivationValues[i], 0,
           posnegValues[0].length);
-      System.out.println(Arrays.deepToString(processingUnitActivationValues));
     }
+    System.out.println(Arrays.deepToString(processingUnitActivationValues));
   }
 
   // GETTERS AND SETTERS

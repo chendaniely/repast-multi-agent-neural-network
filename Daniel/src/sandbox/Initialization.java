@@ -25,6 +25,7 @@ public class Initialization {
    */
   public double[][] initializeVBWeightsFromCSV(int agentNumber, String csvWeightFile)
       throws IOException {
+    @SuppressWarnings("resource")
     CSVReader reader = new CSVReader(new FileReader(csvWeightFile));
     String[] nextLine;
     double[] arrayOfWeightsDouble = null;
