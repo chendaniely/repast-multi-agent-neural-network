@@ -9,13 +9,7 @@ import org.apache.commons.math3.util.ArithmeticUtils;
 
 public class Calculation {
 
-  TestAgent testAgent = null;
-
   public Calculation() {}
-
-  public Calculation(TestAgent testAgent) {
-    this.testAgent = testAgent;
-  }
 
   /**
    * read in the first line of the file to determine how many processing units each module (agent)
@@ -61,22 +55,7 @@ public class Calculation {
   public int calculateNumberOfProcessingUnitsForEachArray(int totalNumberOfProcessingUnits,
       int numberOfValenceBanks) {
     int numberOfProcessingUnitsForEachArray = totalNumberOfProcessingUnits / numberOfValenceBanks;
-    // System.out.println(calculation);
     return numberOfProcessingUnitsForEachArray;
-
-    // testAgent.positiveInputProcessingUnitsT0 = new double[calculation];
-    // testAgent.negativeInputProcessingUnitsT0 = new double[calculation];
-    //
-    // testAgent.positiveInputProcessingUnitsT_1 = new double[calculation];
-    // testAgent.negativeInputProcessingUnitsT_1 = new double[calculation];
-    //
-    // testAgent.positiveOutputProcessingUnitsT0 = new double[calculation];
-    // testAgent.negativeOutputProcessingUnitsT0 = new double[calculation];
-    //
-    // testAgent.positiveOutputProcessingUnitsT_1 = new double[calculation];
-    // testAgent.negativeOutputProcessingUnitsT_1 = new double[calculation];
-
-    // System.out.println("hello");
   }
 
   /**
