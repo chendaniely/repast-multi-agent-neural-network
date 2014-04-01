@@ -86,7 +86,6 @@ public class Test {
 
       while ((nextWeightLine = weight.readNext()) != null) {
         if (Double.parseDouble(nextWeightLine[0]) == agendID) {
-          System.out.println("hello");
           System.out.println(Arrays.deepToString(initializeAgents.initializeVBWeights(agendID,
               convertStringArrayToDouble(nextWeightLine))));
         }
