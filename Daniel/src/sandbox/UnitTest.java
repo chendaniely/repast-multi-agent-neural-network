@@ -72,12 +72,17 @@ public class UnitTest {
     // Unit test the Initialization class
     Initialization initializatoinUnitTest = new Initialization();
 
-    try {
-      initializatoinUnitTest.initializeVBWeightsFromCSV(1, CFG.PROCESSING_UNIT_WEIGHTS_CSV);
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    double[] initArray = {0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 0.1, 0.2};
+    double[][] initArrayTest = { {0.3, 0.5, 0.7, 0.9, 0.1}, {0.4, 0.6, 0.8, 1.0, 0.2}};
+    double[][] init1 = initializatoinUnitTest.initializeVBActivation(initArray);
+    assert Arrays.deepEquals(init1, initArrayTest);
+
+    double[] initArray2 = {1, -1, -0.8, -0.6, -0.4, -0.2, 0.3, 0.5, 0.7, 0.9, 1};
+    double[][] initArrayTest2 =
+        { {0.0, -1.0, -0.8, -0.6, -0.4}, {-1.0, 0.0, -0.2, 0.3, 0.5}, {-0.8, -0.2, 0.0, 0.7, 0.9},
+            {-0.6, 0.3, 0.7, 0.0, 1.0}, {-0.4, 0.5, 0.9, 1.0, 0.0}};
+    double[][] init2 = initializatoinUnitTest.initializeVBWeights(1, initArray2);
+    assert Arrays.deepEquals(init2, initArrayTest2);
   }
 
   public static void testGenerationClass() {
