@@ -23,7 +23,7 @@ public class Initialization {
    * 
    * @throws IOException
    */
-  public double[][] initializeWeightsFromCSV(int agentNumber, String csvWeightFile)
+  public double[][] initializeVBWeightsFromCSV(int agentNumber, String csvWeightFile)
       throws IOException {
     CSVReader reader = new CSVReader(new FileReader(csvWeightFile));
     String[] nextLine;
@@ -34,8 +34,6 @@ public class Initialization {
         lineInCSV++;
         continue;
       } else {
-        // System.out.println(nextLine[0] + nextLine[1] + "etc...");
-        // System.out.println(nextLine[0]);
         if (Integer.parseInt(nextLine[0]) == agentNumber) {
           String[] arrayOfWeights = Arrays.copyOfRange(nextLine, 1, nextLine.length);
           arrayOfWeightsDouble = new double[arrayOfWeights.length];
@@ -62,19 +60,16 @@ public class Initialization {
    * @return valencebanksArr where the 0 index are the positive VB values, and the 1 index are the
    *         negative VB values
    */
-  public double[][] initializeValenceBanks(double[] values) {
+  public double[][] initializeVBActivation(double[] values) {
     double[][] valencebanksArr = new double[2][values.length / 2];
-
-    System.out.println("From TestAgent Class: ");
+    System.out.println("Initialization initializeValenceBanks");
     System.out.println(Arrays.toString(values));
-
     int j = 0;
     for (int i = 0; i < values.length; i++) {
       // the index is even (positive valence bank)
       if ((i % 2) == 0) {
         valencebanksArr[0][j] = values[i];
       }
-
       // the index is odd (negative valence bank)
       if ((i % 2) == 1) {
         valencebanksArr[1][j] = values[i];
