@@ -1,55 +1,24 @@
 package sandbox;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 
-import au.com.bytecode.opencsv.CSVReader;
-
 public class Initialization {
-
-  TestAgent testAgent = null;
 
   public Initialization() {
 
   }
 
-  public Initialization(TestAgent testAgent) {
-    this.testAgent = testAgent;
-  }
-
   /**
-   * take in the csv for weights and then return the weights
    * 
-   * @throws IOException
+   * @param agentNumber int representing the agentID
+   * @param vbWeights double array of weights (includes the agentID in the 0 index)
+   * @return generated2dArray 2d array of the links between processing units
    */
-  public double[][] initializeVBWeightsFromCSV(int agentNumber, String csvWeightFile)
-      throws IOException {
-    @SuppressWarnings("resource")
-    CSVReader reader = new CSVReader(new FileReader(csvWeightFile));
-    String[] nextLine;
-    double[] arrayOfWeightsDouble = null;
-    int lineInCSV = 0;
-    while ((nextLine = reader.readNext()) != null) {
-      if (lineInCSV == 0) {
-        lineInCSV++;
-        continue;
-      } else {
-        if (Integer.parseInt(nextLine[0]) == agentNumber) {
-          String[] arrayOfWeights = Arrays.copyOfRange(nextLine, 1, nextLine.length);
-          arrayOfWeightsDouble = new double[arrayOfWeights.length];
-          for (int i = 0; i < arrayOfWeights.length; i++) {
-            Double doubleVal = Double.parseDouble(arrayOfWeights[i]);
-            arrayOfWeightsDouble[i] = doubleVal;
-          }
-          break;
-        }
-        lineInCSV++;
-      }
-    }
+  public double[][] initializeVBWeights(int agentNumber, double[] vbWeights) {
+    assert (vbWeights[0] == agentNumber);
     Generation generate2dArray = new Generation();
-    double[][] generated2dArray =
-        generate2dArray.generateValenceBankWeightArrays(arrayOfWeightsDouble);
+    double[] subArray = Arrays.copyOfRange(vbWeights, 1, vbWeights.length);
+    double[][] generated2dArray = generate2dArray.generateValenceBankWeightArrays(subArray);
     return generated2dArray;
   }
 
@@ -58,6 +27,7 @@ public class Initialization {
    * units for beliefs are odd indices in the csv and begin with 1 even processing units for beliefs
    * are even indices in the csv and begin with 2, 0 is the agent number row and is skipped
    * 
+   * @param values
    * @return valencebanksArr where the 0 index are the positive VB values, and the 1 index are the
    *         negative VB values
    */
