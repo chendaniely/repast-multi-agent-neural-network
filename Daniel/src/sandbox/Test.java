@@ -45,6 +45,7 @@ public class Test {
       // this will match the agent numbering in the CSV file
       testAgent.setAgentID(agendID);
 
+      // TODO create method that will create network from edgelist
       // hard code agents into agent 1
       if (testAgent.getAgentID() == 1) {
         testAgent.agentsWhoInfluenceMe.add(2);
