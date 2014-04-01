@@ -69,7 +69,7 @@ public class Test {
       System.out.println(Arrays.toString(valuesD));
 
       Initialization initializeAgents = new Initialization();
-      testAgent.setAgentValues(initializeAgents.initializeVBActivation(valuesD));
+      testAgent.setProcessingUnitActivationValues(initializeAgents.initializeVBActivation(valuesD));
 
       agents.add(testAgent);
     }
@@ -83,6 +83,7 @@ public class Test {
    * @throws IOException
    */
   public static void main(String[] args) throws IOException {
+    @SuppressWarnings("unused")
     ArrayList<TestAgent> agents = new ArrayList<TestAgent>();
     agents = createAgentsFromCSV();
   }
