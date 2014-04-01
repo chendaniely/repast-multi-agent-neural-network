@@ -60,8 +60,7 @@ public class Test {
 
       // assign the value array into each agent
       String[] values = Arrays.copyOfRange(nextLine, 1, nextLine.length);
-      
-      
+
       double[] valuesD = new double[values.length];
       for (int i = 0; i < valuesD.length; i++) {
         valuesD[i] = Double.parseDouble(values[i]);
@@ -69,11 +68,9 @@ public class Test {
 
       System.out.println(Arrays.toString(valuesD));
 
-//      System.out.print("Agents who influence me: ");
-//      for (Integer agentWhoInfluencesMe : testAgent.agentsWhoInfluenceMe) {
-//        System.out.print(agentWhoInfluencesMe + ", ");
-//      }
-//      System.out.println("\n");
+      Initialization initializeAgents = new Initialization();
+      testAgent.setAgentValues(initializeAgents.initializeVBActivation(valuesD));
+
       agents.add(testAgent);
     }
     reader.close();
@@ -86,12 +83,8 @@ public class Test {
    * @throws IOException
    */
   public static void main(String[] args) throws IOException {
-
-
     ArrayList<TestAgent> agents = new ArrayList<TestAgent>();
     agents = createAgentsFromCSV();
-
-
   }
 
 
