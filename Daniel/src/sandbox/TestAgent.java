@@ -1,79 +1,63 @@
 package sandbox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TestAgent {
 
   // Static class variables
-  private static int numAgentsCreated = 0;
+  private static int    numAgentsCreated                   = 0;
 
   // file where the agent log is
-  private static String initializationLog = null;
+  private static String initializationLog                  = null;
 
   // this is the number of processing units read from the CSV file, it includes the positive +
   // negative processing units for each belief
-  private static int totalNumberOfProcessingUnits = -1;
+  private static int    totalNumberOfProcessingUnits       = -1;
 
   // this represents the combination of processing units in each valence bank CHOOSE 2 (since each
   // processing unit will be connected to the other processing units in each valence bank)
-  private static int totalNumberOfProcessingUnitWeights = -1;
+  private static int    totalNumberOfProcessingUnitWeights = -1;
 
   // number of valence banks in agent
-  private static int numberOfValenceBanks = 2;
+  private static int    numberOfValenceBanks               = 2;
 
-  // private Initialization initialization = new Initialization();
+  // Processing Unit activation values
+  public double[][]     processingUnitActivationValues     = null;
 
-  // Instance variables
-  // input
-  double[] positiveInputProcessingUnitsT0 = null;
-  double[] negativeInputProcessingUnitsT0 = null;
-  double[] positiveInputProcessingUnitsT_1 = null;
-  double[] negativeInputProcessingUnitsT_1 = null;
+  // weights between processing units
+  // [0][]positiveWeightProcessingUnit
+  // [1][]negativeWeightProcessingUnit
+  double[][]            processingUnitWeights              = null;
 
-  // output
-  double[] positiveOutputProcessingUnitsT0 = null;
-  double[] negativeOutputProcessingUnitsT0 = null;
-  double[] positiveOutputProcessingUnitsT_1 = null;
-  double[] negativeOutputProcessingUnitsT_1 = null;
-
-  // weights
-  double[] positiveWeightProcessingUnit = null;
-  double[] negativeWeightProcessingUnit = null;
-
-  double weightBetweenValenceBanks = 0;
-
-  double weightCorespondingModule = 0;
-  
-  // new(er) arrays for values
-  double[] PUValueP = null;
-  double[] PUValueN = null;
+  double                weightBetweenValenceBanks          = 0;
+  double                weightCorespondingModule           = 0;
 
   // Variables unique to each agent
-  private int agentID = 0;
-  ArrayList<Integer> agentsWhoInfluenceMe = new ArrayList<Integer>();
-
-  // test cases
-  double testPosProssUnit1 = .1;
-  double[] testPosValBank = new double[] {.3, .5, .7, .9};
-  double[] testPosValBankWeights = new double[] {-1.0, -.8, -.6, -.4};
+  private int           agentID                            = 0;
+  ArrayList<Integer>    agentsWhoInfluenceMe               = new ArrayList<Integer>();
 
   // Constructor(s)
   public TestAgent() {
-    numAgentsCreated ++;
-    // System.out.println("totalNumberOfProcessingUnits: " + totalNumberOfProcessingUnits);
-    // System.out.println("Processing units per valence bank: " + totalNumberOfProcessingUnits
-    // / getNumberOfValenceBanks());
+    numAgentsCreated++;
   }
-  
+
   // Class methods
-  
   /**
-   * Takes 2 arrays, the first array is the array you want to be set equal to the second array
-   * @param arrayToBeFilled
-   * @param arrayValuesToFill
+   * Takes a 2d array, the 0 index containing the activation level of the positive valence bank
+   * processing units, the 1 index containing the activation level of the negative valence bank
+   * processing units
+   * 
+   * @param posnegValues is a 2d array of the positive and negative activation levels
    */
-  public void setAgentValues(double[] arrayToBeFilled, double[] arrayValuesToFill){
-    arrayToBeFilled = arrayValuesToFill;
+  public void setAgentValues(double[][] posnegValues) {
+    System.out.println("setAgentValues");
+    processingUnitActivationValues = new double[2][posnegValues[0].length];
+    for (int i = 0; i < 2; i++) {
+      System.arraycopy(posnegValues[i], 0, this.processingUnitActivationValues[i], 0,
+          posnegValues[0].length);
+      System.out.println(Arrays.deepToString(processingUnitActivationValues));
+    }
   }
 
   // GETTERS AND SETTERS
