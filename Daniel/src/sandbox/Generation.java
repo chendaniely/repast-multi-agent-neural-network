@@ -18,6 +18,7 @@ public class Generation {
    * @return arrayOfWeights returns a 2D array that is the weight between any 2 processing units
    */
   public double[][] generateValenceBankWeightArrays(double[] vbWeights) {
+    System.out.println("Generation generateValenceBankWeightArrays");
     int numberOfPUInEachVB = vbWeights.length / 2;
     double[][] arrayOfWeights = new double[numberOfPUInEachVB][numberOfPUInEachVB];
     int vbWeighti = 0;
@@ -39,7 +40,8 @@ public class Generation {
       }
       totalSkip = totalSkip + nMinusIndex;
     }
-    System.out.println(Arrays.deepToString(arrayOfWeights));
+    System.out.println("Array returned from generateValenceBankWeightArrays:\n"
+        + Arrays.deepToString(arrayOfWeights));
     return arrayOfWeights;
   }
 }
