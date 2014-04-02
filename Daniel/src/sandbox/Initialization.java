@@ -49,8 +49,21 @@ public class Initialization {
     Generation generate2dArray = new Generation();
     double[] subArray = Arrays.copyOfRange(vbWeights, 1, vbWeights.length);
     double[][] generated2dArray = generate2dArray.generateValenceBankWeightArrays(subArray);
-
     System.out.println("\t2d weight returned:\n\t" + Arrays.deepToString(generated2dArray));
     return generated2dArray;
+  }
+
+  /**
+   * 
+   * @param agentNumber
+   * @param edges
+   * @return d1array
+   */
+  public int[] initializeAgentsWhoInfluenceMe(int agentNumber, int[] edges) {
+    System.out.println("Initialization initializeVBWeights");
+    assert (edges[0] == agentNumber);
+    int[] d1array = Arrays.copyOfRange(edges, 1, edges.length);
+    System.out.println("\t1d edge returned:\n\t" + Arrays.toString(d1array));
+    return d1array;
   }
 }
