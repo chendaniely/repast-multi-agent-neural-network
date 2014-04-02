@@ -91,13 +91,13 @@ public class Test {
           // set the processing unit weights
           testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(agendID,
               convertStringArrayToDouble(nextWeightLine)));
-          // break;
+          break;
         }
       }
 
       agents.add(testAgent);
-      break;
     }
+
     value.close();
     weight.close();
 
