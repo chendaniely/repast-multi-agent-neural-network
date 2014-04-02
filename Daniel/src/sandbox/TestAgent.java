@@ -23,16 +23,17 @@ public class TestAgent {
   // number of valence banks in agent
   private static int    numberOfValenceBanks               = 2;
 
-  // Processing Unit activation values
+  // Processing Unit activation values, 0 index are positive valence banks, 1 index are negative
+  // valence banks
   double[][]            processingUnitActivationValues     = null;
 
-  // weights between processing units
-  // [0][]positiveWeightProcessingUnit
-  // [1][]negativeWeightProcessingUnit
+  // weights between processing units0 index are positive valence banks, 1 index are negative
+  // valence banks
   double[][]            processingUnitWeights              = null;
 
-  double                weightBetweenValenceBanks          = 0;
-  double                weightCorespondingModule           = 0;
+  double                weightOppositeValenceBanks         = CFG.OPPOSITE_PROCESSING_UNIT_WEIGHT;
+  double                weightCorespondingModule           =
+                                                               CFG.CORRESPONDING_PROCESSING_UNIT_WEIGHT;
 
   // Variables unique to each agent
   private int           agentID                            = 0;
@@ -44,6 +45,7 @@ public class TestAgent {
   }
 
   // Class methods
+
   /**
    * method that takes in 2 2d arrays, uses the second array to fill the first
    * 
@@ -54,20 +56,6 @@ public class TestAgent {
     for (int i = 0; i < 2; i++) {
       System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
     }
-  }
-
-  /**
-   * Takes a 2d array, the 0 index containing the activation level of the positive valence bank
-   * processing units, the 1 index containing the activation level of the negative valence bank
-   * processing units
-   * 
-   * @param posnegValues is a 2d array of the positive and negative activation levels
-   */
-  public void setProcessingUnitActivationValues(double[][] posnegValues) {
-    System.out.println("setAgentValues");
-    processingUnitActivationValues = new double[2][posnegValues[0].length];
-    set2dArray(this.processingUnitActivationValues, posnegValues);
-    System.out.println(Arrays.deepToString(this.processingUnitActivationValues));
   }
 
   // GETTERS AND SETTERS
@@ -112,4 +100,35 @@ public class TestAgent {
     TestAgent.totalNumberOfProcessingUnitWeights = totalNumberOfProcessingUnitWeights;
   }
 
+  /**
+   * Takes a 2d array, the 0 index containing the activation level of the positive valence bank
+   * processing units, the 1 index containing the activation level of the negative valence bank
+   * processing units
+   * 
+   * @param posnegValues is a 2d array of the positive and negative activation levels
+   */
+  public void setProcessingUnitActivationValues(double[][] posnegValues) {
+    System.out.println("setProcessingUnitActivationValues");
+    processingUnitActivationValues = new double[2][posnegValues[0].length];
+    set2dArray(this.processingUnitActivationValues, posnegValues);
+
+    System.out.println("\t activation values set:\n\t"
+        + Arrays.deepToString(this.processingUnitActivationValues));
+  }
+
+  /**
+   * Takes a 2d array, the 0 index containing the activation level of the positive valence bank
+   * processing units, the 1 index containing the activation level of the negative valence bank
+   * processing units
+   * 
+   * @param weightArray
+   */
+  public void setProcessingUnitWeights(double[][] weightArray) {
+    System.out.println("setProcessingUnitWeights");
+    processingUnitWeights = new double[2][weightArray[0].length];
+    set2dArray(this.processingUnitWeights, weightArray);
+
+    System.out
+        .println("\t agent weight set:\n\t" + Arrays.deepToString(this.processingUnitWeights));
+  }
 }
