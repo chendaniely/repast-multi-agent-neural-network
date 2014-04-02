@@ -97,11 +97,31 @@ public class UnitTest {
     assert Arrays.deepEquals(test1, generate1);
   }
 
+  public static void testTestAgent() {
+    Generation generationUnitTest = new Generation();
+    TestAgent testAgentUnitTest = new TestAgent();
+    double[] pos = {-1, -0.8, -0.6, -0.4, -0.2, 0.3, 0.5, 0.7, 0.9, 1};
+    double[] neg = {-1, -0.8, -0.6, -0.4, -0.2, 0.3, 0.5, 0.7, 0.9, 1};
+    double[][] posw = generationUnitTest.generateValenceBankWeightArrays(pos);
+    double[][] negw = generationUnitTest.generateValenceBankWeightArrays(neg);
+
+    double[][][] test3darray =
+        {
+            { {0.0, -1.0, -0.8, -0.6, -0.4}, {-1.0, 0.0, -0.2, 0.3, 0.5},
+                {-0.8, -0.2, 0.0, 0.7, 0.9}, {-0.6, 0.3, 0.7, 0.0, 1.0}, {-0.4, 0.5, 0.9, 1.0, 0.0}},
+            { {0.0, -1.0, -0.8, -0.6, -0.4}, {-1.0, 0.0, -0.2, 0.3, 0.5},
+                {-0.8, -0.2, 0.0, 0.7, 0.9}, {-0.6, 0.3, 0.7, 0.0, 1.0}, {-0.4, 0.5, 0.9, 1.0, 0.0}}};
+
+    System.out.println(Arrays.deepToString(testAgentUnitTest.make3darrayfrom2d(posw, negw)));
+    assert Arrays.deepEquals(testAgentUnitTest.make3darrayfrom2d(posw, negw), test3darray);
+  }
+
   public static void main(String[] args) {
     System.out.println("current working directory: " + System.getProperty("user.dir"));
     testCalculationClass();
     testInitializationClass();
     testGenerationClass();
+    testTestAgent();
     System.out.println("done");
   }
 }
