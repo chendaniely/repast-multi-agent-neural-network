@@ -18,15 +18,14 @@ public class Calculation {
    * first line (aka the line of variables)
    * 
    * @throws IOException
+   * @param csv
+   * @return totalNumberOfProcessingUnits
    */
   public int calculateTotalNumberOfProcessingUnits(String csv) throws IOException {
 
     BufferedReader br = null;
-
     br = new BufferedReader(new FileReader(csv));
-
     String fLine = br.readLine();
-
     br.close();
 
     // System.out.println("first lines: " + fLine);
@@ -34,11 +33,7 @@ public class Calculation {
     // counts number of commas, this will return the number of columns - 1, this should represent
     // the number of processing units in our csv file
     int totalNumberOfProcessingUnits = StringUtils.countMatches(fLine, ",");
-
     // System.out.println(totalNumberOfProcessingUnits);
-
-    // log.write(numberOfProcessingUnits);
-
     return totalNumberOfProcessingUnits;
 
   }
@@ -79,7 +74,7 @@ public class Calculation {
    * @param sameBank
    * @param oppositeProcessingUnit
    * @param correspondingAgent
-   * @return
+   * @return convertToLogit(output)
    */
   public double calculateOutputFromInputs(double sameBank, double oppositeProcessingUnit,
       double correspondingAgent) {
