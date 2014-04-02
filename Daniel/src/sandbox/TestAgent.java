@@ -26,6 +26,8 @@ public class TestAgent {
   // Processing Unit activation values, 0 index are positive valence banks, 1 index are negative
   // valence banks
   double[][]            processingUnitActivationValues     = null;
+  // TODO hard-coded the temp array size, should be totalnumber/num valence
+  double[][]            tempProcessingUnitActivationValues = new double[2][5];
 
   // weights between processing units [0] are the pos neg valence banks [1] are the pu# [2] are the
   // weight links 0 index are positive valence banks, 1 index are negative
@@ -38,7 +40,7 @@ public class TestAgent {
 
   // Variables unique to each agent
   private int           agentID                            = 0;
-  ArrayList<Integer>    agentsWhoInfluenceMe               = new ArrayList<Integer>();
+  int[]                 agentsWhoInfluenceMe               = null;
 
   // Constructor(s)
   public TestAgent() {
@@ -69,6 +71,48 @@ public class TestAgent {
   private void set3dArray(double[][][] fillMe, double[][][] fillUsing) {
     for (int i = 0; i < 2; i++) {
       System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
+    }
+  }
+
+  public int returnOpposite(int i) {
+    if (i == 0) return 1;
+    if (i == 1) return 0;
+    return -1;
+  }
+
+  public void step(ArrayList<TestAgent> agents) {
+    processingUnitActivationValues = tempProcessingUnitActivationValues;
+    System.out.println(Arrays.deepToString(processingUnitActivationValues));
+
+    Calculation calculation = new Calculation();
+
+    // for each valence bank
+    for (int i = 0; i < 2; i++) {
+      // TODO the 5 is hard coded...
+      // for each processing unit in each valence bank
+      for (int j = 0; j < 5; j++) {
+        double[] values = processingUnitActivationValues[i];
+        double[] weights = processingUnitWeights[i][j];
+        double opposite = processingUnitActivationValues[returnOpposite(i)][j];
+        double[] corresponding = new double[agentsWhoInfluenceMe.length];
+
+        int k = 0;
+        for (int agentIdWhoInfluenceMe : agentsWhoInfluenceMe) {
+          for (TestAgent agent : agents) {
+            if (agentIdWhoInfluenceMe == agent.getAgentID()) {
+              corresponding[k] = agent.processingUnitActivationValues[i][j];
+              k++;
+            }
+          }
+        }
+
+        double newOutput =
+            calculation.calculateOutputFromInputs(
+                calculation.calculateValenceBankInput(values, weights),
+                calculation.calculateOppositeProcessingUnit(opposite),
+                calculation.calculateCorrespondingProcessingUnit(corresponding));
+        tempProcessingUnitActivationValues[i][j] = newOutput;
+      }
     }
   }
 
@@ -144,5 +188,11 @@ public class TestAgent {
 
     System.out
         .println("\t agent weight set:\n\t" + Arrays.deepToString(this.processingUnitWeights));
+  }
+
+  public void setAgentsWhoInfluenceMe(int[] edgeArray) {
+    System.out.println("setEdges");
+    agentsWhoInfluenceMe = Arrays.copyOf(edgeArray, edgeArray.length);
+    System.out.println("\t agent edge set:\n\t" + Arrays.toString(this.agentsWhoInfluenceMe));
   }
 }
