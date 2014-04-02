@@ -1,5 +1,7 @@
 package sandbox;
 
+import cern.colt.Arrays;
+
 public class sandbox {
 
   public static void main(String[] args) {
@@ -11,6 +13,8 @@ public class sandbox {
 
     doublearray = testarray;
 
-  }
+    System.out.println(Arrays.toString(doublearray));
+    System.out.println(doublearray[1]);
 
+  }
 }
