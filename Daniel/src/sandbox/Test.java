@@ -26,11 +26,20 @@ public class Test {
     return doubleArray;
   }
 
+  public static int[] convertStringArrayToInt(String[] stringArray) {
+    int[] intArray = new int[stringArray.length];
+    for (int i = 0; i < stringArray.length; i++) {
+      intArray[i] = Integer.parseInt(stringArray[i]);
+    }
+    return intArray;
+  }
+
   /**
    * Method will initialize x number of agents, depending on how many non empty rows are in the csv
    * file
    * 
    * @throws IOException
+   * @return agents arrayList of agents that can be used to iterate later
    */
   public static ArrayList<TestAgent> createAgentsFromCSV() throws IOException {
     // create container for agents to reside in
@@ -38,13 +47,13 @@ public class Test {
 
     // read in csv, commas as delimiters between double-quoted strings, skips first line (headers),
     CSVReader value = new CSVReader(new FileReader(CFG.PROCESSING_UNIT_VALUES_CSV), ',', '\"', 1);
-
-    // read in csv, commas as delimiters between double-quoted strings, skips first line (headers),
     CSVReader weight = new CSVReader(new FileReader(CFG.PROCESSING_UNIT_WEIGHTS_CSV), ',', '\"', 1);
+    CSVReader edge = new CSVReader(new FileReader(CFG.EDGE_LIST_CSV), ',', '\"', 1);
 
     // nextLine[] is an array of values from the line
     String[] nextValueLine;
     String[] nextWeightLine;
+    String[] nextEdgeLine;
 
     int agendID = 0;
     while ((nextValueLine = value.readNext()) != null) {
@@ -55,12 +64,6 @@ public class Test {
       // there is no agent 0, i has already been incremented so agents start with 1,
       // this will match the agent numbering in the CSV file
       testAgent.setAgentID(agendID);
-
-      // TODO create method that will create network from edgelist
-      // hard code agents into agent 1
-      if (testAgent.getAgentID() == 1) {
-        testAgent.agentsWhoInfluenceMe.add(2);
-      }
 
       // make sure the agent # assigned == agent # from csv
       int agentNumber = Integer.parseInt(nextValueLine[0]);
@@ -82,10 +85,22 @@ public class Test {
       testAgent.setProcessingUnitActivationValues(initializeAgents
           .initializeVBActivation(convertStringArrayToDouble(values)));
 
+      while ((nextEdgeLine = edge.readNext()) != null) {
+        boolean testEdge = Integer.parseInt(nextEdgeLine[0]) == agendID;
+        System.out.println(nextEdgeLine[0] + " == " + Integer.toString(agendID) + " "
+            + String.valueOf(testEdge));
+        if (Integer.parseInt(nextEdgeLine[0]) == agendID) {
+          // set agents who are connected to this.agent (referenced by id)
+          testAgent.setAgentsWhoInfluenceMe(initializeAgents.initializeAgentsWhoInfluenceMe(
+              agendID, convertStringArrayToInt(nextEdgeLine)));
+          break;
+        }
+      }
+
       while ((nextWeightLine = weight.readNext()) != null) {
-        boolean test = Double.parseDouble(nextWeightLine[0]) == agendID;
+        boolean testWeight = Double.parseDouble(nextWeightLine[0]) == agendID;
         System.out.println(nextWeightLine[0] + " == " + Integer.toString(agendID) + " "
-            + String.valueOf(test));
+            + String.valueOf(testWeight));
 
         if (Double.parseDouble(nextWeightLine[0]) == agendID) {
           // set the processing unit weights
@@ -94,7 +109,12 @@ public class Test {
           break;
         }
       }
-
+      for (int i = 0; i < testAgent.processingUnitActivationValues.length; i++) {
+        for (int j = 0; j < testAgent.processingUnitActivationValues[i].length; j++) {
+          testAgent.tempProcessingUnitActivationValues[i][j] =
+              testAgent.processingUnitActivationValues[i][j];
+        }
+      }
       agents.add(testAgent);
     }
 
@@ -109,10 +129,17 @@ public class Test {
    * @throws IOException
    */
   public static void main(String[] args) throws IOException {
-    @SuppressWarnings("unused")
-    ArrayList<TestAgent> agents = new ArrayList<TestAgent>();
-    agents = createAgentsFromCSV();
+    ArrayList<TestAgent> agents = createAgentsFromCSV();
+    for (TestAgent agent : agents) {
+      System.out.println(agent.getAgentID());
+    }
+    for (int i = 0; i < 10; i++) {
+      for (TestAgent agent : agents) {
+        System.out.print(i + CFG.DEL + agent.getAgentID() + CFG.DEL);
+        agent.step(agents);
+      }
+    }
+
+
   }
-
-
 }
