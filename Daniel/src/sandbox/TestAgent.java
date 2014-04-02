@@ -27,9 +27,10 @@ public class TestAgent {
   // valence banks
   double[][]            processingUnitActivationValues     = null;
 
-  // weights between processing units0 index are positive valence banks, 1 index are negative
+  // weights between processing units [0] are the pos neg valence banks [1] are the pu# [2] are the
+  // weight links 0 index are positive valence banks, 1 index are negative
   // valence banks
-  double[][]            processingUnitWeights              = null;
+  double[][][]          processingUnitWeights              = null;
 
   double                weightOppositeValenceBanks         = CFG.OPPOSITE_PROCESSING_UNIT_WEIGHT;
   double                weightCorespondingModule           =
@@ -53,6 +54,19 @@ public class TestAgent {
    * @param fillUsing array used to fill
    */
   private void set2dArray(double[][] fillMe, double[][] fillUsing) {
+    for (int i = 0; i < 2; i++) {
+      System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
+    }
+  }
+
+  public double[][][] make3darrayfrom2d(double[][] pos, double[][] neg) {
+    double[][][] d3array = new double[2][pos[0].length][pos[1].length];
+    System.arraycopy(pos, 0, d3array[0], 0, pos[0].length);
+    System.arraycopy(neg, 0, d3array[1], 0, neg[0].length);
+    return d3array;
+  }
+
+  private void set3dArray(double[][][] fillMe, double[][][] fillUsing) {
     for (int i = 0; i < 2; i++) {
       System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
     }
@@ -125,8 +139,8 @@ public class TestAgent {
    */
   public void setProcessingUnitWeights(double[][] weightArray) {
     System.out.println("setProcessingUnitWeights");
-    processingUnitWeights = new double[2][weightArray[0].length];
-    set2dArray(this.processingUnitWeights, weightArray);
+    processingUnitWeights = new double[2][weightArray[0].length][weightArray[1].length];
+    set3dArray(this.processingUnitWeights, make3darrayfrom2d(weightArray, weightArray));
 
     System.out
         .println("\t agent weight set:\n\t" + Arrays.deepToString(this.processingUnitWeights));
