@@ -70,28 +70,33 @@ public class Test {
       System.out.println(testAgent.getAgentID() == agentNumber);
       assert (testAgent.getAgentID() == agentNumber);
 
-      // assign the value array into each agent
+      // assign the value array into each agent, note i only pass in the values here, no agentID
       String[] values = Arrays.copyOfRange(nextValueLine, 1, nextValueLine.length);
 
-      double[] valuesD = new double[values.length];
-      for (int i = 0; i < valuesD.length; i++) {
-        valuesD[i] = Double.parseDouble(values[i]);
-      }
-
       System.out.println("values read");
-      System.out.println(Arrays.toString(valuesD));
+      System.out.println(Arrays.toString(values));
 
       Initialization initializeAgents = new Initialization();
-      testAgent.setProcessingUnitActivationValues(initializeAgents.initializeVBActivation(valuesD));
+
+      // set the activation values
+      testAgent.setProcessingUnitActivationValues(initializeAgents
+          .initializeVBActivation(convertStringArrayToDouble(values)));
 
       while ((nextWeightLine = weight.readNext()) != null) {
+        boolean test = Double.parseDouble(nextWeightLine[0]) == agendID;
+        System.out.println(nextWeightLine[0] + " == " + Integer.toString(agendID) + " "
+            + String.valueOf(test));
+
         if (Double.parseDouble(nextWeightLine[0]) == agendID) {
-          System.out.println(Arrays.deepToString(initializeAgents.initializeVBWeights(agendID,
-              convertStringArrayToDouble(nextWeightLine))));
+          // set the processing unit weights
+          testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(agendID,
+              convertStringArrayToDouble(nextWeightLine)));
+          // break;
         }
       }
 
       agents.add(testAgent);
+      break;
     }
     value.close();
     weight.close();
