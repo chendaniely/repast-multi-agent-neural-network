@@ -61,6 +61,15 @@ public class TestAgent {
     }
   }
 
+  /**
+   * takes in 2 2d arrays, where the first array represents the positive values, the second array
+   * represents the negative values. this method then creates a 3d array where the 0 index of the 3d
+   * are the positive 2d array values, and the 1 index are the negative 2d values
+   * 
+   * @param pos
+   * @param neg
+   * @return
+   */
   public double[][][] make3darrayfrom2d(double[][] pos, double[][] neg) {
     double[][][] d3array = new double[2][pos[0].length][pos[1].length];
     System.arraycopy(pos, 0, d3array[0], 0, pos[0].length);
@@ -68,12 +77,25 @@ public class TestAgent {
     return d3array;
   }
 
+  /**
+   * method that takes in 2 3d arrays, uses the second array to fill the first
+   * 
+   * @param fillMe
+   * @param fillUsing
+   */
   private void set3dArray(double[][][] fillMe, double[][][] fillUsing) {
     for (int i = 0; i < 2; i++) {
       System.arraycopy(fillUsing[i], 0, fillMe[i], 0, fillMe[0].length);
     }
   }
 
+  /**
+   * returns the opposite index, assumes there are 2 valence banks where 0 represents positive 1
+   * represents negative valence banks used to calculate opposite valence activation
+   * 
+   * @param i
+   * @return
+   */
   public int returnOpposite(int i) {
     if (i == 0) return 1;
     if (i == 1) return 0;
@@ -82,13 +104,17 @@ public class TestAgent {
 
   public void step(ArrayList<TestAgent> agents) {
     processingUnitActivationValues = tempProcessingUnitActivationValues;
+    // this is the print statement that writes out the outputs
     System.out.println(Arrays.deepToString(processingUnitActivationValues));
+
+    // write the printed console values to csv file
 
     Calculation calculation = new Calculation();
 
+    // TODO the 2 is hard coded, it represents the number of valence banks
     // for each valence bank
     for (int i = 0; i < 2; i++) {
-      // TODO the 5 is hard coded...
+      // TODO the 5 is hard coded, it represents how many PU in each bank
       // for each processing unit in each valence bank
       for (int j = 0; j < 5; j++) {
         double[] values = processingUnitActivationValues[i];
@@ -111,7 +137,13 @@ public class TestAgent {
                 calculation.calculateValenceBankInput(values, weights),
                 calculation.calculateOppositeProcessingUnit(opposite),
                 calculation.calculateCorrespondingProcessingUnit(corresponding));
-        tempProcessingUnitActivationValues[i][j] = newOutput;
+        
+        // ((final - initial) * step%) + initial
+        double newOutputStep =
+            ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.UPDATE_PROPORATION)
+                + tempProcessingUnitActivationValues[i][j];
+        
+        tempProcessingUnitActivationValues[i][j] = newOutputStep;
       }
     }
   }
