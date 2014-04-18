@@ -78,7 +78,7 @@ public class Calculation {
    */
   public double calculateOutputFromInputs(double sameBank, double oppositeProcessingUnit,
       double correspondingAgent) {
-    double output = sameBank + oppositeProcessingUnit + correspondingAgent;
+    double output = sameBank + oppositeProcessingUnit + correspondingAgent + CFG.BIAS;
     return convertToLogit(output);
   }
 
@@ -134,7 +134,7 @@ public class Calculation {
    * @return logit transform of input
    */
   public double convertToLogit(double input) {
-    input = (1.0 / (1 + Math.exp(input * -1)));
+    input = (1.0 / (1 + (Math.exp(input * -1))));
     return input;
   }
 
