@@ -1,6 +1,6 @@
 # clear all data in working environment
 rm(list=ls())
-x <- read.csv("~/Desktop/allzeroWithBias.csv", header=FALSE, stringsAsFactors=FALSE)
+x <- read.csv("~/Desktop/allzeroWithBiasDecay.csv", header=FALSE, stringsAsFactors=FALSE)
 
 summary(x)
 x<- transform(x,  V3 = as.numeric(V3))
