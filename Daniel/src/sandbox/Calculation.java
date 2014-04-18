@@ -77,9 +77,13 @@ public class Calculation {
    * @return convertToLogit(output)
    */
   public double calculateOutputFromInputs(double sameBank, double oppositeProcessingUnit,
-      double correspondingAgent) {
-    double output = sameBank + oppositeProcessingUnit + correspondingAgent + CFG.BIAS;
-    return convertToLogit(output);
+      double correspondingAgent, double activationForCarryOver) {
+    double sums =
+        sameBank + oppositeProcessingUnit + correspondingAgent + CFG.BIAS
+            + (activationForCarryOver * CFG.CARRY_OVER);
+    double logit = convertToLogit(sums);
+    double output = logit + CFG.DECAY;
+    return output;
   }
 
   /**
