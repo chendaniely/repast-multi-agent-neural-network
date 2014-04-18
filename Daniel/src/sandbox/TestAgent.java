@@ -136,11 +136,13 @@ public class TestAgent {
             calculation.calculateOutputFromInputs(
                 calculation.calculateValenceBankInput(values, weights),
                 calculation.calculateOppositeProcessingUnit(opposite),
-                calculation.calculateCorrespondingProcessingUnit(corresponding));
+                calculation.calculateCorrespondingProcessingUnit(corresponding),
+                processingUnitActivationValues[i][j]
+                );
         
         // ((final - initial) * step%) + initial
         double newOutputStep =
-            ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.UPDATE_PROPORATION)
+            ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.CARRY_OVER)
                 + tempProcessingUnitActivationValues[i][j];
         
         tempProcessingUnitActivationValues[i][j] = newOutputStep;
