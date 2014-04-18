@@ -29,12 +29,12 @@ public class CFG {
   static final String PROCESSING_UNIT_WEIGHTS_CSV = "./src/sandbox/agentWeights.csv";
   static final String EDGE_LIST_CSV = "./src/sandbox/agentEdgeList.csv";
 
+  // calculation weights
   static final double OPPOSITE_PROCESSING_UNIT_WEIGHT = (0);
   static final double CORRESPONDING_PROCESSING_UNIT_WEIGHT = 1;
-  static final double BIAS = (0);
+  static final double CARRY_OVER = 0.2;
+  static final double BIAS = (0); // leave as 0
   static final double DECAY = (-.5);
-  
-  static final double UPDATE_PROPORATION = 0.2; // carry-over
   
   static final String DEL = ", ";
   
