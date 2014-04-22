@@ -1,19 +1,36 @@
+#require(dplyr)
+require(plyr)
+
 # clear all data in working environment
 rm(list=ls())
-x <- read.csv("~/Desktop/allzeroWithBiasDecay.csv", header=FALSE, stringsAsFactors=FALSE)
+df <- read.csv("~/Desktop/allzeroWithBiasDecay.csv",
+              header=FALSE, stringsAsFactors=FALSE)
+num.pu.per.bank = 5
 
-summary(x)
-x<- transform(x,  V3 = as.numeric(V3))
-x<- transform(x,  V4 = as.numeric(V4))
-x<- transform(x,  V5 = as.numeric(V5))
-x<- transform(x,  V6 = as.numeric(V6))
-x<- transform(x,  V7 = as.numeric(V7))
-x<- transform(x,  V8 = as.numeric(V8))
-x<- transform(x,  V9 = as.numeric(V9))
-x<- transform(x,  V10 = as.numeric(V10))
-x<- transform(x,  V11 = as.numeric(V11))
-x<- transform(x,  V12 = as.numeric(V12))
-summary(x)
+summary(df)
+
+for (i in 3:12) {
+  df[ ,i] <- as.numeric(df[ ,i])
+}
+summary(df)
+
+# df <- transform(df,  V3 = as.numeric(V3))
+# df <- transform(df,  V4 = as.numeric(V4))
+# df <- transform(df,  V5 = as.numeric(V5))
+# df <- transform(df,  V6 = as.numeric(V6))
+# df <- transform(df,  V7 = as.numeric(V7))
+# df <- transform(df,  V8 = as.numeric(V8))
+# df <- transform(df,  V9 = as.numeric(V9))
+# df <- transform(df,  V10 = as.numeric(V10))
+# df <- transform(df,  V11 = as.numeric(V11))
+# df <- transform(df,  V12 = as.numeric(V12))
+# summary(df)
+
+for (i in num.pu.per.bank){
+  nameToUse <- paste("x", i, sep = "")
+
+
+}
 
 x.1 <- x[seq(1,100,10),]
 x.2 <- x[seq(2,100,10),]
