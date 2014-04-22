@@ -20,24 +20,28 @@ public class CFG {
   // static final String EDGE_LIST_CSV = "./src/sandbox/testAgentEdgeList.csv";
   
   // randomly generated numbers used to model
-  //static final String PROCESSING_UNIT_VALUES_CSV = "./src/sandbox/agentActivationValues.csv";
-  //static final String PROCESSING_UNIT_WEIGHTS_CSV = "./src/sandbox/agentWeights.csv";
-  //static final String EDGE_LIST_CSV = "./src/sandbox/agentEdgeList.csv";
-  
+  // static final String PROCESSING_UNIT_VALUES_CSV = "./src/sandbox/agentActivationValues.csv";
+  // static final String PROCESSING_UNIT_WEIGHTS_CSV = "./src/sandbox/agentWeights.csv";
+  // static final String EDGE_LIST_CSV = "./src/sandbox/agentEdgeList.csv";
+
   // randomly generated numbers used to model, single seed
-  static final String PROCESSING_UNIT_VALUES_CSV = "./src/sandbox/singleSeedPosOnlyOnesActivationValues.csv";
+  
+  // singleSeedPosOnlyOnesActivationValues
+  // singleSeedPosOnlyActivationValues
+  // singleSeedActivationValues
+  static final String PROCESSING_UNIT_VALUES_CSV = "./src/sandbox/singleSeedActivationValues.csv";
   static final String PROCESSING_UNIT_WEIGHTS_CSV = "./src/sandbox/agentWeights.csv";
   static final String EDGE_LIST_CSV = "./src/sandbox/agentEdgeList.csv";
 
   // calculation weights
-  static final double OPPOSITE_PROCESSING_UNIT_WEIGHT = (0);
-  static final double CORRESPONDING_PROCESSING_UNIT_WEIGHT = 1;
+  static final double OPPOSITE_PROCESSING_UNIT_WEIGHT = (-.02);
+  static final double CORRESPONDING_PROCESSING_UNIT_WEIGHT = .5;
   static final double CARRY_OVER = 0.2;
   static final double BIAS = (0); // leave as 0
   static final double DECAY = (-.5);
   
   static final String DEL = ", ";
   
-  static final int NUMBER_OF_TIME_TICKS = 10;
+  static final int NUMBER_OF_TIME_TICKS = 100000;
 
 }
