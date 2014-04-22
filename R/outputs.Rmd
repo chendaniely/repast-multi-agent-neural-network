@@ -1,0 +1,142 @@
+---
+title: "outputs"
+author: "Daniel Chen"
+date: "04/22/2014"
+output: html_document
+---
+# Plotting Function
+```{r}
+plot.thesis.data <- function(data)
+  {
+  x <- read.csv(data, header=FALSE, stringsAsFactors=FALSE)
+
+  names(x) <- c("time", "agent",
+                       "p1", "p2", "p3", "p4", "p5",
+                       "n1", "n2", "n3", "n4", "n5")
+
+  print(head(x, 10))
+  print(tail(x, 10))
+
+  for (i in 3:12) {
+    x[ ,i] <- as.numeric(x[ ,i])
+  }
+
+  x.1 <- x[seq(1,100,10),]
+  x.2 <- x[seq(2,100,10),]
+  x.3 <- x[seq(3,100,10),]
+  x.4 <- x[seq(4,100,10),]
+  x.5 <- x[seq(5,100,10),]
+
+  x.1.ave.pos <- apply(x.1[,c(3,4,5,6,7)],1, mean)
+  x.1.ave.neg <- apply(x.1[,c(8,9,10,11,12)],1,mean)
+
+  x.2.ave.pos <- apply(x.2[,c(3,4,5,6,7)],1,mean)
+  x.2.ave.neg <- apply(x.2[,c(8,9,10,11,12)],1,mean)
+
+  x.3.ave.pos <- apply(x.3[,c(3,4,5,6,7)],1,mean)
+  x.3.ave.neg <- apply(x.3[,c(8,9,10,11,12)],1,mean)
+
+  x.4.ave.pos <- apply(x.4[,c(3,4,5,6,7)],1,mean)
+  x.4.ave.neg <- apply(x.4[,c(8,9,10,11,12)],1,mean)
+
+  x.5.ave.pos <- apply(x.5[,c(3,4,5,6,7)],1,mean)
+  x.5.ave.neg <- apply(x.5[,c(8,9,10,11,12)],1,mean)
+
+  plot(x.1.ave.pos,lty=1,col=1,type="b",ylim=c(0,1))
+  lines(x.1.ave.neg, lty=2, col=1, type="b", lwd=3)
+
+  lines(x.2.ave.neg,ylim=c(0,1),lty=1,col=2,type="b")
+  lines(x.2.ave.neg,lty=2,col=2,type="b", lwd=3)
+
+  lines(x.3.ave.neg,lty=1,col=3,type="b")
+  lines(x.3.ave.neg,lty=2,col=3,type="b", lwd=3)
+
+  lines(x.4.ave.neg,lty=1,col=4,type="b")
+  lines(x.4.ave.neg,lty=2,col=4,type="b", lwd=3)
+
+  lines(x.5.ave.neg,lty=1,col=5,type="b")
+  lines(x.5.ave.neg,lty=2,col=5,type="b", lwd=3)
+  }
+```
+
+# Sanity Case:
+- Agents Activated: Agent 1 ont
+- Valence Bank: positive only
+    - Valence bank activation: 1's
+- Valence bank Weights: random
+    - opposite 0
+    - corresponding 0
+    - carry over = 0.2
+    - bias = 0
+    - decay = -0.5
+- Network: circle
+
+```{r}
+plot.thesis.data("~/Desktop/thesis-data/agent1pos1.csv")
+```
+
+# Sanity Case:
+- Agents Activated: Agent 1 only
+- Valence Bank: positive only
+    - Valence bank activation: **random**
+- Valence bank Weights: random
+    - opposite 0
+    - corresponding 0
+    - carry over = 0.2
+    - bias = 0
+    - decay = -0.5
+- Network: circle
+
+
+```{r}
+plot.thesis.data("~/Desktop/thesis-data/agent1posrandom.csv")
+```
+
+# Sanity Case:
+- Agents Activated: Agent 1 only
+- Valence Bank: **both**
+    - Valence bank activation: random
+- Valence bank Weights: random
+    - opposite 0
+    - corresponding 0
+    - carry over = 0.2
+    - bias = 0
+    - decay = -0.5
+- Network: circle
+
+```{r}
+plot.thesis.data("~/Desktop/thesis-data/agent1bothrandom.csv")
+```
+
+# Sanity Case:
+- Agents Activated: Agent 1 only
+- Valence Bank: both
+    - Valence bank activation: random
+- Valence bank Weights: random
+    - opposite **-0.2**
+    - corresponding **0.5**
+    - carry over = 0.2
+    - bias = 0
+    - decay = -0.5
+- Network: circle
+
+```{r, echo=FALSE}
+plot.thesis.data("~/Desktop/thesis-data/agent1bothrandom-weights.csv")
+```
+
+# Sanity Case:
+- Agents Activated: **All**
+- Valence Bank: both
+    - Valence bank activation: random
+- Valence bank Weights: random
+    - opposite -0.2
+    - corresponding 0.5
+    - carry over = 0.2
+    - bias = 0
+    - decay = -0.5
+- Network: circle
+
+```{r, echo=FALSE}
+plot.thesis.data("~/Desktop/thesis-data/randomvaluesetweight.csv")
+```
+
