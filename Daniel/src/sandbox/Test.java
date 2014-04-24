@@ -136,7 +136,7 @@ public class Test {
     for (int i = 0; i < CFG.NUMBER_OF_TIME_TICKS; i++) {
       for (TestAgent agent : agents) {
         System.out.print(i + CFG.DEL + agent.getAgentID() + CFG.DEL);
-        agent.step(agents);
+        agent.step(i, agent.getAgentID(), agents);
       }
     }
 
