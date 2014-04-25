@@ -1,0 +1,746 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{graphicx}
+\usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+
+\DeclareGraphicsExtensions{.png,.jpg}
+
+\title{Appendix}
+\author{Daniel Chen \\ CUMC}
+\date{}
+
+
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Plotting Function}
+\label{sec:plot-function}
+For the plots, x-axis is time, y-axis is processing unit activation value
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{plot.thesis.data} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{data}\hlstd{,} \hlkwc{numAgents}\hlstd{,} \hlkwc{numTimeTicks}\hlstd{,} \hlkwc{subx} \hlstd{=} \hlnum{0}\hlstd{,} \hlkwc{xmin} \hlstd{=} \hlnum{0}\hlstd{,}
+    \hlkwc{xmax} \hlstd{=} \hlnum{10}\hlstd{) \{}
+    \hlstd{x} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(data,} \hlkwc{header} \hlstd{=} \hlnum{FALSE}\hlstd{,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+
+    \hlkwd{names}\hlstd{(x)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"time"}\hlstd{,} \hlstr{"agent"}\hlstd{,} \hlstr{"p1"}\hlstd{,} \hlstr{"p2"}\hlstd{,} \hlstr{"p3"}\hlstd{,} \hlstr{"p4"}\hlstd{,} \hlstr{"p5"}\hlstd{,} \hlstr{"n1"}\hlstd{,} \hlstr{"n2"}\hlstd{,}
+        \hlstr{"n3"}\hlstd{,} \hlstr{"n4"}\hlstd{,} \hlstr{"n5"}\hlstd{)}
+
+
+
+    \hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{3}\hlopt{:}\hlnum{12}\hlstd{) \{}
+        \hlstd{x[, i]} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(x[, i])}
+    \hlstd{\}}
+
+    \hlstd{x.1} \hlkwb{<-} \hlstd{x[}\hlkwd{seq}\hlstd{(}\hlnum{1}\hlstd{, numTimeTicks} \hlopt{*} \hlstd{numAgents, numAgents), ]}
+    \hlstd{x.2} \hlkwb{<-} \hlstd{x[}\hlkwd{seq}\hlstd{(}\hlnum{2}\hlstd{, numTimeTicks} \hlopt{*} \hlstd{numAgents, numAgents), ]}
+    \hlstd{x.3} \hlkwb{<-} \hlstd{x[}\hlkwd{seq}\hlstd{(}\hlnum{3}\hlstd{, numTimeTicks} \hlopt{*} \hlstd{numAgents, numAgents), ]}
+    \hlstd{x.4} \hlkwb{<-} \hlstd{x[}\hlkwd{seq}\hlstd{(}\hlnum{4}\hlstd{, numTimeTicks} \hlopt{*} \hlstd{numAgents, numAgents), ]}
+    \hlstd{x.5} \hlkwb{<-} \hlstd{x[}\hlkwd{seq}\hlstd{(}\hlnum{5}\hlstd{, numTimeTicks} \hlopt{*} \hlstd{numAgents, numAgents), ]}
+
+    \hlstd{x.1.ave.pos} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.1[,} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{7}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+    \hlstd{x.1.ave.neg} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.1[,} \hlkwd{c}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{9}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{11}\hlstd{,} \hlnum{12}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+
+    \hlstd{x.2.ave.pos} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.2[,} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{7}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+    \hlstd{x.2.ave.neg} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.2[,} \hlkwd{c}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{9}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{11}\hlstd{,} \hlnum{12}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+
+    \hlstd{x.3.ave.pos} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.3[,} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{7}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+    \hlstd{x.3.ave.neg} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.3[,} \hlkwd{c}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{9}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{11}\hlstd{,} \hlnum{12}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+
+    \hlstd{x.4.ave.pos} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.4[,} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{7}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+    \hlstd{x.4.ave.neg} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.4[,} \hlkwd{c}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{9}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{11}\hlstd{,} \hlnum{12}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+
+    \hlstd{x.5.ave.pos} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.5[,} \hlkwd{c}\hlstd{(}\hlnum{3}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{5}\hlstd{,} \hlnum{6}\hlstd{,} \hlnum{7}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+    \hlstd{x.5.ave.neg} \hlkwb{<-} \hlkwd{apply}\hlstd{(x.5[,} \hlkwd{c}\hlstd{(}\hlnum{8}\hlstd{,} \hlnum{9}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{11}\hlstd{,} \hlnum{12}\hlstd{)],} \hlnum{1}\hlstd{, mean)}
+
+    \hlkwa{if} \hlstd{(subx} \hlopt{==} \hlnum{0}\hlstd{) \{}
+        \hlkwd{print}\hlstd{(}\hlkwd{head}\hlstd{(x, numAgents))}
+        \hlkwd{print}\hlstd{(}\hlkwd{tail}\hlstd{(x, numAgents))}
+
+        \hlkwd{plot}\hlstd{(x.1.ave.pos,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{))}
+        \hlkwd{lines}\hlstd{(x.1.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.2.ave.neg,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.2.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.3.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.3.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.4.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.4.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.5.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.5.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+    \hlstd{\}}
+
+    \hlkwa{if} \hlstd{(subx} \hlopt{==} \hlnum{1}\hlstd{) \{}
+        \hlkwd{print}\hlstd{(}\hlkwd{head}\hlstd{(x[xmax, ], numAgents))}
+        \hlkwd{print}\hlstd{(}\hlkwd{tail}\hlstd{(x[xmax, ], numAgents))}
+
+        \hlkwd{plot}\hlstd{(x.1.ave.pos,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwc{xlim} \hlstd{=} \hlkwd{c}\hlstd{(xmin,}
+            \hlstd{xmax))}
+        \hlkwd{lines}\hlstd{(x.1.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.2.ave.neg,} \hlkwc{ylim} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{1}\hlstd{),} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.2.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.3.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.3.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{3}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.4.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.4.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{4}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+
+        \hlkwd{lines}\hlstd{(x.5.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{)}
+        \hlkwd{lines}\hlstd{(x.5.ave.neg,} \hlkwc{lty} \hlstd{=} \hlnum{2}\hlstd{,} \hlkwc{col} \hlstd{=} \hlnum{5}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"b"}\hlstd{,} \hlkwc{lwd} \hlstd{=} \hlnum{3}\hlstd{)}
+    \hlstd{\}}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+\newpage
+
+\section{Sanity Checks}
+\label{sec:sanity-checks}
+
+\subsection{Sanity Check 1}
+\label{sec:sanity1}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: positive only
+  \begin{itemize}
+      \item Valence bank activation: 1's
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1pos1.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent p1 p2 p3 p4 p5 n1 n2 n3 n4 n5
+## 1     0     1  1  1  1  1  1  0  0  0  0  0
+## 2     0     2  0  0  0  0  0  0  0  0  0  0
+## 3     0     3  0  0  0  0  0  0  0  0  0  0
+## 4     0     4  0  0  0  0  0  0  0  0  0  0
+## 5     0     5  0  0  0  0  0  0  0  0  0  0
+## 6     0     6  0  0  0  0  0  0  0  0  0  0
+## 7     0     7  0  0  0  0  0  0  0  0  0  0
+## 8     0     8  0  0  0  0  0  0  0  0  0  0
+## 9     0     9  0  0  0  0  0  0  0  0  0  0
+## 10    0    10  0  0  0  0  0  0  0  0  0  0
+##     time agent    p1     p2     p3     p4     p5 n1 n2 n3 n4 n5
+## 91     9     1 0.342 0.2691 0.3214 0.2016 0.3127  0  0  0  0  0
+## 92     9     2 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 93     9     3 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 94     9     4 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 95     9     5 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 96     9     6 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 97     9     7 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 98     9     8 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 99     9     9 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+## 100    9    10 0.000 0.0000 0.0000 0.0000 0.0000  0  0  0  0  0
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-sanity-1} \caption[Sanity Checking 1]{Sanity Checking 1\label{fig:plot-sanity-1}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+in scetion \ref{sec:sanity-checks}, there was all the plots
+
+in scetion \ref{sec:sanity1}, there was a plot
+
+\newpage
+\subsection{Sanity Check 2}
+\label{sec:sanity2}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: positive only
+  \begin{itemize}
+      \item Valence bank activation: \textbf{random}
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1posrandom.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent     p1     p2       p3     p4      p5 n1 n2 n3 n4 n5
+## 1     0     1 0.7751 0.3028 0.005046 0.3107 0.09296  0  0  0  0  0
+## 2     0     2 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 3     0     3 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 4     0     4 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 5     0     5 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 6     0     6 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 7     0     7 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 8     0     8 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 9     0     9 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+## 10    0    10 0.0000 0.0000 0.000000 0.0000 0.00000  0  0  0  0  0
+##     time agent    p1      p2      p3      p4      p5 n1 n2 n3 n4 n5
+## 91     9     1 0.163 0.08619 0.05973 0.06904 0.07524  0  0  0  0  0
+## 92     9     2 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 93     9     3 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 94     9     4 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 95     9     5 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 96     9     6 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 97     9     7 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 98     9     8 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 99     9     9 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+## 100    9    10 0.000 0.00000 0.00000 0.00000 0.00000  0  0  0  0  0
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-sanity-2} \caption[Sanity Checking 2]{Sanity Checking 2\label{fig:plot-sanity-2}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\newpage
+\subsection{Sanity Check 3}
+\label{sec:sanity3}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: \textbf{both}
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent     p1     p2       p3     p4      p5     n1     n2     n3
+## 1     0     1 0.7751 0.3028 0.005046 0.3107 0.09296 0.9741 0.7533 0.1411
+## 2     0     2 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 3     0     3 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 4     0     4 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 5     0     5 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 6     0     6 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 7     0     7 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 8     0     8 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 9     0     9 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 10    0    10 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+##        n4     n5
+## 1  0.9262 0.7681
+## 2  0.0000 0.0000
+## 3  0.0000 0.0000
+## 4  0.0000 0.0000
+## 5  0.0000 0.0000
+## 6  0.0000 0.0000
+## 7  0.0000 0.0000
+## 8  0.0000 0.0000
+## 9  0.0000 0.0000
+## 10 0.0000 0.0000
+##     time agent    p1      p2      p3      p4      p5     n1     n2     n3
+## 91     9     1 0.163 0.08619 0.05973 0.06904 0.07524 0.2834 0.1929 0.1616
+## 92     9     2 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 93     9     3 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 94     9     4 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 95     9     5 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 96     9     6 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 97     9     7 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 98     9     8 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 99     9     9 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+## 100    9    10 0.000 0.00000 0.00000 0.00000 0.00000 0.0000 0.0000 0.0000
+##         n4     n5
+## 91  0.1782 0.2252
+## 92  0.0000 0.0000
+## 93  0.0000 0.0000
+## 94  0.0000 0.0000
+## 95  0.0000 0.0000
+## 96  0.0000 0.0000
+## 97  0.0000 0.0000
+## 98  0.0000 0.0000
+## 99  0.0000 0.0000
+## 100 0.0000 0.0000
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-sanity-3} \caption[Sanity Checking 3]{Sanity Checking 3\label{fig:plot-sanity-3}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\newpage
+\subsection{Sanity Check 4}
+\label{sec:sanity4}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite \textbf{-0.2}
+      \item corresponding \textbf{0.5}
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom-weights.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent     p1     p2       p3     p4      p5     n1     n2     n3
+## 1     0     1 0.7751 0.3028 0.005046 0.3107 0.09296 0.9741 0.7533 0.1411
+## 2     0     2 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 3     0     3 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 4     0     4 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 5     0     5 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 6     0     6 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 7     0     7 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 8     0     8 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 9     0     9 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+## 10    0    10 0.0000 0.0000 0.000000 0.0000 0.00000 0.0000 0.0000 0.0000
+##        n4     n5
+## 1  0.9262 0.7681
+## 2  0.0000 0.0000
+## 3  0.0000 0.0000
+## 4  0.0000 0.0000
+## 5  0.0000 0.0000
+## 6  0.0000 0.0000
+## 7  0.0000 0.0000
+## 8  0.0000 0.0000
+## 9  0.0000 0.0000
+## 10 0.0000 0.0000
+##     time agent        p1        p2        p3        p4        p5        n1
+## 91     9     1 1.601e-01 8.415e-02 5.808e-02 6.709e-02 7.285e-02 2.822e-01
+## 92     9     2 2.442e-15 1.332e-15 7.772e-16 1.665e-15 1.554e-15 3.153e-15
+## 93     9     3 7.334e-13 4.090e-13 2.576e-13 4.953e-13 4.508e-13 9.928e-13
+## 94     9     4 9.826e-11 5.255e-11 3.643e-11 6.703e-11 5.882e-11 1.385e-10
+## 95     9     5 7.599e-09 4.224e-09 2.659e-09 5.098e-09 4.099e-09 1.101e-08
+## 96     9     6 3.788e-07 2.131e-07 1.165e-07 2.377e-07 1.742e-07 5.636e-07
+## 97     9     7 1.228e-05 6.314e-06 3.558e-06 7.268e-06 6.046e-06 1.856e-05
+## 98     9     8 2.641e-04 1.312e-04 6.734e-05 1.566e-04 1.223e-04 3.975e-04
+## 99     9     9 3.552e-03 1.339e-03 9.488e-04 1.894e-03 1.210e-03 5.064e-03
+## 100    9    10 2.533e-02 9.697e-03 4.556e-03 1.200e-02 1.156e-02 2.721e-02
+##            n2        n3        n4        n5
+## 91  1.922e-01 1.612e-01 1.776e-01 2.246e-01
+## 92  2.842e-15 1.799e-15 4.063e-15 4.818e-15
+## 93  9.002e-13 6.121e-13 1.230e-12 1.431e-12
+## 94  1.220e-10 8.814e-11 1.683e-10 1.901e-10
+## 95  9.934e-09 6.849e-09 1.326e-08 1.395e-08
+## 96  5.010e-07 3.291e-07 6.330e-07 6.337e-07
+## 97  1.600e-05 1.100e-05 2.033e-05 2.157e-05
+## 98  3.568e-04 2.127e-04 4.535e-04 4.597e-04
+## 99  3.999e-03 3.254e-03 5.664e-03 5.422e-03
+## 100 3.330e-02 2.848e-02 4.644e-02 5.235e-02
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-sanity-4} \caption[Sanity Checking 4]{Sanity Checking 4\label{fig:plot-sanity-4}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\newpage
+\subsection{Sanity Check 5}
+\label{sec:sanity5}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: \textbf{All}
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/randomvaluesetweight.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent        p1     p2       p3      p4       p5      n1      n2
+## 1     0     1 0.7751355 0.3028 0.005046 0.31069 0.092960 0.97414 0.75330
+## 2     0     2 0.3625391 0.9785 0.901478 0.80588 0.579112 0.25420 0.10086
+## 3     0     3 0.3986206 0.1727 0.837737 0.94254 0.826498 0.90325 0.49611
+## 4     0     4 0.0007099 0.8682 0.503631 0.02364 0.182222 0.06381 0.26172
+## 5     0     5 0.6989601 0.9436 0.965461 0.70253 0.582010 0.77030 0.43587
+## 6     0     6 0.7138209 0.3321 0.724179 0.19593 0.844094 0.95384 0.07164
+## 7     0     7 0.3073747 0.4676 0.475070 0.16682 0.924689 0.30535 0.14314
+## 8     0     8 0.0687121 0.6650 0.500397 0.06296 0.256136 0.39070 0.14750
+## 9     0     9 0.3763782 0.8073 0.720711 0.65814 0.634583 0.63019 0.62198
+## 10    0    10 0.0337168 0.6983 0.778480 0.47468 0.006933 0.57296 0.63639
+##         n3      n4     n5
+## 1  0.14105 0.92622 0.7681
+## 2  0.57284 0.49681 0.2832
+## 3  0.90110 0.18425 0.4425
+## 4  0.26826 0.07788 0.7916
+## 5  0.50432 0.27977 0.5170
+## 6  0.19726 0.50519 0.1225
+## 7  0.81650 0.41313 0.3817
+## 8  0.41682 0.53419 0.2084
+## 9  0.67661 0.02673 0.8123
+## 10 0.05989 0.18087 0.7029
+##     time agent      p1     p2     p3     p4     p5      n1      n2      n3
+## 91     9     1  0.1873 0.1286 0.1135 0.1027 0.1119 0.29776 0.20103 0.19077
+## 92     9     2  0.2272 0.2674 0.3168 0.2728 0.2827 0.15762 0.09646 0.20174
+## 93     9     3  0.1882 0.2375 0.2979 0.2139 0.2746 0.27080 0.27048 0.28680
+## 94     9     4  0.1599 0.2991 0.2629 0.1148 0.2218 0.18080 0.19478 0.20256
+## 95     9     5  0.3153 0.3967 0.3922 0.3559 0.3560 0.27092 0.23583 0.24627
+## 96     9     6  0.2617 0.2166 0.2702 0.1774 0.2466 0.25383 0.15328 0.15922
+## 97     9     7  0.1759 0.2057 0.2468 0.1367 0.2672 0.15766 0.14529 0.26132
+## 98     9     8  0.1369 0.2260 0.1473 0.1612 0.1802 0.18331 0.17181 0.14650
+## 99     9     9  0.1955 0.1990 0.2209 0.1953 0.1253 0.21664 0.16223 0.18892
+## 100    9    10 -0.1381 0.1584 0.2059 0.1882 0.1481 0.01237 0.14280 0.08595
+##          n4      n5
+## 91  0.19896 0.24727
+## 92  0.13830 0.16364
+## 93  0.09993 0.24579
+## 94  0.11355 0.26886
+## 95  0.23218 0.25079
+## 96  0.19143 0.09185
+## 97  0.18164 0.19442
+## 98  0.19191 0.18779
+## 99  0.09300 0.17742
+## 100 0.14210 0.20586
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-sanity-5} \caption[Sanity Checking 5]{Sanity Checking 5\label{fig:plot-sanity-5}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\newpage
+\section{Output}
+\subsection{Output 1}
+\label{sec:output1}
+Output Data
+\begin{itemize}
+  \item Agents Activated: 1
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+  \item Random number: read in from file
+  \item Processing units per valence bank: 5
+  \item number of agents: 10
+  \item number of time ticks: 10,000
+\end{itemize}
+
+\subsubsection{First 100 time ticks}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10000}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{0}\hlstd{,} \hlnum{100}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent           p1            p2            p3            p4
+## 1     0     1 0.7751355455  0.3028445595  0.0050462175  0.3106865908
+## 2     0     2          0.0           0.0           0.0           0.0
+## 3     0     3          0.0           0.0           0.0           0.0
+## 4     0     4          0.0           0.0           0.0           0.0
+## 5     0     5          0.0           0.0           0.0           0.0
+## 6     0     6          0.0           0.0           0.0           0.0
+## 7     0     7          0.0           0.0           0.0           0.0
+## 8     0     8          0.0           0.0           0.0           0.0
+## 9     0     9          0.0           0.0           0.0           0.0
+## 10    0    10          0.0           0.0           0.0           0.0
+##              p5            n1            n2            n3            n4
+## 1   0.092959919  0.9741398324  0.7532975646  0.1410541425  0.9262177327
+## 2           0.0           0.0           0.0           0.0           0.0
+## 3           0.0           0.0           0.0           0.0           0.0
+## 4           0.0           0.0           0.0           0.0           0.0
+## 5           0.0           0.0           0.0           0.0           0.0
+## 6           0.0           0.0           0.0           0.0           0.0
+## 7           0.0           0.0           0.0           0.0           0.0
+## 8           0.0           0.0           0.0           0.0           0.0
+## 9           0.0           0.0           0.0           0.0           0.0
+## 10          0.0           0.0           0.0           0.0           0.0
+##               n5
+## 1   0.7681111062
+## 2            0.0
+## 3            0.0
+## 4            0.0
+## 5            0.0
+## 6            0.0
+## 7            0.0
+## 8            0.0
+## 9            0.0
+## 10           0.0
+##        time agent        p1         p2         p3         p4         p5
+## 99991  9999     1 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99992  9999     2 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99993  9999     3 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99994  9999     4 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99995  9999     5 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99996  9999     6 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99997  9999     7 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99998  9999     8 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99999  9999     9 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 100000 9999    10  1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+##                             n1                     n2
+## 99991    1.110223024625157E-16  1.110223024625157E-16
+## 99992    1.110223024625157E-16  1.110223024625157E-16
+## 99993    1.110223024625157E-16  1.110223024625157E-16
+## 99994    1.110223024625157E-16  1.110223024625157E-16
+## 99995    1.110223024625157E-16  1.110223024625157E-16
+## 99996    1.110223024625157E-16  1.110223024625157E-16
+## 99997    1.110223024625157E-16  1.110223024625157E-16
+## 99998    1.110223024625157E-16  1.110223024625157E-16
+## 99999   1.1102230246251563E-16               1.0E-323
+## 100000               -1.0E-323               1.0E-323
+##                            n3                     n4
+## 99991   1.110223024625157E-16               1.0E-323
+## 99992   1.110223024625157E-16  1.110223024625157E-16
+## 99993   1.110223024625157E-16  1.110223024625157E-16
+## 99994   1.110223024625157E-16  1.110223024625157E-16
+## 99995   1.110223024625157E-16  1.110223024625157E-16
+## 99996   1.110223024625157E-16  1.110223024625157E-16
+## 99997   1.110223024625157E-16  1.110223024625157E-16
+## 99998   1.110223024625157E-16  1.110223024625157E-16
+## 99999   1.110223024625157E-16  1.110223024625157E-16
+## 100000  1.110223024625157E-16  1.110223024625157E-16
+##                            n5
+## 99991   1.110223024625157E-16
+## 99992   1.110223024625157E-16
+## 99993   1.110223024625157E-16
+## 99994   1.110223024625157E-16
+## 99995   1.110223024625157E-16
+## 99996   1.110223024625157E-16
+## 99997   1.110223024625157E-16
+## 99998   1.110223024625157E-16
+## 99999                1.0E-323
+## 100000  1.110223024625157E-16
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-output-1} \caption[Output 1, first 100 time ticks]{Output 1, first 100 time ticks\label{fig:plot-output-1}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\newpage
+\subsubsection{All time ticks}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{plot.thesis.data}\hlstd{(}\hlstr{"/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv"}\hlstd{,}
+    \hlnum{10}\hlstd{,} \hlnum{10000}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##    time agent           p1            p2            p3            p4
+## 1     0     1 0.7751355455  0.3028445595  0.0050462175  0.3106865908
+## 2     0     2          0.0           0.0           0.0           0.0
+## 3     0     3          0.0           0.0           0.0           0.0
+## 4     0     4          0.0           0.0           0.0           0.0
+## 5     0     5          0.0           0.0           0.0           0.0
+## 6     0     6          0.0           0.0           0.0           0.0
+## 7     0     7          0.0           0.0           0.0           0.0
+## 8     0     8          0.0           0.0           0.0           0.0
+## 9     0     9          0.0           0.0           0.0           0.0
+## 10    0    10          0.0           0.0           0.0           0.0
+##              p5            n1            n2            n3            n4
+## 1   0.092959919  0.9741398324  0.7532975646  0.1410541425  0.9262177327
+## 2           0.0           0.0           0.0           0.0           0.0
+## 3           0.0           0.0           0.0           0.0           0.0
+## 4           0.0           0.0           0.0           0.0           0.0
+## 5           0.0           0.0           0.0           0.0           0.0
+## 6           0.0           0.0           0.0           0.0           0.0
+## 7           0.0           0.0           0.0           0.0           0.0
+## 8           0.0           0.0           0.0           0.0           0.0
+## 9           0.0           0.0           0.0           0.0           0.0
+## 10          0.0           0.0           0.0           0.0           0.0
+##               n5
+## 1   0.7681111062
+## 2            0.0
+## 3            0.0
+## 4            0.0
+## 5            0.0
+## 6            0.0
+## 7            0.0
+## 8            0.0
+## 9            0.0
+## 10           0.0
+##        time agent        p1         p2         p3         p4         p5
+## 99991  9999     1 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99992  9999     2 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99993  9999     3 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99994  9999     4 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99995  9999     5 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99996  9999     6 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99997  9999     7 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99998  9999     8 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 99999  9999     9 -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+## 100000 9999    10  1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323  -1.0E-323
+##                             n1                     n2
+## 99991    1.110223024625157E-16  1.110223024625157E-16
+## 99992    1.110223024625157E-16  1.110223024625157E-16
+## 99993    1.110223024625157E-16  1.110223024625157E-16
+## 99994    1.110223024625157E-16  1.110223024625157E-16
+## 99995    1.110223024625157E-16  1.110223024625157E-16
+## 99996    1.110223024625157E-16  1.110223024625157E-16
+## 99997    1.110223024625157E-16  1.110223024625157E-16
+## 99998    1.110223024625157E-16  1.110223024625157E-16
+## 99999   1.1102230246251563E-16               1.0E-323
+## 100000               -1.0E-323               1.0E-323
+##                            n3                     n4
+## 99991   1.110223024625157E-16               1.0E-323
+## 99992   1.110223024625157E-16  1.110223024625157E-16
+## 99993   1.110223024625157E-16  1.110223024625157E-16
+## 99994   1.110223024625157E-16  1.110223024625157E-16
+## 99995   1.110223024625157E-16  1.110223024625157E-16
+## 99996   1.110223024625157E-16  1.110223024625157E-16
+## 99997   1.110223024625157E-16  1.110223024625157E-16
+## 99998   1.110223024625157E-16  1.110223024625157E-16
+## 99999   1.110223024625157E-16  1.110223024625157E-16
+## 100000  1.110223024625157E-16  1.110223024625157E-16
+##                            n5
+## 99991   1.110223024625157E-16
+## 99992   1.110223024625157E-16
+## 99993   1.110223024625157E-16
+## 99994   1.110223024625157E-16
+## 99995   1.110223024625157E-16
+## 99996   1.110223024625157E-16
+## 99997   1.110223024625157E-16
+## 99998   1.110223024625157E-16
+## 99999                1.0E-323
+## 100000  1.110223024625157E-16
+\end{verbatim}
+\end{kframe}\begin{figure}[]
+
+\includegraphics[width=\maxwidth]{figure/plot-output-1a} \caption[Output 1, all time ticks]{Output 1, all time ticks\label{fig:plot-output-1a}}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\end{document}
