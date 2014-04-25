@@ -51,7 +51,6 @@ public class UnitTest {
 
     // testing calculateOutputFromInputs()
     assert (calculationUnitTest.calculateOutputFromInputs(-.5, 0, .5) == .5);
-    assert (calculationUnitTest.calculateOutputFromInputs(-.5, 0, .5) == .5);
     assert ((calculationUnitTest.calculateOutputFromInputs(-.5, 1, .5) - 0.73105857863) < CFG.EPSILON);
     assert ((calculationUnitTest.calculateOutputFromInputs(0, .5, .5) - 0.73105857863) < CFG.EPSILON);
     assert ((calculationUnitTest.calculateOutputFromInputs(0, 0, 1) - 0.73105857863) < CFG.EPSILON);
