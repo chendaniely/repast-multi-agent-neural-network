@@ -1,7 +1,10 @@
 package sandbox;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import writer.WriteToCSV;
 
 public class TestAgent {
 
@@ -41,6 +44,9 @@ public class TestAgent {
   // Variables unique to each agent
   private int           agentID                            = 0;
   int[]                 agentsWhoInfluenceMe               = null;
+
+  // prepares file to write output
+  WriteToCSV            writeTimeTicks                     = new WriteToCSV();
 
   // Constructor(s)
   public TestAgent() {
@@ -102,10 +108,18 @@ public class TestAgent {
     return -1;
   }
 
-  public void step(ArrayList<TestAgent> agents) {
+  public void step(int time, int agentID, ArrayList<TestAgent> agents) {
     processingUnitActivationValues = tempProcessingUnitActivationValues;
     // this is the print statement that writes out the outputs
     System.out.println(Arrays.deepToString(processingUnitActivationValues));
+
+    // write print statement to CSV file
+    try {
+      writeTimeTicks.writeAgentTimeTickToFile(time, agentID, processingUnitActivationValues);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     // write the printed console values to csv file
 
@@ -137,14 +151,13 @@ public class TestAgent {
                 calculation.calculateValenceBankInput(values, weights),
                 calculation.calculateOppositeProcessingUnit(opposite),
                 calculation.calculateCorrespondingProcessingUnit(corresponding),
-                processingUnitActivationValues[i][j]
-                );
-        
+                processingUnitActivationValues[i][j]);
+
         // ((final - initial) * step%) + initial
         double newOutputStep =
             ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.CARRY_OVER)
                 + tempProcessingUnitActivationValues[i][j];
-        
+
         tempProcessingUnitActivationValues[i][j] = newOutputStep;
       }
     }
