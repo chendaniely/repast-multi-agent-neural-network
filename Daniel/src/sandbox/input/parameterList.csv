@@ -1,0 +1,24 @@
+Parameter,s1,s2,s3,s4,s5,s6,1,EXP 1a
+OPPOSITE_PROCESSING_UNIT_WEIGHT,0,0,0,-0.2,-0.2,-0.2,-0.2,-0.2
+CORRESPONDING_PROCESSING_UNIT_WEIGHT,0,0,0,0.5,0.5,0.5,0.5,0.5
+CARRY_OVER,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.35
+BIAS,0,0,0,0,0,0,0,0
+DECAY,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5
+NUMBER_OF_TIME_TICKS,10,10,10,10,10,10,10000,1000
+Number of agents seeded,1,1,1,1,10,10,1,1
+Agent(s) number seeded,1,1,1,1,All,All,1,1
+"Positive bank activated? 0 = no, 1 = yes",1,1,1,1,1,1,1,1
+Positive bank activated using,1,Fixed Random,Fixed Random,Fixed Random,Fixed Random,Fixed Random,Fixed Random,Fixed Random
+"Negative bank activated? 0 = no, 1 = yes",0,0,1,1,1,1,1,1
+Negative bank activated using,0,0,Fixed Random,Fixed Random,Fixed Random,Fixed Random,Fixed Random,Fixed Random
+Network type,circle,circle,circle,circle,circle,"circle, no 5, multiple 1",circle,random graph
+Number of agents in network,10,10,10,10,10,10,10,40
+Intra bank lower bound,0,0,0,0,0,0,0,0.6
+Intra bank upper bound,1,1,1,1,1,1,1,1
+"Logit tuning parameter, X",1,1,1,1,1,1,1,1
+Processing units per valence bank,5,5,5,5,5,5,5,5
+igraph p or m,,,,,,,,p
+igraph p or m value,,,,,,,,0.53
+igraph directed,,,,,,,,TRUE
+igraph loops,,,,,,,,FALSE
+random formula,,,,,,,,RANDBETWEEN(60000000000;100000000000) / 100000000000
