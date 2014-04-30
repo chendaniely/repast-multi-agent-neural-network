@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{hyperref}
+
+<<set-options, include=FALSE>>=
+opts_chunk$set(cashe=TRUE, dev='png', dpi=300)
+@
+
+
+\begin{document}
+
+igraph
+
+n
+The number of vertices in the graph.
+
+p.or.m
+Either the probability for drawing an edge between two arbitrary vertices (G(n,p) graph), or the number of edges in the graph (for G(n,m) graphs).
+
+type
+The type of the random graph to create, either gnp (G(n,p) graph) or gnm (G(n,m) graph).
+
+directed
+Logical, whether the graph will be directed, defaults to FALSE.
+
+loops
+Logical, whether to add loop edges, defaults to FALSE.
+
+<<igraph,tidy=TRUE, tidy.opts=list(keep.blank.line=FALSE, width.cutoff=60)>>=
+require(igraph)
+saved.seed <- .Random.seed
+saved.seed
+g <- erdos.renyi.game(n = 40, p.or.m = .53, type=c("gnp"), directed = TRUE, loops = FALSE)
+degree.distribution(g)
+edge <- get.edgelist(g)
+
+matrix <- get.adjacency(g)
+
+print(matrix)
+
+graph.tree(matrix)
+
+graph.adjacency(matrix)
+
+summary(matrix)
+
+
+print(g, full=getIgraphOpt("print.full"),
+      graph.attributes=getIgraphOpt("print.graph.attributes"),
+      vertex.attributes=getIgraphOpt("print.vertex.attributes"),
+      edge.attributes=getIgraphOpt("print.edge.attributes"),
+      names=TRUE)
+@
+
+<<edge,tidy=TRUE, tidy.opts=list(keep.blank.line=FALSE, width.cutoff=60)>>=
+edge
+
+edge.df <- data.frame(edge)
+script.dir <- dirname(sys.frame(1)$ofile)
+setwd(script.dir)
+getwd()
+write.csv(edge.df, file = "edge.csv")
+system('python ../../Python/graph/r-df-to-edge-list-csv.py "edge.csv"' )
+@
+
+\end{document}
