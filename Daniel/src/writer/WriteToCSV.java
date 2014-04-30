@@ -70,7 +70,7 @@ public class WriteToCSV {
 
     String[] entries = stringOfEntries.replace("[", "").replace("]", "").split(",");
 
-    System.out.println("writting to csv: " + Arrays.toString(entries));
+//    System.out.println("writting to csv: " + Arrays.toString(entries));
 
     writer.writeNext(entries);
     writer.close();
