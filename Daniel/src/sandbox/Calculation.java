@@ -3,6 +3,7 @@ package sandbox;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.util.ArithmeticUtils;
@@ -124,6 +125,11 @@ public class Calculation {
   public double calculateCorrespondingProcessingUnit(double[] input) {
     double output = 0;
     double total = 0;
+    System.out.println("arrays to string: " + Arrays.toString(input));
+    // if (input.length == 1 && input[0] == 0){
+    // return 0;
+    // }
+    //
     for (int i = 0; i < input.length; i++) {
       total += input[i];
     }
@@ -138,7 +144,7 @@ public class Calculation {
    * @return logit transform of input
    */
   public double convertToLogit(double input) {
-    input = (1.0 / (1 + (Math.exp(input * -1))));
+    input = (1.0 / (1 + (Math.exp(input * -1 * CFG.LOGIT_TUNE))));
     return input;
   }
 
