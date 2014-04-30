@@ -1,36 +1,64 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
 
 \DeclareGraphicsExtensions{.png,.jpg}
 
-\title{Appendix}
-\author{Daniel Chen \\ CUMC}
+\title{Appendix and Model Output Plots}
+\author{Daniel Chen \\ Mailman School of Public health \\ Columbia University}
 \date{}
 
 <<set-options, include=FALSE>>=
-opts_chunk$set(cashe=TRUE, dev='png', dpi=300, tidy=TRUE)
+opts_chunk$set(cashe=TRUE, dev='png', dpi=150)
 @
 
 \begin{document}
 \maketitle
 \tableofcontents
 
+\newpage
+
 \section{Plotting Function}
 \label{sec:plot-function}
 For the plots, x-axis is time, y-axis is processing unit activation value
 
 <<plotting function>>=
-plot.thesis.data <- function(data, numAgents, numTimeTicks, subx = 0, xmin = 0, xmax = 10)
-  {
+plot.thesis.data <- function(data, numAgents, numTimeTicks, subx = 0, xmin = 0, xmax = 10) {
+  # Takes a CSV from my thesis output,
+  # assign's column names,
+  # converts processing unit values into numerics
+  # plots the average activation value for each processing unit for each agent in each time tick
+  #
+  # Args:
+  #   data: String value of the directory and file of CSV
+  #   numAgents: Number of agents ran in the simulation of the CSV
+  #   numTimeTicks: Number of time ticks ran in the simulation of the CSV
+  #   subx: defaults to 0, used to section regions of the x axis,
+  #           0 for no sub-sectioning, 1 for yes sub-sectioning
+  #   xmin: defaults to 0, the lower bound of the x-axis if subx is 1
+  #   xmax: defaults to 0, the upper bound of the x-axis if subx is 1
+  #
+  # Returns:
+  #   Line graph
+
+  # Load data
   x <- read.csv(data, header=FALSE, stringsAsFactors=FALSE)
 
+  # Rename dataframe column names
   names(x) <- c("time", "agent",
                        "p1", "p2", "p3", "p4", "p5",
                        "n1", "n2", "n3", "n4", "n5")
 
-
-
+  # Convert string factors into numerics
   for (i in 3:12) {
     x[ ,i] <- as.numeric(x[ ,i])
   }
@@ -58,8 +86,8 @@ plot.thesis.data <- function(data, numAgents, numTimeTicks, subx = 0, xmin = 0, 
 
   if (subx == 0)
   {
-    print(head(x, numAgents))
-    print(tail(x, numAgents))
+#     print(head(x, numAgents))
+#     print(tail(x, numAgents))
 
     plot(x.1.ave.pos,lty=1,col=1,type="b",ylim=c(0,1))
     lines(x.1.ave.neg, lty=2, col=1, type="b", lwd=3)
@@ -79,8 +107,8 @@ plot.thesis.data <- function(data, numAgents, numTimeTicks, subx = 0, xmin = 0, 
 
   if (subx == 1)
     {
-      print(head(x[xmax,], numAgents))
-      print(tail(x[xmax,], numAgents))
+#       print(head(x, numAgents))
+#       print(tail(x, numAgents))
 
       plot(x.1.ave.pos, lty = 1, col = 1, type = "b", ylim = c(0, 1), xlim = c(xmin, xmax))
       lines(x.1.ave.neg, lty=2, col=1, type="b", lwd=3)
@@ -125,13 +153,24 @@ Sanity Case:
   \item Network: circle
 \end{itemize}
 
-<<plot-sanity-1, fig.cap="Sanity Checking 1", fig.show='asis'>>=
-plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1pos1.csv", 10, 10)
+%
+% \newpage
+% <<plot-sanity-1, fig.cap="Sanity Checking 1", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1pos1.csv",
+%   10, 10)
+% @
+%
+% \newpage
+% \subsubsection{Sanity 1}
+% <<plot-sanity1-v2, fig.cap="Sanity 1 with re-implemented edge list", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity1-new-external.csv", 10, 10)
+% @
+
+\newpage
+\subsubsection{Sanity 1, no step}
+<<plot-sanity1-v2-nostep, fig.cap="Sanity 1 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity1-new-external-no-step.csv", 10, 10)
 @
-
-in scetion \ref{sec:sanity-checks}, there was all the plots
-
-in scetion \ref{sec:sanity1}, there was a plot
 
 \newpage
 \subsection{Sanity Check 2}
@@ -153,9 +192,22 @@ Sanity Case:
   \end{itemize}
   \item Network: circle
 \end{itemize}
+%
+% \newpage
+% <<plot-sanity-2, fig.cap="Sanity Checking 2", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1posrandom.csv", 10, 10)
+% @
+%
+% \newpage
+% \subsubsection{Sanity 2}
+% <<plot-sanity-2-v2, fig.cap="Sanity Checking 2 with re-implemented edge list", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity2-new-external.csv", 10, 10)
+% @
 
-<<plot-sanity-2, fig.cap="Sanity Checking 2", fig.show='asis'>>=
-plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1posrandom.csv", 10, 10)
+\newpage
+\subsubsection{Sanity 2, no step}
+<<plot-sanity-2-v2-nostep, fig.cap="Sanity Checking 2 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity2-new-external-no-step.csv", 10, 10)
 @
 
 \newpage
@@ -178,9 +230,22 @@ Sanity Case:
   \end{itemize}
   \item Network: circle
 \end{itemize}
+%
+% \newpage
+% <<plot-sanity-3, fig.cap="Sanity Checking 3", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom.csv", 10, 10)
+% @
+%
+% \newpage
+% \subsubsection{Sanity 3}
+% <<plot-sanity-3-v2, fig.cap="Sanity Checking 3 with re-implemented edge list", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity3-new-external.csv", 10, 10)
+% @
 
-<<plot-sanity-3, fig.cap="Sanity Checking 3", fig.show='asis'>>=
-plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom.csv", 10, 10)
+\newpage
+\subsubsection{Sanity 3, no step}
+<<plot-sanity-3-v2-nostep, fig.cap="Sanity Checking 3 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity3-new-external-no-step.csv", 10, 10)
 @
 
 \newpage
@@ -203,9 +268,22 @@ Sanity Case:
   \end{itemize}
   \item Network: circle
 \end{itemize}
+%
+% \newpage
+% <<plot-sanity-4, fig.cap="Sanity Checking 4", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom-weights.csv", 10, 10)
+% @
+%
+% \newpage
+% \subsubsection{Sanity 4}
+% <<plot-sanity-4-v2, fig.cap="Sanity Checking 4 with re-implemented edge list", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity4-new-external.csv", 10, 10)
+% @
 
-<<plot-sanity-4, fig.cap="Sanity Checking 4", fig.show='asis'>>=
-plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1bothrandom-weights.csv", 10, 10)
+\newpage
+\subsubsection{Sanity 4, no step}
+<<plot-sanity-4-v2-nostep, fig.cap="Sanity Checking 4 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity4-new-external-no-step.csv", 10, 10)
 @
 
 \newpage
@@ -228,9 +306,40 @@ Sanity Case:
   \end{itemize}
   \item Network: circle
 \end{itemize}
+%
+% \newpage
+% <<plot-sanity-5, fig.cap="Sanity Checking 5", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/randomvaluesetweight.csv", 10, 10)
+% @
+%
+% \newpage
+% \subsubsection{Sanity 5}
+% <<plot-sanity-5-v2, fig.cap="Sanity Checking 5 with re-implemented edge list", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity5-new-external.csv", 10, 10)
+% @
 
-<<plot-sanity-5, fig.cap="Sanity Checking 5", fig.show='asis'>>=
-plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/randomvaluesetweight.csv", 10, 10)
+\newpage
+\subsubsection{Sanity 5, no step}
+<<plot-sanity-5-v2-nostep, fig.cap="Sanity Checking 5 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity5-new-external-no-step.csv", 10, 10)
+@
+
+\newpage
+\subsection{Sanity 6}
+<<plot-sanity-6, fig.cap="Sanity Checking 6 with re-implemented edge list", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity6.csv", 10, 10)
+@
+
+\newpage
+\subsubsection{Sanity 6 no decay}
+<<plot-sanity-6-nodecay, fig.cap="Sanity Checking 6 with re-implemented edge list no decay", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity6-nodecay.csv", 10, 10)
+@
+
+\newpage
+\subsection{Sanity 7 no decay}
+<<plot-sanity-7-nodecay, fig.cap="Sanity Checking 7 with re-implemented edge list no decay", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/sanity7-nodecay.csv", 10, 10)
 @
 
 \newpage
@@ -260,14 +369,27 @@ Output Data
 \end{itemize}
 
 \subsubsection{First 100 time ticks}
-<<plot-output-1, fig.cap="Output 1, first 100 time ticks", fig.show='asis', cache=TRUE>>=
+<<plot-output-1, fig.cap="Output 1, first 100 time ticks", fig.show='asis'>>=
 plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv", 10, 10000, 1, 0, 100)
 @
 
 \newpage
 \subsubsection{All time ticks}
-<<plot-output-1a, fig.cap="Output 1, all time ticks", fig.show='asis', cache=TRUE>>=
+<<plot-output-1a, fig.cap="Output 1, all time ticks", fig.show='asis'>>=
 plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv", 10, 10000)
+@
+
+\newpage
+\subsection{Exp1a}
+\subsubsection{First 5 time ticks}
+<<plot-exp1a, fig.cap="Exp1a, first 100 time ticks", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/exp1a.csv", 40, 1000, 1, 0, 5)
+@
+
+\newpage
+\subsubsection{All time ticks}
+<<plot-exp1a1, fig.cap="Exp1a, all time ticks", fig.show='asis'>>=
+plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/exp1a.csv", 40, 1000)
 @
 
 \end{document}
