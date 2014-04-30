@@ -1,10 +1,12 @@
 package sandbox;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import writer.WriteToCSV;
+import au.com.bytecode.opencsv.CSVReader;
 
 public class TestAgent {
 
@@ -51,6 +53,34 @@ public class TestAgent {
   // Constructor(s)
   public TestAgent() {
     numAgentsCreated++;
+  }
+
+  public void initializeAgentsWhoInfluenceMe() throws NumberFormatException, IOException {
+    CSVReader edge =
+        new CSVReader(new FileReader(CFG.EDGE_LIST_CSV), ',', '\"',
+            CFG.EDGE_LIST_CSV_READ_FROM_LINE);
+    String[] nextEdgeLine;
+
+    Initialization initializeAgents = new Initialization();
+
+    // assign agents into network
+    while ((nextEdgeLine = edge.readNext()) != null) {
+      boolean testEdge = Integer.parseInt(nextEdgeLine[0]) == this.agentID;
+      System.out.println(nextEdgeLine[0] + " == " + Integer.toString(this.agentID) + " "
+          + String.valueOf(testEdge));
+
+      // if the first element in the edge list equals the agentID
+      if (Integer.parseInt(nextEdgeLine[0]) == this.agentID) {
+        // set agents who are connected to this.agent (referenced by id)
+        this.setAgentsWhoInfluenceMe(initializeAgents.initializeAgentsWhoInfluenceMe(this.agentID,
+            Test.convertStringArrayToInt(nextEdgeLine)));
+        break;
+      } else {
+        continue;
+        // if no agents are connected to this agent, the value will still be null
+      }
+    }
+    edge.close();
   }
 
   // Class methods
@@ -111,7 +141,7 @@ public class TestAgent {
   public void step(int time, int agentID, ArrayList<TestAgent> agents) {
     processingUnitActivationValues = tempProcessingUnitActivationValues;
     // this is the print statement that writes out the outputs
-    System.out.println(Arrays.deepToString(processingUnitActivationValues));
+    // System.out.println(Arrays.deepToString(processingUnitActivationValues));
 
     // write print statement to CSV file
     try {
@@ -134,17 +164,27 @@ public class TestAgent {
         double[] values = processingUnitActivationValues[i];
         double[] weights = processingUnitWeights[i][j];
         double opposite = processingUnitActivationValues[returnOpposite(i)][j];
-        double[] corresponding = new double[agentsWhoInfluenceMe.length];
+        double[] corresponding;
 
-        int k = 0;
-        for (int agentIdWhoInfluenceMe : agentsWhoInfluenceMe) {
-          for (TestAgent agent : agents) {
-            if (agentIdWhoInfluenceMe == agent.getAgentID()) {
-              corresponding[k] = agent.processingUnitActivationValues[i][j];
-              k++;
+        // if agentsWhoInfluenceMe is null, that means no agent was read in from edgelist
+        if (this.agentsWhoInfluenceMe != null) {
+          corresponding = new double[agentsWhoInfluenceMe.length];
+
+          int k = 0;
+          for (int agentIdWhoInfluenceMe : agentsWhoInfluenceMe) {
+            for (TestAgent agent : agents) {
+              if (agentIdWhoInfluenceMe == agent.getAgentID()) {
+                corresponding[k] = agent.processingUnitActivationValues[i][j];
+                k++;
+              }
             }
           }
+        } else {
+          // if no friends, corresponding will be assigned 0
+          corresponding = new double[] {0};
         }
+
+
 
         double newOutput =
             calculation.calculateOutputFromInputs(
@@ -154,11 +194,11 @@ public class TestAgent {
                 processingUnitActivationValues[i][j]);
 
         // ((final - initial) * step%) + initial
-        double newOutputStep =
-            ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.CARRY_OVER)
-                + tempProcessingUnitActivationValues[i][j];
-
-        tempProcessingUnitActivationValues[i][j] = newOutputStep;
+        // double newOutputStep =
+        // ((newOutput - tempProcessingUnitActivationValues[i][j]) * CFG.CARRY_OVER)
+        // + tempProcessingUnitActivationValues[i][j];
+        // TODO is this right? should be newoutput, not new output step...?????
+        tempProcessingUnitActivationValues[i][j] = newOutput;
       }
     }
   }
