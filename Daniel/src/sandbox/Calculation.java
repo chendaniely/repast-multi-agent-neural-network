@@ -3,7 +3,6 @@ package sandbox;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.math3.util.ArithmeticUtils;
@@ -125,7 +124,7 @@ public class Calculation {
   public double calculateCorrespondingProcessingUnit(double[] input) {
     double output = 0;
     double total = 0;
-    System.out.println("arrays to string: " + Arrays.toString(input));
+    // System.out.println("arrays to string: " + Arrays.toString(input));
     // if (input.length == 1 && input[0] == 0){
     // return 0;
     // }
