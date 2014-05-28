@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\DeclareGraphicsExtensions{.png,.jpg}
+
+\title{Experiment Outputs}
+\author{Daniel Chen \\ Mailman School of Public health \\ Columbia University}
+\date{}
+
+<<set-options, include=FALSE>>=
+opts_chunk$set(cashe=TRUE, dev='png', dpi=300)
+@
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+\section{Output}
+% \subsection{Output 1}
+% \label{sec:output1}
+% Output Data
+% \begin{itemize}
+%   \item Agents Activated: 1
+%   \item Valence Bank: both
+%   \begin{itemize}
+%       \item Valence bank activation: random
+%   \end{itemize}
+%   \item Valence bank Weights: random
+%   \begin{itemize}
+%       \item opposite -0.2
+%       \item corresponding 0.5
+%       \item carry over = 0.2
+%       \item bias = 0
+%       \item decay = -0.5
+%   \end{itemize}
+%   \item Network: circle
+%   \item Random number: read in from file
+%   \item Processing units per valence bank: 5
+%   \item number of agents: 10
+%   \item number of time ticks: 10,000
+% \end{itemize}
+%
+% \subsubsection{First 100 time ticks}
+% <<plot-output-1, fig.cap="Output 1, first 100 time ticks", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv", 10, 10000, 1, 0, 100)
+% @
+%
+% \newpage
+% \subsubsection{All time ticks}
+% <<plot-output-1a, fig.cap="Output 1, all time ticks", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/agent1-both-random-weights-10k.csv", 10, 10000)
+% @
+%
+% \newpage
+% \subsection{Exp1a}
+% \subsubsection{First 5 time ticks}
+% <<plot-exp1a, fig.cap="Exp1a, first 100 time ticks", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/exp1a.csv", 40, 1000, 1, 0, 5)
+% @
+%
+% \newpage
+% \subsubsection{All time ticks}
+% <<plot-exp1a1, fig.cap="Exp1a, all time ticks", fig.show='asis'>>=
+% plot.thesis.data("/home/dchen/git/repast-neural-network-agent-based-model/R/data/exp1a.csv", 40, 1000)
+% @
+
+\newpage
+\subsection{Exp1b}
+\subsubsection{First 5 time ticks}
+<<,cache=FALSE>>=
+source(file = '../plot-function-ggplot2.R')
+plot.multiple.run.data("../data/exp/exp1b.csv", numAgents = 100, numTimeTicks = 100, limit.x = c('yes', 0, 5))
+@
+
+\newpage
+\subsubsection{All time ticks}
+<<,cache=FALSE>>=
+source(file = '../plot-function-ggplot2.R')
+plot.multiple.run.data("../data/exp/exp1b.csv", 100, 100)
+@
+
+\end{document}
