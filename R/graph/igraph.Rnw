@@ -30,7 +30,7 @@ Logical, whether to add loop edges, defaults to FALSE.
 require(igraph)
 saved.seed <- .Random.seed
 saved.seed
-g <- erdos.renyi.game(n = 40, p.or.m = .53, type=c("gnp"), directed = TRUE, loops = FALSE)
+g <- erdos.renyi.game(n = 100, p.or.m = .1, type=c("gnp"), directed = TRUE, loops = FALSE)
 degree.distribution(g)
 edge <- get.edgelist(g)
 
