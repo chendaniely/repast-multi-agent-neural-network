@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
+import writer.WriteToCSV;
 import au.com.bytecode.opencsv.CSVReader;
 
 
@@ -33,6 +35,52 @@ public class Test {
     }
     return intArray;
   }
+  
+  /**
+   * assign weight to agetns from csv file
+   */
+  public static void assignAgentWeight(TestAgent testAgent, CSVReader weight){
+    
+    String[] nextWeightLine;
+    while ((nextWeightLine = weight.readNext()) != null) {
+      boolean testWeight = Double.parseDouble(nextWeightLine[0]) == testAgent.getAgentID();
+      System.out.println(nextWeightLine[0] + " == " + Integer.toString(testAgent.getAgentID()) + " "
+          + String.valueOf(testWeight));
+
+      // generate random array of doubles, index will be the current agent to be passed into
+      // weight line
+      if (CFG.GENERATE_RANDOM_WEIGHTS == 1) {
+        double[] randomWeights = new double[11];
+        for (int i = 0; i < randomWeights.length; i++) {
+          if (i == 0) {
+            randomWeights[i] = testAgent.getAgentID();
+          } else {
+            randomWeights[i] = new Random().nextDouble();
+          }
+        }
+        System.out.println("Random Weights: " + Arrays.toString(randomWeights));
+        Initialization initializeAgents = new Initialization();
+        testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(testAgent.getAgentID(),
+            randomWeights));
+        // write weights to file
+        try {
+          writeRandomWeights.writeRandomWeightsToFile(testAgent.getAgentID(), randomWeights);
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        break;
+      } else {
+        if (Double.parseDouble(nextWeightLine[0]) == testAgent.getAgentID()) {
+          // set the processing unit weights
+          testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(testAgent.getAgentID(),
+              convertStringArrayToDouble(nextWeightLine)));
+          break;
+        }
+      }
+    }
+  }
+
 
   /**
    * Method will initialize x number of agents, depending on how many non empty rows are in the csv
@@ -52,9 +100,13 @@ public class Test {
     // new CSVReader(new FileReader(CFG.EDGE_LIST_CSV), ',', '\"',
     // CFG.EDGE_LIST_CSV_READ_FROM_LINE);
 
+    // prepares file to write random weights
+    WriteToCSV writeRandomWeights = new WriteToCSV();
+
+
     // nextLine[] is an array of values from the line
     String[] nextValueLine;
-    String[] nextWeightLine;
+//    String[] nextWeightLine;
     // String[] nextEdgeLine;
 
     int agentID = 0;
@@ -87,6 +139,8 @@ public class Test {
       // set the activation values
       testAgent.setProcessingUnitActivationValues(initializeAgents
           .initializeVBActivation(convertStringArrayToDouble(values)));
+      
+      assignAgentWeight(testAgent, weight);
 
       // assign agents into network
       // while ((nextEdgeLine = edge.readNext()) != null) {
@@ -107,18 +161,44 @@ public class Test {
       // }
 
       // assign agent weights
-      while ((nextWeightLine = weight.readNext()) != null) {
-        boolean testWeight = Double.parseDouble(nextWeightLine[0]) == agentID;
-        System.out.println(nextWeightLine[0] + " == " + Integer.toString(agentID) + " "
-            + String.valueOf(testWeight));
-
-        if (Double.parseDouble(nextWeightLine[0]) == agentID) {
-          // set the processing unit weights
-          testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(agentID,
-              convertStringArrayToDouble(nextWeightLine)));
-          break;
-        }
-      }
+      
+//      while ((nextWeightLine = weight.readNext()) != null) {
+//        boolean testWeight = Double.parseDouble(nextWeightLine[0]) == agentID;
+//        System.out.println(nextWeightLine[0] + " == " + Integer.toString(agentID) + " "
+//            + String.valueOf(testWeight));
+//
+//        // generate random array of doubles, index will be the current agent to be passed into
+//        // weight line
+//        if (CFG.GENERATE_RANDOM_WEIGHTS == 1) {
+//          double[] randomWeights = new double[11];
+//          for (int i = 0; i < randomWeights.length; i++) {
+//            if (i == 0) {
+//              randomWeights[i] = agentID;
+//            } else {
+//              randomWeights[i] = new Random().nextDouble();
+//            }
+//          }
+//          System.out.println("Random Weights: " + Arrays.toString(randomWeights));
+//
+//          testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(agentID,
+//              randomWeights));
+//          // write weights to file
+//          try {
+//            writeRandomWeights.writeRandomWeightsToFile(agentID, randomWeights);
+//          } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//          }
+//          break;
+//        } else {
+//          if (Double.parseDouble(nextWeightLine[0]) == agentID) {
+//            // set the processing unit weights
+//            testAgent.setProcessingUnitWeights(initializeAgents.initializeVBWeights(agentID,
+//                convertStringArrayToDouble(nextWeightLine)));
+//            break;
+//          }
+//        }
+//      }
 
       // for each valence bank (e.g. 2: 0 index for pos bank, 1 index for neg bank)
       for (int i = 0; i < testAgent.processingUnitActivationValues.length; i++) {
@@ -156,12 +236,12 @@ public class Test {
     }
 
     // time tick
-    for (int i = 0; i < CFG.NUMBER_OF_TIME_TICKS; i++) {
-      for (TestAgent agent : agents) {
-        // System.out.print(i + CFG.DEL + agent.getAgentID() + CFG.DEL);
-        agent.step(i, agent.getAgentID(), agents);
-      }
-    }
+//    for (int i = 0; i < CFG.NUMBER_OF_TIME_TICKS; i++) {
+//      for (TestAgent agent : agents) {
+//        // System.out.print(i + CFG.DEL + agent.getAgentID() + CFG.DEL);
+//        agent.step(i, agent.getAgentID(), agents);
+//      }
+//    }
     System.out.println("DONE");
 
   }
