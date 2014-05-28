@@ -40,8 +40,7 @@ public class TestAgent {
   double[][][]          processingUnitWeights              = null;
 
   double                weightOppositeValenceBanks         = CFG.OPPOSITE_PROCESSING_UNIT_WEIGHT;
-  double                weightCorespondingModule           =
-                                                               CFG.CORRESPONDING_PROCESSING_UNIT_WEIGHT;
+  double                weightCorespondingModule           = CFG.CORRESPONDING_PROCESSING_UNIT_WEIGHT;
 
   // Variables unique to each agent
   private int           agentID                            = 0;
@@ -82,6 +81,7 @@ public class TestAgent {
     }
     edge.close();
   }
+ 
 
   // Class methods
 
