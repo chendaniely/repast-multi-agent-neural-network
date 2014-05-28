@@ -1,0 +1,360 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[left=1.00in, right=1.00in, top=1.00in, bottom=1.00in]{geometry}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
+
+\DeclareGraphicsExtensions{.png,.jpg}
+
+\title{Supplemental: Sanity Checks}
+\author{Daniel Chen \\ Mailman School of Public health \\ Columbia University}
+\date{}
+
+<<set-options, include=FALSE>>=
+opts_chunk$set(cashe=FALSE, dev='png', dpi=300)
+@
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Plotting Function}
+\label{sec:plot-function}
+For the plots, x-axis is time, y-axis is processing unit activation value
+
+<<plotting function>>=
+setwd("/home/dchen/git/repast-neural-network-agent-based-model/")
+plot.thesis.data <- function(data, numAgents, numTimeTicks, facet = 'no', limit.x = c('no', 0, 100)) {
+  # Takes a CSV or R dataframe from my thesis,
+  # assign's column names,
+  # converts processing unit values into numerics
+  # plots the average activation value for each processing unit for each agent in each time tick
+  #
+  # Args:
+  #   data: String value of the directory and file of CSV
+  #   numAgents: Number of agents ran in the simulation of the CSV
+  #   numTimeTicks: Number of time ticks ran in the simulation of the CSV
+  #   subx: defaults to 0, used to section regions of the x axis,
+  #           0 for no sub-sectioning, 1 for yes sub-sectioning
+  #   xmin: defaults to 0, the lower bound of the x-axis if subx is 1
+  #   xmax: defaults to 0, the upper bound of the x-axis if subx is 1
+  #
+  # Returns:
+  #   Line graph
+
+  # Load data
+  require(ggplot2)
+  require(scales)
+
+  # if data is a dataframe, just move on with the rest of the function,
+  # otherwise it is a csv file and convert the csv to df first
+  if (is.data.frame(data) == FALSE){
+    x <- read.csv(data, header=FALSE, stringsAsFactors=FALSE)
+  }
+
+  # Rename dataframe column names
+  names(x) <- c("time", "agent",
+                "p1", "p2", "p3", "p4", "p5",
+                "n1", "n2", "n3", "n4", "n5")
+
+  # Convert string factors into numerics
+  for (i in 3:12) {
+    x[ ,i] <- as.numeric(x[ ,i])
+  }
+
+  x["pos.avg"] <- apply(x[, c(3:7)], 1, mean)
+
+  x["neg.avg"] <- apply(x[, c(8:12)], 1, mean)
+
+  # rm(g)
+  g <- ggplot(x, aes(x = time))
+  g <- g + geom_line(aes(y = pos.avg, color = factor(agent), group = agent))
+  g <- g + geom_line(aes(y = neg.avg, color = factor(agent), group = agent), linetype="dashed")
+  g <- g + scale_color_discrete(name = "Agent")
+  #g <- g + scale_y_continuous(labels = comma)
+  g <- g + scale_x_continuous(breaks=c(0:10))
+  if (limit.x[1] == "yes") {
+    g <- g + scale_x_continuous(limits=c(as.numeric(limit.x[2]), as.numeric(limit.x[3])))
+  }
+  g <- g + labs(title = "Average Valence Bank Activation Values Over Time", x = "Time Tick", y = "Average Valence Bank Activation Value")
+  if (facet == 'yes') {
+    g <- g + facet_wrap(~ agent)
+  }
+  g
+}
+@
+
+\newpage
+
+\section{Sanity Checks}
+\label{sec:sanity-checks}
+
+\subsection{Sanity Check 1}
+\label{sec:sanity1}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: positive only
+  \begin{itemize}
+      \item Valence bank activation: 1's
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\newpage
+<<plot-sanity1-v2-nostep, fig.cap="Sanity 1 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity1-new-external-no-step.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity Check 2}
+\label{sec:sanity2}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: positive only
+  \begin{itemize}
+      \item Valence bank activation: \textbf{random}
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\newpage
+<<plot-sanity-2-v2-nostep, fig.cap="Sanity Checking 2 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity2-new-external-no-step.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity Check 3}
+\label{sec:sanity3}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: \textbf{both}
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite 0
+      \item corresponding 0
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\newpage
+<<plot-sanity-3-v2-nostep, fig.cap="Sanity Checking 3 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity3-new-external-no-step.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity Check 4}
+\label{sec:sanity4}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: Agent 1 ont
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite \textbf{-0.2}
+      \item corresponding \textbf{0.5}
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\newpage
+<<plot-sanity-4-v2-nostep, fig.cap="Sanity Checking 4 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity4-new-external-no-step.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity Check 5}
+\label{sec:sanity5}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: \textbf{All}
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+
+\newpage
+<<plot-sanity-5-v2-nostep, fig.cap="Sanity Checking 5 with re-implemented edge list, no step", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity5-new-external-no-step.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity 6}
+\label{sec:sanity6}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: All
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: \textbf{circle network, however agent 5 has no inputs, and multiple agents influence agent 1}
+\end{itemize}
+<<plot-sanity-6, fig.cap="Sanity Checking 6 with re-implemented edge list", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity6.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsubsection{Sanity 6 no decay}
+\label{sec:sanity6-nodecay}
+<<plot-sanity-6-nodecay, fig.cap="Sanity Checking 6 with re-implemented edge list no decay", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity6-nodecay.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity 7}
+\label{sec:sanity7}
+Sanity Case:
+\begin{itemize}
+  \item Agents Activated: All
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: random
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle network, however agent 5 has no inputs, and multiple agents influence agent 1
+\end{itemize}
+<<plot-sanity-7-nodecay, fig.cap="Sanity Checking 7 with re-implemented edge list no decay", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity7-nodecay.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity 8}
+\label{sec:sanity8}
+\begin{itemize}
+  \item Agents Activated: \textbf{1}
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: \textbf{first positive, last negative}
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = 0.2
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: \textbf{circle}
+\end{itemize}
+<<plot-sanity-8, fig.cap="Sanity Checking 8", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity8.csv", numAgents=10, numTimeTicks=10)
+@
+
+\newpage
+\subsection{Sanity 9}
+\label{sec:sanity9}
+\begin{itemize}
+  \item Agents Activated: \textbf{1}
+  \item Valence Bank: both
+  \begin{itemize}
+      \item Valence bank activation: first positive, last negative
+  \end{itemize}
+  \item Valence bank Weights: random
+  \begin{itemize}
+      \item opposite -0.2
+      \item corresponding 0.5
+      \item carry over = \textbf{0.7}
+      \item bias = 0
+      \item decay = -0.5
+  \end{itemize}
+  \item Network: circle
+\end{itemize}
+<<plot-sanity-9, fig.cap="Sanity Checking 9", fig.show='asis'>>=
+plot.thesis.data("../data/sanity/sanity9.csv", numAgents=10, numTimeTicks=10)
+@
+%
+% \newpage
+% \subsection{Sanity 10: 1-5}
+% <<>>=
+% plot.thesis.data("../data/sanity/sanity10-1.csv", numAgents=10, numTimeTicks=10)
+% @
+% \newpage
+% <<>>=
+% plot.thesis.data("../data/sanity/sanity10-2.csv", numAgents=10, numTimeTicks=10)
+% @
+% \newpage
+% <<>>=
+% plot.thesis.data("../data/sanity/sanity10-3.csv", numAgents=10, numTimeTicks=10)
+% @
+% \newpage
+% <<>>=
+% plot.thesis.data("../data/sanity/sanity10-4.csv", numAgents=10, numTimeTicks=10)
+% @
+% \newpage
+% <<>>=
+% plot.thesis.data("../data/sanity/sanity10-5.csv", numAgents=10, numTimeTicks=10)
+% @
+%
+% \newpage
+% \subsection{Sanity 11: 20 runs}
+% <<>>=
+% source(file = '../plot-function-ggplot2.R')
+% plot.multiple.run.data("../data/sanity/sanity11.csv", numAgents=10, numTimeTicks=10)
+% @
+
+\end{document}
