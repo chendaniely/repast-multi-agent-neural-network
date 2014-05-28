@@ -1,3 +1,4 @@
+/R/model-runs/cache/__packages
 /R/graph/igraph.pdf
 /R/cache/*
 /R/figure/*
@@ -65,5 +66,7 @@ Thumbs.db
 *.synctex.gz
 
 # R
-.Rhistory
-.Rdata
+*.Rhistory
+*.RData
+*.rdb
+*.rdx
