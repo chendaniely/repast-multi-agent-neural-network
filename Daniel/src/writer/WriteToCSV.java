@@ -70,7 +70,29 @@ public class WriteToCSV {
 
     String[] entries = stringOfEntries.replace("[", "").replace("]", "").split(",");
 
-//    System.out.println("writting to csv: " + Arrays.toString(entries));
+    // System.out.println("writting to csv: " + Arrays.toString(entries));
+
+    writer.writeNext(entries);
+    writer.close();
+  }
+
+  public void writeRandomWeightsToFile(int agent, double[] randomWeights) throws IOException {
+
+    File outputFile = new File(CFG.RANDOM_WEIGHTS);
+    if (!outputFile.exists()) {
+      outputFile.createNewFile();
+    }
+    // FileOutputStream oFile = new FileOutputStream(outputFile, true);
+
+    CSVWriter writer = new CSVWriter(new FileWriter(CFG.RANDOM_WEIGHTS, true), ',');
+    // // feed in array (or convert your data to an array)
+
+    String stringOfArray = Arrays.toString(randomWeights);
+    String stringOfEntries = Integer.toString(agent) + "," + stringOfArray;
+
+    String[] entries = stringOfEntries.replace("[", "").replace("]", "").split(",");
+
+    System.out.println("writting randomweights: " + Arrays.toString(entries));
 
     writer.writeNext(entries);
     writer.close();
